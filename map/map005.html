@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <META http-equiv="Content-Type" content="text/html; charset=shift_jis">
+  <META http-equiv="Content-Script-Type" content="text/javascript">
+  <META http-equiv="Content-Style-Type" content="text/css">
+  <title>攻略 / ＭＡＰ　5F</title>
+  <link rel="stylesheet" href="../data/css/data.css" type="text/css">
+  <style type="text/css">
+  <!--
+.map        {  position : absolute;
+               left     : 0px;
+               top      : 0px
+            }
+.Memo       {  position : absolute;
+               left     : 0px;
+               top      : 593px
+            }
+.MemoStyle  {  font-size : 9pt;
+               margin    : 0px;
+               padding   : 0px
+            }
+  }
+  -->
+  </style>
+  <SCRIPT language="JavaScript" src="../data/map/map.js"></script>
+  <SCRIPT type="text/javascript">
+  <!--
+  var maxMemo = 30;
+  /*[]-- ＭＡＰメモ表示用----------------------------------------------[]*/
+  var memomemo = new Array();
+  memomemo[0]  = "　";
+  memomemo[1]  = "４Ｆへ";
+  memomemo[2]  = "磁軸の柱";
+  memomemo[3]  = "南側から通る事で抜け道になる";
+  memomemo[4]  = "採取";
+  memomemo[5]  = "ＦＯＥ";
+  memomemo[6]  = "氷術の起動符";
+  memomemo[7]  = "ＦＯＥ";
+  memomemo[8]  = "抜け道";
+  memomemo[9]  = "命のベルト";
+  memomemo[10] = "採掘";
+  memomemo[11] = "不思議な力で扉が閉まっている";
+  memomemo[12] = "ＦＯＥ";
+  memomemo[13] = "ＦＯＥ";
+  memomemo[14] = "悲しげに鳴く獣の声を耳にする。そして地面に点々と落ちる赤い鮮血";
+  memomemo[15] = "クロガネ　キマイラが居る所の地図を託される";
+  memomemo[16] = "クエスト「まだ、名もない花」　サイミンフクロウ×３と戦闘になるので要注意！";
+  memomemo[17] = "抜け道";
+  memomemo[18] = "伐採";
+  memomemo[19] = "羽根の手甲";
+  memomemo[20] = "イベントメッセージ(１回のみ)";
+  memomemo[21] = "ＦＯＥ　獣王のシモベ";
+  memomemo[22] = "ＦＯＥ　獣王のシモベ";
+  memomemo[23] = "ＦＯＥ　";
+  memomemo[24] = "ＦＯＥ　";
+  memomemo[25] = "ＦＯＥ　";
+  memomemo[26] = "ＦＯＥ　";
+  memomemo[27] = "ＢＯＳＳ　キマイラ";
+  memomemo[28] = "大鳥の長鞭";
+  memomemo[29] = "ＦＯＥ　駆け寄る襲撃者";
+  memomemo[30] = "ＦＯＥ　";
+
+
+  //-->
+  </script>
+</head>
+<body marginwidth="0" marginheight="0" topmaargin="0" leftmargin="0" onLoad="Init()">
+
+<!-- 本文 -------------------------------------------------------------------->
+<table cellspacing="0" cellpadding="1" border="1">
+<tr><td align="center" valign="top"><table cellspacing="0" cellpadding="0" border="0">
+<tr><td>
+<table cellspacing="1" cellpadding="2" border="0">
+
+  <tr>
+    <td class="titlebar">第１階層：古跡ノ樹海　　５Ｆ　百獣の王の吼え声</td>
+  </tr>
+  <tr>
+    <td class="n">
+      <img src="../data/map/map005.jpg" border="0" width="650" height="560" usemap="#Map002">
+      <map name="Map002">
+        <area shape="rect" coords="  1,   1,  16,  16" alt="クリア"         href="JavaScript:Mover(0)">
+        <area shape="rect" coords="194, 230, 210, 246" alt="階段"           href="JavaScript:Mover(1)">
+        <area shape="rect" coords="176, 283, 192, 299" alt="磁軸"           href="JavaScript:Mover(2)">
+        <area shape="rect" coords="212, 356, 228, 372" alt="矢印"           href="JavaScript:Mover(3)">
+        <area shape="rect" coords=" 50, 283,  66, 299" alt="採取"           href="JavaScript:Mover(4)">
+        <area shape="rect" coords="212, 140, 228, 159" alt="FOE"            href="JavaScript:Mover(5)">
+        <area shape="rect" coords="231,  86, 247, 102" alt="宝箱"           href="JavaScript:Mover(6)">
+        <area shape="rect" coords="158,  86, 174, 102" alt="FOE"            href="JavaScript:Mover(7)">
+        <area shape="rect" coords="573, 103, 589, 119" alt="矢印"           href="JavaScript:Mover(8)">
+        <area shape="rect" coords="573,  50, 589,  66" alt="宝箱"           href="JavaScript:Mover(9)">
+        <area shape="rect" coords="609, 122, 625, 138" alt="採掘"           href="JavaScript:Mover(10)">
+        <area shape="rect" coords="591, 338, 607, 354" alt="扉"             href="JavaScript:Mover(11)">
+        <area shape="rect" coords="555, 212, 571, 228" alt="FOE"            href="JavaScript:Mover(12)">
+        <area shape="rect" coords="464, 392, 480, 408" alt="FOE"            href="JavaScript:Mover(13)">
+        <area shape="rect" coords="410, 374, 426, 390" alt="！"             href="JavaScript:Mover(14)">
+        <area shape="rect" coords="447, 302, 463, 318" alt="イベント"       href="JavaScript:Mover(15)">
+        <area shape="rect" coords="482, 356, 498, 372" alt="イベント"       href="JavaScript:Mover(16)">
+        <area shape="rect" coords="519, 409, 535, 425" alt="矢印"           href="JavaScript:Mover(17)">
+        <area shape="rect" coords="537, 428, 553, 444" alt="伐採"           href="JavaScript:Mover(18)">
+        <area shape="rect" coords="410, 428, 426, 444" alt="宝箱"           href="JavaScript:Mover(19)">
+        <area shape="rect" coords="320, 319, 336, 335" alt="！"             href="JavaScript:Mover(20)">
+        <area shape="rect" coords="284, 247, 300, 263" alt="FOE"            href="JavaScript:Mover(21)">
+        <area shape="rect" coords="356, 247, 372, 263" alt="FOE"            href="JavaScript:Mover(22)">
+        <!--area shape="rect" coords="266, 212, 282, 228" alt="FOE"            href="JavaScript:Mover(23)"-->
+        <!--area shape="rect" coords="464, 212, 480, 228" alt="FOE"            href="JavaScript:Mover(24)"-->
+        <!--area shape="rect" coords="284, 194, 300, 210" alt="FOE"            href="JavaScript:Mover(25)"-->
+        <!--area shape="rect" coords="356, 194, 372, 210" alt="FOE"            href="JavaScript:Mover(26)"-->
+        <!--area shape="rect" coords="464, 392, 480, 408" alt="FOE"            href="JavaScript:Mover(27)"-->
+        <area shape="rect" coords=" 32, 409,  48, 425" alt="宝箱"           href="JavaScript:Mover(28)">
+        <area shape="rect" coords=" 32, 392,  48, 408" alt="FOE"            href="JavaScript:Mover(29)">
+        <!--area shape="rect" coords=" 32, 428,  48, 444" alt="FOE"            href="JavaScript:Mover(30)"-->
+      </map>
+    </td>
+  </tr>
+
+</table>
+</td></tr></table></td></tr>
+</table>
+
+<div id="iL0" class="Memo"> </div>
+<div id="iL1" class="Memo"> </div>
+<div id="iL2" class="Memo"> </div>
+<div id="iL3" class="Memo"> </div>
+<div id="iL4" class="Memo"> </div>
+<div id="iL5" class="Memo"> </div>
+<div id="iL6" class="Memo"> </div>
+<div id="iL7" class="Memo"> </div>
+<div id="iL8" class="Memo"> </div>
+<div id="iL9" class="Memo"> </div>
+<div id="iL10" class="Memo"> </div>
+<div id="iL11" class="Memo"> </div>
+<div id="iL12" class="Memo"> </div>
+<div id="iL13" class="Memo"> </div>
+<div id="iL14" class="Memo"> </div>
+<div id="iL15" class="Memo"> </div>
+<div id="iL16" class="Memo"> </div>
+<div id="iL17" class="Memo"> </div>
+<div id="iL18" class="Memo"> </div>
+<div id="iL19" class="Memo"> </div>
+<div id="iL20" class="Memo"> </div>
+<div id="iL21" class="Memo"> </div>
+<div id="iL22" class="Memo"> </div>
+<div id="iL23" class="Memo"> </div>
+<div id="iL24" class="Memo"> </div>
+<div id="iL25" class="Memo"> </div>
+<div id="iL26" class="Memo"> </div>
+<div id="iL27" class="Memo"> </div>
+<div id="iL28" class="Memo"> </div>
+<div id="iL29" class="Memo"> </div>
+<div id="iL30" class="Memo"> </div>
+
+
+
+</body>
+</html>
