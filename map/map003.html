@@ -1,10 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <META http-equiv="Content-Type" content="text/html; charset=shift_jis">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex,nofollow,noarchive">
   <META http-equiv="Content-Script-Type" content="text/javascript">
   <META http-equiv="Content-Style-Type" content="text/css">
-  <title>�U�� / �l�`�o�@3F</title>
+  <title>攻略 / ＭＡＰ　3F</title>
   <link rel="stylesheet" href="../data/css/data.css" type="text/css">
   <style type="text/css">
   <!--
@@ -27,35 +28,35 @@
   <SCRIPT type="text/javascript">
   <!--
   var maxMemo = 26;
-  /*[]-- �l�`�o�����\���p----------------------------------------------[]*/
+  /*[]-- ＭＡＰメモ表示用----------------------------------------------[]*/
   var memomemo = new Array();
-  memomemo[0]  = "�@";
-  memomemo[1]  = "�Q�e��";
-  memomemo[2]  = "�����̖т����傫�ȏb";
-  memomemo[3]  = "�t���|�X�K���@�����̒��ɂ��Ă̐���";
-  memomemo[4]  = "�����̒�";
-  memomemo[5]  = "�k������ʂ邱�ƂŔ������ƂȂ�";
-  memomemo[6]  = "�x��";
-  memomemo[7]  = "�e�n�d�@�R�������ĂP���x��";
-  memomemo[8]  = "�e�n�d�@�o�s�Ɍ������Ē����I�ȓ����������Ȃ�";
-  memomemo[9]  = "�{�A�X�s�A�\�[�h";
-  memomemo[10] = "����̗�";
-  memomemo[11] = "�s�v�c�ȗ͂Ŕ����܂��Ă���";
-  memomemo[12] = "�k������ʂ鎖�Ŕ������ɂȂ�";
-  memomemo[13] = "�t�@�C�A�I�C��";
-  memomemo[14] = "�t���[�X�K���@��������X�ɖ߂�悤�Ɍ����遨�~�b�V�������������̌������֍s����悤�ɂȂ�";
-  memomemo[15] = "����";
-  memomemo[16] = "�q�m�@�u�Ԋp�̃J�P���v�̃q���g�������i���̂݁j";
-  memomemo[17] = "�e�n�d";
-  memomemo[18] = "�e�n�d";
-  memomemo[19] = "�e�n�d";
-  memomemo[20] = "�~�b�V�����I������܂Ōx��";
-  memomemo[21] = "����";
-  memomemo[22] = "�����c��̕��m";
-  memomemo[23] = "�~�b�V�����I����ʂ��";
-  memomemo[24] = "�S�e��";
-  memomemo[25] = "�l�N�^��";
-  memomemo[26] = "�\�[�}";
+  memomemo[0]  = "　";
+  memomemo[1]  = "２Ｆへ";
+  memomemo[2]  = "漆黒の毛を持つ大きな獣";
+  memomemo[3]  = "フロ－スガル　磁軸の柱についての説明";
+  memomemo[4]  = "磁軸の柱";
+  memomemo[5]  = "北側から通ることで抜け道となる";
+  memomemo[6]  = "警告";
+  memomemo[7]  = "ＦＯＥ　３歩動いて１歩休む";
+  memomemo[8]  = "ＦＯＥ　ＰＴに向かって直線的な動きしかしない";
+  memomemo[9]  = "ボアスピアソード";
+  memomemo[10] = "眠りの鈴";
+  memomemo[11] = "不思議な力で扉が閉まっている";
+  memomemo[12] = "北側から通る事で抜け道になる";
+  memomemo[13] = "ファイアオイル";
+  memomemo[14] = "フロースガル　いったん街に戻るように言われる→ミッション発動→扉の向こうへ行けるようになる";
+  memomemo[15] = "伐採";
+  memomemo[16] = "衛士　「赤角のカケラ」のヒントをくれる（一回のみ）";
+  memomemo[17] = "ＦＯＥ";
+  memomemo[18] = "ＦＯＥ";
+  memomemo[19] = "ＦＯＥ";
+  memomemo[20] = "ミッション終了するまで警告";
+  memomemo[21] = "伐採";
+  memomemo[22] = "生き残りの兵士";
+  memomemo[23] = "ミッション終了後通れる";
+  memomemo[24] = "４Ｆへ";
+  memomemo[25] = "ネクタル";
+  memomemo[26] = "ソーマ";
 
 
   //-->
@@ -63,46 +64,46 @@
 </head>
 <body marginwidth="0" marginheight="0" topmaargin="0" leftmargin="0" onLoad="Init()">
 
-<!-- �{�� -------------------------------------------------------------------->
+<!-- 本文 -------------------------------------------------------------------->
 <table cellspacing="0" cellpadding="1" border="1">
 <tr><td align="center" valign="top"><table cellspacing="0" cellpadding="0" border="0">
 <tr><td>
 <table cellspacing="1" cellpadding="2" border="0">
 
   <tr>
-    <td class="titlebar">��P�K�w�F�ÐՃm���C�@�@�R�e�@���Ɨׂ荇�킹�ɐi�ގ��C</td>
+    <td class="titlebar">第１階層：古跡ノ樹海　　３Ｆ　死と隣り合わせに進む樹海</td>
   </tr>
   <tr>
     <td class="n">
       <img src="../data/map/map003.jpg" border="0" width="650" height="560" usemap="#Map002">
       <map name="Map002">
-        <area shape="rect" coords="  1,   1,  16,  16" alt="�N���A"         href="JavaScript:Mover(0)">
-        <area shape="rect" coords=" 32, 464,  48, 480" alt="�K�i"           href="JavaScript:Mover(1)">
-        <area shape="rect" coords="123, 482, 139, 498" alt="�I"             href="JavaScript:Mover(2)">
-        <area shape="rect" coords="158, 409, 174, 425" alt="�I"             href="JavaScript:Mover(3)">
-        <area shape="rect" coords="158, 446, 174, 462" alt="����"           href="JavaScript:Mover(4)">
-        <area shape="rect" coords="194, 356, 210, 372" alt="���"           href="JavaScript:Mover(5)">
-        <area shape="rect" coords="338, 482, 354, 498" alt="�I"             href="JavaScript:Mover(6)">
+        <area shape="rect" coords="  1,   1,  16,  16" alt="クリア"         href="JavaScript:Mover(0)">
+        <area shape="rect" coords=" 32, 464,  48, 480" alt="階段"           href="JavaScript:Mover(1)">
+        <area shape="rect" coords="123, 482, 139, 498" alt="！"             href="JavaScript:Mover(2)">
+        <area shape="rect" coords="158, 409, 174, 425" alt="！"             href="JavaScript:Mover(3)">
+        <area shape="rect" coords="158, 446, 174, 462" alt="磁軸"           href="JavaScript:Mover(4)">
+        <area shape="rect" coords="194, 356, 210, 372" alt="矢印"           href="JavaScript:Mover(5)">
+        <area shape="rect" coords="338, 482, 354, 498" alt="！"             href="JavaScript:Mover(6)">
         <area shape="rect" coords="410, 410, 426, 426" alt="FOE"            href="JavaScript:Mover(7)">
         <area shape="rect" coords="338, 338, 354, 354" alt="FOE"            href="JavaScript:Mover(8)">
-        <area shape="rect" coords="464, 140, 480, 156" alt="��"           href="JavaScript:Mover(9)">
-        <area shape="rect" coords="428,  86, 444, 102" alt="��"           href="JavaScript:Mover(10)">
-        <area shape="rect" coords="464,  68, 480,  84" alt="��"             href="JavaScript:Mover(11)">
-        <area shape="rect" coords="284, 176, 300, 192" alt="���"           href="JavaScript:Mover(12)">
-        <area shape="rect" coords="266, 266, 282, 282" alt="��"           href="JavaScript:Mover(13)">
-        <area shape="rect" coords="194, 266, 210, 282" alt="�C�x���g"       href="JavaScript:Mover(14)">
-        <area shape="rect" coords=" 68, 409,  84, 425" alt="����"           href="JavaScript:Mover(15)">
-        <area shape="rect" coords="464, 230, 480, 246" alt="�I"             href="JavaScript:Mover(16)">
+        <area shape="rect" coords="464, 140, 480, 156" alt="宝箱"           href="JavaScript:Mover(9)">
+        <area shape="rect" coords="428,  86, 444, 102" alt="宝箱"           href="JavaScript:Mover(10)">
+        <area shape="rect" coords="464,  68, 480,  84" alt="扉"             href="JavaScript:Mover(11)">
+        <area shape="rect" coords="284, 176, 300, 192" alt="矢印"           href="JavaScript:Mover(12)">
+        <area shape="rect" coords="266, 266, 282, 282" alt="宝箱"           href="JavaScript:Mover(13)">
+        <area shape="rect" coords="194, 266, 210, 282" alt="イベント"       href="JavaScript:Mover(14)">
+        <area shape="rect" coords=" 68, 409,  84, 425" alt="伐採"           href="JavaScript:Mover(15)">
+        <area shape="rect" coords="464, 230, 480, 246" alt="！"             href="JavaScript:Mover(16)">
         <area shape="rect" coords="158, 212, 174, 228" alt="FOE"            href="JavaScript:Mover(17)">
         <area shape="rect" coords="176, 122, 192, 138" alt="FOE"            href="JavaScript:Mover(18)">
         <area shape="rect" coords="266, 158, 282, 174" alt="FOE"            href="JavaScript:Mover(19)">
-        <area shape="rect" coords="194,  86, 210, 102" alt="�I"             href="JavaScript:Mover(20)">
-        <area shape="rect" coords=" 68, 103,  84, 119" alt="����"           href="JavaScript:Mover(21)">
-        <area shape="rect" coords="284,  50, 300,  66" alt="�C�x���g"       href="JavaScript:Mover(22)">
-        <area shape="rect" coords="194,  68, 210,  84" alt="��"             href="JavaScript:Mover(23)">
-        <area shape="rect" coords=" 32,  32,  48,  48" alt="�K�i"           href="JavaScript:Mover(24)">
-        <area shape="rect" coords="104, 283, 120, 299" alt="��"           href="JavaScript:Mover(25)">
-        <area shape="rect" coords=" 32, 283,  48, 299" alt="��"           href="JavaScript:Mover(26)">
+        <area shape="rect" coords="194,  86, 210, 102" alt="！"             href="JavaScript:Mover(20)">
+        <area shape="rect" coords=" 68, 103,  84, 119" alt="伐採"           href="JavaScript:Mover(21)">
+        <area shape="rect" coords="284,  50, 300,  66" alt="イベント"       href="JavaScript:Mover(22)">
+        <area shape="rect" coords="194,  68, 210,  84" alt="扉"             href="JavaScript:Mover(23)">
+        <area shape="rect" coords=" 32,  32,  48,  48" alt="階段"           href="JavaScript:Mover(24)">
+        <area shape="rect" coords="104, 283, 120, 299" alt="宝箱"           href="JavaScript:Mover(25)">
+        <area shape="rect" coords=" 32, 283,  48, 299" alt="宝箱"           href="JavaScript:Mover(26)">
       </map>
     </td>
   </tr>
