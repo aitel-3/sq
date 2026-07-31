@@ -1,0 +1,875 @@
+<html>
+<head>
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <link id="csslink" rel=stylesheet href="../../data/css/skill.css" type="text/css">
+  <title>Swordman Skill Tree</title>
+  <style>
+    <!--
+    body    { font-size         : 9pt;
+              background-image  : url(../../data/other/back_swd.png);
+              background-repeat : no-repeat;
+            }
+    // -->
+  </style>
+  <script language="JavaScript" src="../../data/js/skill.js"></script>
+  <script language="JavaScript" src="../../data/js/skilllist.js"></script>
+  <script language="JavaScript">
+    <!--
+    var HPBS_P            // HPブースト
+      = TPBS_P            // TPブースト
+      = ATBS_P            // ATCブースト
+      = DFBS_P            // DEFブースト
+      = SMST_P            // 剣マスタリー
+      = AMST_P            // 斧マスタリー
+      = WCRY_P            // ウォークライ
+      = HCRY_P            // ヘルズクライ
+      = WATK_P            // ダブルアタック
+      = ARMR_P            // アームリカバリー
+      = MSTS_P            // 猛進逃走
+      = RGSL_P            // レイジングエッジ
+      = TRND_P            // トルネード
+      = HYBS_P            // ハヤブサ駆け
+      = CFIR_P            // チェイスファイア
+      = CFRZ_P            // チェイスフリーズ
+      = CSHK_P            // チェイスショック
+      = PWCR_P            // パワークラッシュ
+      = STSM_P            // スタンスマッシュ
+      = HDBS_P            // ヘッドバッシュ
+      = DIGG_P            // 採掘
+      = 0;
+    var RETR_P            // 引退ボーナス
+      = SKLL_P            // スキルポイント
+      = CHAR_N            // 名前
+      = 0;
+    var ver = "20";       // コードVer
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 各スキルの条件
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HPブースト
+    function HPBS_F() {
+        Point(HPBS_P, 10, "HPBS_IN");
+    }
+    // TPブースト
+    function TPBS_F() {
+        Point(TPBS_P, 10, "TPBS_IN");
+        // TPブーストが3未満の場合、チェイス系不活性
+        if( TPBS_P < 3 ) {
+            Disable("CFIR"); if( CFIR_P > 0 ) { CFIR_P=0; CFIR_F(); }
+            Disable("CFRZ"); if( CFRZ_P > 0 ) { CFRZ_P=0; CFRZ_F(); }
+            Disable("CSHK"); if( CSHK_P > 0 ) { CSHK_P=0; CSHK_F(); }
+        }
+        // TPブーストが3以上かつ剣マスタリーが7以上の場合、チェイス系活性
+        if( TPBS_P >= 3 && SMST_P >= 7 ) {
+            Visible("CFIR");
+            Visible("CFRZ");
+            Visible("CSHK");
+        }
+    }
+    // ATCブースト
+    function ATBS_F() {
+        Point(ATBS_P, 10, "ATBS_IN");
+        // ATCブーストが3未満の場合、ウォークライを不活性
+        if( ATBS_P < 3 ) {
+            Disable("WCRY"); if( WCRY_P > 0 ) { WCRY_P=0; WCRY_F(); }
+        }
+        // ATCブーストが3以上の場合、ウォークライを活性
+        if( ATBS_P >= 3 ) {
+            Visible("WCRY");
+        }
+        // ATCブーストが10未満の場合、ヘルズクライを不活性
+        if( ATBS_P < 10 ) {
+            Disable("HCRY"); if( HCRY_P > 0 ) { HCRY_P=0; HCRY_F(); }
+        }
+        // ATCブーストが10以上の場合、ヘルズクライを活性
+        if( ATBS_P >= 10 ) {
+            Visible("HCRY");
+        }
+    }
+    // DEFブースト
+    function DFBS_F() {
+        Point(DFBS_P, 10, "DFBS_IN");
+        // DEFブーストが1未満の場合、アームリカバリーを不活性
+        if( DFBS_P < 1 ) {
+            Disable("ARMR"); if( ARMR_P > 0 ) { ARMR_P=0; ARMR_F(); }
+        }
+        // DEFブーストが1以上の場合、アームリカバリーを活性
+        if( DFBS_P >= 1 ) {
+            Visible("ARMR");
+        }
+        // DEFブーストが5未満の場合、猛進逃走を不活性
+        if( DFBS_P < 5 ) {
+            Disable("MSTS"); if( MSTS_P > 0 ) { MSTS_P=0; MSTS_F(); }
+        }
+        // DEFブーストが5以上の場合、猛進逃走を活性
+        if( DFBS_P >= 5 ) {
+            Visible("MSTS");
+        }
+    }
+    // 剣マスタリー
+    function SMST_F() {
+        Point( SMST_P, 10, "SMST_IN");
+        // 剣マスタリーが1未満の場合、レイジングエッジ不活性
+        if( SMST_P < 1 ) {
+            Disable("RGSL"); if( RGSL_P > 0 ) { RGSL_P=0; RGSL_F(); }
+        }
+        // 剣マスタリーが1以上の場合、レイジングエッジ活性
+        if(SMST_P>=1){
+            Visible("RGSL");
+        }
+        // 剣マスタリーが5未満の場合、トルネード、ダブルアタックを不活性
+        if(SMST_P<5){
+            Disable("TRND"); if( TRND_P > 0 ) { TRND_P=0; TRND_F(); }
+            Disable("WATK"); if( WATK_P > 0 ) { WATK_P=0; WATK_F(); }
+        }
+        // 剣マスタリーが5以上の場合、トルネードを活性
+        if( SMST_P >= 5 ) {
+            Visible("TRND");
+        }
+        // 剣マスタリーが5以上かつ斧マスタリーが5以上の場合、ダブルアタックを活性
+        if( SMST_P >= 5 && AMST_P >= 5 ) {
+            Visible("WATK");
+        }
+        // 剣マスタリーが7未満の場合、チェイス系不活性
+        if( SMST_P < 7 ) {
+            Disable("CFIR"); if( CFIR_P > 0 ) { CFIR_P=0; CFIR_F(); }
+            Disable("CFRZ"); if( CFRZ_P > 0 ) { CFRZ_P=0; CFRZ_F(); }
+            Disable("CSHK"); if( CSHK_P > 0 ) { CSHK_P=0; CSHK_F(); }
+        }
+        // 剣マスタリーが7以上かつTPブーストが3以上の場合、チェイス系を活性
+        if( SMST_P >= 7 && TPBS_P >= 3 ) {
+            Visible("CFIR");
+            Visible("CFRZ");
+            Visible("CSHK");
+        }
+    }
+    // 斧マスタリー
+    function AMST_F(){
+        Point(AMST_P, 10, "AMST_IN");
+        // 斧マスタリーが1未満の場合、パワークラッシュを不活性
+        if( AMST_P < 1 ) {
+            Disable("PWCR"); if( PWCR_P > 0 ) { PWCR_P=0; PWCR_F(); }
+        }
+        // 斧マスタリーが1以上の場合、パワークラッシュを活性
+        if( AMST_P >= 1 ) {
+            Visible("PWCR");
+        }
+        // 斧マスタリーが3未満の場合、スタンスマッシュを不活性
+        if(AMST_P<3){
+            Disable("STSM"); if( STSM_P > 0 ) { STSM_P=0; STSM_F(); }
+        }
+        // 斧マスタリーが3以上の場合、スタンスマッシュを活性
+        if( AMST_P >= 3 ) {
+            Visible("STSM");
+        }
+        // 斧マスタリーが5未満の場合、ダブルアタックを不活性
+        if( AMST_P < 5 ) {
+            Disable("WATK"); if( WATK_P > 0 ) { WATK_P=0; WATK_F(); }
+        }
+        // 斧マスタリーが5以上かつ剣マスタリーが5以上の場合、ダブルアタックを活性
+        if( AMST_P >= 5 && SMST_P >= 5 ) {
+            Visible("WATK");
+        }
+        // 斧マスタリーが7未満の場合、ヘッドバッシュを不活性
+        if( AMST_P < 7 ) {
+            Disable("HDBS"); if( HDBS_P > 0 ) { HDBS_P=0; HDBS_F(); }
+        }
+        // 斧マスタリーが7以上の場合、ヘッドバッシュを活性
+        if(AMST_P>=7){
+            Visible("HDBS");
+        }
+    }
+    // ウォークライ
+    function WCRY_F() {
+        Point(WCRY_P, 10, "WCRY_IN");
+        // ATCブーストが3未満の場合かつウォークライが0より上の場合
+        if( ATBS_P < 3 && WCRY_P > 0 ) {
+            // ATCブーストを3にする
+            ATBS_P = 3;
+            Visible("WCRY");
+            ATBS_F();
+        }
+    }
+    // ヘルズクライ
+    function HCRY_F() {
+        Point(HCRY_P, 10, "HCRY_IN");
+        // ATCブーストが10未満の場合かつヘルズクライが0より上の場合
+        if( ATBS_P < 10 && HCRY_P > 0 ) {
+            // ATCブーストを10にする
+            ATBS_P=10;
+            Visible("HCRY");
+            ATBS_F();
+        }
+    }
+    // ダブルアタック
+    function WATK_F() {
+        Point(WATK_P, 10, "WATK_IN");
+        // ダブルアタックが3未満の場合、ハヤブサ駆けを不活性
+        if( WATK_P < 3 ) {
+            Disable("HYBS"); if( HYBS_P > 0 ) { HYBS_P=0; HYBS_F(); }
+        }
+        // ダブルアタックが3以上の場合、ハヤブサ駆けを活性
+        if(WATK_P>=3){
+            Visible("HYBS");
+        }
+        // 剣マスタリーが5未満の場合かつダブルアタックが0より上の場合
+        if( SMST_P < 5 && WATK_P > 0 ) {
+            // 剣マスタリーを5にする
+            SMST_P=5;
+            Visible("WATK");
+            SMST_F();
+        }
+        // 斧マスタリーが5未満の場合かつダブルアタックが0より上の場合
+        if( AMST_P < 5 && WATK_P > 0 ) {
+            // 斧マスタリーを5にする
+            AMST_P=5;
+            Visible("WATK");
+            AMST_F();
+        }
+    }
+    // アームリカバリー
+    function ARMR_F() {
+        Point(ARMR_P, 10, "ARMR_IN");
+        //DEFブーストが1未満の場合かつアームリカバリーが0より上の場合
+        if( DFBS_P < 1 && ARMR_P > 0 ) {
+            // DEFブーストを1にする
+            DFBS_P=1;
+            Visible("ARMR");
+            DFBS_F();
+        }
+    }
+    // 猛進逃走
+    function MSTS_F() {
+        Point(MSTS_P, 10, "MSTS_IN");
+        // DEFブーストが5未満の場合かつ猛進逃走が0より上の場合
+        if( DFBS_P < 5 && MSTS_P > 0 ) {
+            // DEFブーストを5にする
+            DFBS_P=5;
+            Visible("MSTS");
+            DFBS_F();
+        }
+    }
+    // レイジングエッジ
+    function RGSL_F() {
+        Point(RGSL_P, 10, "RGSL_IN");
+        // 剣マスタリーが1未満の場合かつレイジングエッジが0より上の場合
+        if( SMST_P < 1 && RGSL_P > 0 ) {
+            // 剣マスタリーを1にする
+            SMST_P=1;
+            Visible("RGSL");
+            SMST_F();
+        }
+    }
+    // トルネード
+    function TRND_F() {
+        Point(TRND_P, 10, "TRND_IN");
+        // 剣マスタリーが5未満の場合かつトルネードが0より上の場合
+        if( SMST_P < 5 && TRND_P > 0 ) {
+            // 剣マスタリーを5にする
+            SMST_P=5;
+            Visible("TRND");
+            SMST_F();
+        }
+    }
+    // ハヤブサ駆け
+    function HYBS_F() {
+        Point(HYBS_P, 10, "HYBS_IN");
+        // ダブルアタックが3未満の場合かつハヤブサ駆けが0より上の場合
+        if( WATK_P < 3 && HYBS_P > 0 ) {
+            // ダブルアタックを3にする
+            WATK_P=3;
+            Visible("HYBS");
+            WATK_F();
+        }
+    }
+    // チェイスファイア
+    function CFIR_F() {
+        Point(CFIR_P, 10, "CFIR_IN");
+        // 剣マスタリーが7未満の場合かつチェイスファイアが0より上の場合
+        if( SMST_P < 7 && CFIR_P > 0 ) {
+            // 剣マスタリーを7にする
+            SMST_P=7;
+            Visible("CFIR");
+            SMST_F();
+        }
+        // TPブーストが3未満の場合かつチェイスファイアが0より上の場合
+        if( TPBS_P < 3 && CFIR_P > 0 ) {
+            // TPブーストを3にする
+            TPBS_P=3;
+            Visible("CFIR");
+            TPBS_F();
+        }
+    }
+    // チェイスフリーズ
+    function CFRZ_F() {
+        Point(CFRZ_P, 10, "CFRZ_IN");
+        // 剣マスタリーが7未満の場合かつチェイスフリーズが0より上の場合
+        if(SMST_P<7 && CFRZ_P>0){
+            // 剣マスタリーを7にする
+            SMST_P=7;
+            Visible("CFRZ");
+            SMST_F();
+        }
+        // TPブーストが3未満の場合かつチェイスフリーズが0より上の場合
+        if( TPBS_P < 3 && CFRZ_P > 0 ) {
+            // TPブーストを3にする
+            TPBS_P=3;
+            Visible("CFRZ");
+            TPBS_F();
+        }
+    }
+    // チェイスショック
+    function CSHK_F() {
+        Point(CSHK_P, 10, "CSHK_IN");
+        // 剣マスタリーが7未満の場合かつチェイスショックが0より上の場合
+        if( SMST_P < 7 && CSHK_P > 0 ) {
+            // 剣マスタリーを7にする
+            SMST_P=7;
+            Visible("CSHK");
+            SMST_F();
+        }
+        // TPブーストが3未満の場合かつチェイスショックが0より上の場合
+        if( TPBS_P < 3 && CSHK_P > 0 ) {
+            // TPブーストを3にする
+            TPBS_P=3;
+            Visible("CSHK");
+            TPBS_F();
+        }
+    }
+    // パワークラッシュ
+    function PWCR_F() {
+        Point(PWCR_P, 10, "PWCR_IN");
+        // 斧マスタリーが1未満の場合かつパワークラッシュが0より上の場合
+        if( AMST_P < 1 && PWCR_P > 0 ) {
+            // 斧マスタリーを1にする
+            AMST_P=1;
+            Visible("PWCR");
+            AMST_F();
+        }
+    }
+    // スタンスマッシュ
+    function STSM_F() {
+        Point(STSM_P, 10, "STSM_IN");
+        // 斧マスタリーが3未満の場合かつスタンスマッシュが0より上の場合
+        if(AMST_P<3 && STSM_P>0){
+            // 斧マスタリーを3にする
+            AMST_P=3;
+            Visible("STSM");
+            AMST_F();
+        }
+    }
+    // ヘッドバッシュ
+    function HDBS_F() {
+        Point(HDBS_P, 10, "HDBS_IN");
+        // 斧マスタリーが7未満の場合かつヘッドバッシュが0より上の場合
+        if( AMST_P < 7 && HDBS_P > 0 ) {
+            // 斧マスタリーを7にする
+            AMST_P=7;
+            Visible("HDBS");
+            AMST_F();
+        }
+    }
+    // 採掘
+    function DIGG_F() {
+        Point(DIGG_P, 10, "DIGG_IN");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // イベント
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // スキルポイント設定
+    //   引数：parts スキル名
+    //         point 設定するポイント
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function setPoint(parts,point) {
+        if( parts == "HPBS" ) { if( point >= 0 && point <= 10 ) HPBS_P=point; HPBS_F(); }    // HPブースト
+        if( parts == "TPBS" ) { if( point >= 0 && point <= 10 ) TPBS_P=point; TPBS_F(); }    // TPブースト
+        if( parts == "ATBS" ) { if( point >= 0 && point <= 10 ) ATBS_P=point; ATBS_F(); }    // ATCブースト
+        if( parts == "DFBS" ) { if( point >= 0 && point <= 10 ) DFBS_P=point; DFBS_F(); }    // DEFブースト
+        if( parts == "SMST" ) { if( point >= 0 && point <= 10 ) SMST_P=point; SMST_F(); }    // 剣マスタリー
+        if( parts == "AMST" ) { if( point >= 0 && point <= 10 ) AMST_P=point; AMST_F(); }    // 斧マスタリー
+        if( parts == "WCRY" ) { if( point >= 0 && point <= 10 ) WCRY_P=point; WCRY_F(); }    // ウォークライ
+        if( parts == "HCRY" ) { if( point >= 0 && point <= 10 ) HCRY_P=point; HCRY_F(); }    // ヘルズクライ
+        if( parts == "WATK" ) { if( point >= 0 && point <= 10 ) WATK_P=point; WATK_F(); }    // ダブルアタック
+        if( parts == "ARMR" ) { if( point >= 0 && point <= 10 ) ARMR_P=point; ARMR_F(); }    // アームリカバリー
+        if( parts == "MSTS" ) { if( point >= 0 && point <= 10 ) MSTS_P=point; MSTS_F(); }    // 猛進逃走
+        if( parts == "RGSL" ) { if( point >= 0 && point <= 10 ) RGSL_P=point; RGSL_F(); }    // レイジングエッジ
+        if( parts == "TRND" ) { if( point >= 0 && point <= 10 ) TRND_P=point; TRND_F(); }    // トルネード
+        if( parts == "HYBS" ) { if( point >= 0 && point <= 10 ) HYBS_P=point; HYBS_F(); }    // ハヤブサ駆け
+        if( parts == "CFIR" ) { if( point >= 0 && point <= 10 ) CFIR_P=point; CFIR_F(); }    // チェイスファイア
+        if( parts == "CFRZ" ) { if( point >= 0 && point <= 10 ) CFRZ_P=point; CFRZ_F(); }    // チェイスフリーズ
+        if( parts == "CSHK" ) { if( point >= 0 && point <= 10 ) CSHK_P=point; CSHK_F(); }    // チェイスショック
+        if( parts == "PWCR" ) { if( point >= 0 && point <= 10 ) PWCR_P=point; PWCR_F(); }    // パワークラッシュ
+        if( parts == "STSM" ) { if( point >= 0 && point <= 10 ) STSM_P=point; STSM_F(); }    // スタンスマッシュ
+        if( parts == "HDBS" ) { if( point >= 0 && point <= 10 ) HDBS_P=point; HDBS_F(); }    // ヘッドバッシュ
+        if( parts == "DIGG" ) { if( point >= 0 && point <= 10 ) DIGG_P=point; DIGG_F(); }    // 採掘
+        // ポイント表示
+        ShowPoint();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ポイント表示
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function ShowPoint() {
+        SKLL_P = HPBS_P + TPBS_P + ATBS_P + DFBS_P
+               + SMST_P + AMST_P + WCRY_P + HCRY_P
+               + WATK_P + ARMR_P + MSTS_P + RGSL_P
+               + TRND_P + HYBS_P + CFIR_P + CFRZ_P
+               + CSHK_P + PWCR_P + STSM_P + HDBS_P
+               + DIGG_P;
+        showMsg();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    //コントロール関連
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // clear
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function Clear() {
+        // スキルポイントを0に初期化
+        HPBS_P = TPBS_P = ATBS_P = DFBS_P= SMST_P 
+               = AMST_P = WCRY_P = HCRY_P= WATK_P 
+               = ARMR_P = MSTS_P = RGSL_P= TRND_P 
+               = HYBS_P = CFIR_P = CFRZ_P= CSHK_P 
+               = PWCR_P = STSM_P = HDBS_P= DIGG_P
+               = 0;
+        // 引退ボーナス、スキルポイント合計を初期化
+        RTRE_P = SKLL_P = 0;
+        // 各スキル再計算
+        HPBS_F(); TPBS_F(); ATBS_F(); DFBS_F();
+        SMST_F(); AMST_F(); WCRY_F(); HCRY_F();
+        WATK_F(); ARMR_F(); MSTS_F(); RGSL_F();
+        TRND_F(); HYBS_F(); CFIR_F(); CFRZ_F();
+        CSHK_F(); PWCR_F(); STSM_F(); HDBS_F();
+        DIGG_F();
+        // 名前と引退ボーナス初期化
+        document.Msg.chrName.value = "";
+        document.Msg.Retire.value  = 0;
+        // ポイント表示
+        ShowPoint();
+        setAlertLayer("全てのポイントをクリアしました。",1);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 保存
+    //   引数：mode クッキーのモード
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function Save(mode) {
+        // 保持内容
+        var tdata = new Array(24);
+        tdata[0]  = HPBS_P;    // HPブースト
+        tdata[1]  = TPBS_P;    // TPブースト
+        tdata[2]  = ATBS_P;    // ATCブースト
+        tdata[3]  = DFBS_P;    // DEFブースト
+        tdata[4]  = SMST_P;    // 剣マスタリー
+        tdata[5]  = AMST_P;    // 斧マスタリー
+        tdata[6]  = WCRY_P;    // ウォークライ
+        tdata[7]  = HCRY_P;    // ヘルズクライ
+        tdata[8]  = WATK_P;    // ダブルアタック
+        tdata[9]  = ARMR_P;    // アームリカバリー
+        tdata[10] = MSTS_P;    // 猛進逃走
+        tdata[11] = RGSL_P;    // レイジングエッジ
+        tdata[12] = TRND_P;    // トルネード
+        tdata[13] = HYBS_P;    // ハヤブサ駆け
+        tdata[14] = CFIR_P;    // チェイスファイア
+        tdata[15] = CFRZ_P;    // チェイスフリーズ
+        tdata[16] = CSHK_P;    // チェイスショック
+        tdata[17] = PWCR_P;    // パワークラッシュ
+        tdata[18] = STSM_P;    // スタンスマッシュ
+        tdata[19] = HDBS_P;    // ヘッドバッシュ
+        tdata[20] = DIGG_P;    // 採掘
+        tdata[21] = RETR_P;    // 引退ボーナス
+        tdata[22] = CHAR_N;    // 名前
+        tdata[23] = 11;
+
+        code = encode(tdata, ver);
+
+        if( mode == "scode" ) {
+            return code;
+        }
+        if( mode == "cookie" ) {
+            Save2(code);
+        }
+
+        if( mode == "local" ) {
+            Save3(code);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Load
+    //   引数：mode クッキーのモード
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function Load(mode) {
+        // クッキーからロードする
+        code = loadType(mode);
+        if( code ) {
+            // デコードする
+            tdata = decode(code, ver);
+
+            HPBS_P = tdata[0] ;    // HPブースト
+            TPBS_P = tdata[1] ;    // TPブースト
+            ATBS_P = tdata[2] ;    // ATCブースト
+            DFBS_P = tdata[3] ;    // DEFブースト
+            SMST_P = tdata[4] ;    // 剣マスタリー
+            AMST_P = tdata[5] ;    // 斧マスタリー
+            WCRY_P = tdata[6] ;    // ウォークライ
+            HCRY_P = tdata[7] ;    // ヘルズクライ
+            WATK_P = tdata[8] ;    // ダブルアタック
+            ARMR_P = tdata[9] ;    // アームリカバリー
+            MSTS_P = tdata[10];    // 猛進逃走
+            RGSL_P = tdata[11];    // レイジングエッジ
+            TRND_P = tdata[12];    // トルネード
+            HYBS_P = tdata[13];    // ハヤブサ駆け
+            CFIR_P = tdata[14];    // チェイスファイア
+            CFRZ_P = tdata[15];    // チェイスフリーズ
+            CSHK_P = tdata[16];    // チェイスショック
+            PWCR_P = tdata[17];    // パワークラッシュ
+            STSM_P = tdata[18];    // スタンスマッシュ
+            HDBS_P = tdata[19];    // ヘッドバッシュ
+            DIGG_P = tdata[20];    // 採掘
+            RETR_P = tdata[21];    // 引退ボーナス
+        }
+        document.Msg.Retire.value = RETR_P;
+
+        HPBS_F(); TPBS_F(); ATBS_F(); DFBS_F();
+        SMST_F(); AMST_F(); WCRY_F(); HCRY_F();
+        WATK_F(); ARMR_F(); MSTS_F(); RGSL_F();
+        TRND_F(); HYBS_F(); CFIR_F(); CFRZ_F();
+        CSHK_F(); PWCR_F(); STSM_F(); HDBS_F();
+        DIGG_F();
+
+        // ポイント表示
+        ShowPoint();
+    }
+    // -->
+  </script>
+
+</head>
+
+<body onLoad="Init()">
+
+<div id="skill"style="position:absolute; z-index:1;"></div>
+
+<div style="position:absolute; top:10px; left:24px; width:760px; line-height:22px;">
+  <form name="Msg">
+    <nobr>
+      ポイント <input type="text" name="expMsg" id="expMsgID" size=20 value=" Loading..." readonly>　
+      名前 <input type="text" name="chrName" size=10 value="" maxlength=10 title="セーブスロットに名前がつきます">　
+      引退ボーナス 
+      <select name="Retire" onChange="ShowPoint();">
+        <option value="0" selected>0 (引退無し)
+        <option value="2">+2 (Lv30-39)
+        <option value="3">+3 (Lv40-49)
+        <option value="4">+4 (Lv50-59)
+        <option value="5">+5 (Lv60-69)
+        <option value="6">+6 (Lv70)
+      </select>　
+      セーブ 
+      <select name="Slot">
+        <option value="1" selected>Slot1 : no Save Data
+        <option value="2">Slot2 : no Save Data
+        <option value="3">Slot3 : no Save Data
+        <option value="4">Slot4 : no Save Data
+        <option value="5">Slot5 : no Save Data
+      </select>
+    </nobr>
+    <input type="hidden" name="scode" value="">
+    <div align=right>
+      <span style="color:#000066;"><u>
+        <a class="con" href="JavaScript:Save('cookie');" title="Cookieに今の状態をセーブ">Save</a>　
+        <a class="con" href="JavaScript:Load('cookie');" title="Cookieからロード">Load</a>　
+        <a class="con" href="JavaScript:Clear();" title="スキルポイントをリセット">Clear</a>　
+        <a class="con" href="JavaScript:DeleteCookie();" title="セーブスロットを消去">DeleteSlot</a>
+      </span>
+    </div>
+  </form>
+</div>
+
+
+<!-- Swordman -->
+
+<!-- 斧マスタリー -->
+<table class="job" cellspacing=0 cellpadding=0 id="AMST" style="position:absolute; top:55px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[5]')" onmouseout="offLayer()">斧マスタリー</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="AMST_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- 剣マスタリー -->
+<table class="job" cellspacing=0 cellpadding=0 id="SMST" style="position:absolute; top:175px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[4]')" onmouseout="offLayer()">剣マスタリー</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="SMST_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- HPブースト -->
+<table class="job" cellspacing=0 cellpadding=0 id="HPBS" style="position:absolute; top:265px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'SwdSkill[0]')" onmouseout="offLayer()">HPブースト</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="HPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- TPブースト -->
+<table class="job" cellspacing=0 cellpadding=0 id="TPBS" style="position:absolute; top:385px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'SwdSkill[1]')" onmouseout="offLayer()">TPブースト</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="TPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- ATKブースト -->
+<table class="job" cellspacing=0 cellpadding=0 id="ATBS" style="position:absolute; top:415px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[2]')" onmouseout="offLayer()">ATKブースト</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="ATBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- DEFブースト -->
+<table class="job" cellspacing=0 cellpadding=0 id="DFBS" style="position:absolute; top:475px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[3]')" onmouseout="offLayer()">DEFブースト</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="DFBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- 採掘 -->
+<table class="job" cellspacing=0 cellpadding=0 id="DIGG" style="position:absolute; top:535px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[20]')" onmouseout="offLayer()">採掘</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="DIGG_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- パワークラッシュ -->
+<table class="job" cellspacing=0 cellpadding=0 id="PWCR" style="position:absolute; top:55px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[17]',PWCR_P)" onmouseout="offLayer()">パワークラッシュ</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="PWCR_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- スタンスマッシュ -->
+<table class="job" cellspacing=0 cellpadding=0 id="STSM" style="position:absolute; top:85px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[18]',STSM_P)" onmouseout="offLayer()">スタンスマッシュ</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="STSM_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- ヘッドバッシュ -->
+<table class="job" cellspacing=0 cellpadding=0 id="HDBS" style="position:absolute; top:115px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[19]',HDBS_P)" onmouseout="offLayer()">ヘッドバッシュ</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="HDBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- レイジングエッジ -->
+<table class="job" cellspacing=0 cellpadding=0 id="RGSL" style="position:absolute; top:175px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[11]',RGSL_P)" onmouseout="offLayer()">レイジングエッジ</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="RGSL_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- トルネード -->
+<table class="job" cellspacing=0 cellpadding=0 id="TRND" style="position:absolute; top:205px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[12]',TRND_P)" onmouseout="offLayer()">トルネード</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="TRND_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- ダブルアタック -->
+<table class="job" cellspacing=0 cellpadding=0 id="WATK" style="position:absolute; top:235px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'SwdSkill[8]')" onmouseout="offLayer()">ダブルアタック</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="WATK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- チェイスファイア -->
+<table class="job" cellspacing=0 cellpadding=0 id="CFIR" style="position:absolute; top:295px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[14]',CFIR_P)" onmouseout="offLayer()">チェイスファイア</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="CFIR_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- チェイスフリーズ -->
+<table class="job" cellspacing=0 cellpadding=0 id="CFRZ" style="position:absolute; top:325px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[15]',CFRZ_P)" onmouseout="offLayer()">チェイスフリーズ</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="CFRZ_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- チェイスショック -->
+<table class="job" cellspacing=0 cellpadding=0 id="CSHK" style="position:absolute; top:355px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[16]',CSHK_P)" onmouseout="offLayer()">チェイスショック</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="CSHK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- ウォークライ -->
+<table class="job" cellspacing=0 cellpadding=0 id="WCRY" style="position:absolute; top:415px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'SwdSkill[6]',WCRY_P)" onmouseout="offLayer()">ウォークライ</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="WCRY_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- ヘルズクライ -->
+<table class="job" cellspacing=0 cellpadding=0 id="HCRY" style="position:absolute; top:445px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'SwdSkill[7]',HCRY_P)" onmouseout="offLayer()">ヘルズクライ</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="HCRY_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- アームリカバリー -->
+<table class="job" cellspacing=0 cellpadding=0 id="ARMR" style="position:absolute; top:475px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,90,'SwdSkill[9]',ARMR_P)" onmouseout="offLayer()">アームリカバリー</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="ARMR_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- 猛進逃走 -->
+<table class="job" cellspacing=0 cellpadding=0 id="MSTS" style="position:absolute; top:505px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'SwdSkill[10]',MSTS_P)" onmouseout="offLayer()">猛進逃走</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="MSTS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+<!-- ハヤブサ駆け -->
+<table class="job" cellspacing=0 cellpadding=0 id="HYBS" style="position:absolute; top:265px; left:423px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,165,'SwdSkill[13]',HYBS_P)" onmouseout="offLayer()">ハヤブサ駆け</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="HYBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<div id="option1" style="position:absolute; top:0px; left:0px; width:0px; height:0px; background-image:url(../../data/other/alpha.png);" onclick="JavaScript:offOptionLayer();"></div>
+<div id="option2" style="position:absolute; top:0px; left:0px; width:0px; height:0px;"></div>
+<div id="dummy" style="position:absolute; top:0px; left:0px; width:800px; height:600px; z-index:-1;"></div>
+
+</body>
+</html>
