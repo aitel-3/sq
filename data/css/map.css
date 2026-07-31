@@ -1,0 +1,14 @@
+.map        {  position : absolute;
+               left     : 0px;
+               top      : 0px
+            }
+.Memo       {  position : absolute;
+               left     : 0px;
+               top      : 570px
+            }
+.MemoStyle  {  font-size : 9pt;
+               margin    : 0px;
+               padding   : 0px
+            }
+
+

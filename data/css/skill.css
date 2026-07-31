@@ -1,0 +1,143 @@
+body{
+	padding-left:20px;
+	padding-right:20px;
+	font-size:12px;
+	font-family:MS UI GOTHIC;
+	background-color:#bbddff;
+	background-repeat:no-repeat;
+	scrollbar-track-color:#bbddff;
+	scrollbar-face-color:#bbddff;
+	scrollbar-arrow-color:#333333;
+	scrollbar-3dlight-color:#bbddff;
+	scrollbar-darkshadow-color:#bbddff;
+	scrollbar-highlight-color:#333333;
+	scrollbar-shadow-color:#333333;
+	overflow:auto;
+	color:#333333;
+	line-height:1.7em;
+}
+div{
+	line-height:normal;
+}
+div.alert{
+	color:#0B102D;
+	font-size:12px;
+	font-family:"MS UI Gothic";
+}
+div.help{
+	font-family:"MS UI Gothic";
+	font-size:12px;
+	cursor:help;
+	overflow:hidden;
+	width:120px;
+	height:13px;
+	text-align:center;
+}
+div.sn{
+	font-family:"ＭＳ Ｐ明朝";
+	font-size:16px;
+	font-weight:bold;
+	height:22px;
+}
+div.st{
+	font-family:"MS UI Gothic";
+	position:absolute;
+	right:10px;
+	top:10px;
+	font-size:12px;
+	color:#006688;
+}
+table.job{
+	background-color:#3f6fbf;
+	color:#8fffff;
+	height:30px;
+	width:128px;
+}
+img.bar{
+	width:120px;
+	height:14px;
+}
+td{
+	background-color:transparent;
+}
+a{
+	color:#4422ff;
+}
+a:visited {
+	color:#4422ff;
+}
+a:hover{
+	color:#ff0033;
+}
+a.con{
+	color:#000066;
+	font-size:11px;
+	font-weight:bold;
+}
+a.con:visited{
+	color:#000066;
+	font-size:11px;
+	font-weight:bold;
+}
+a.con:hover{
+	color:#ff0033;
+	font-size:11px;
+	font-weight:bold;
+}
+input{
+	font-size:13px;
+	border-style:solid;
+	border-width:1px 1px 1px 1px;
+	border-color:#000000;
+	background-color:#ffffff;
+	color:#000000;
+}
+select{
+	background-color:#ffffff;
+	color:#000000;
+}
+input.btn{
+	font-size:12px;
+	border-style:solid;
+	border-width:1px 1px 1px 1px;
+	padding:0px 0px 0px 0px;
+}
+input.con{
+	font-size:13px;
+	border:solid 0px;
+}
+textarea{
+	padding:2px;
+	font-size:12px;
+	border:solid 1px;
+	scrollbar-track-color:#bbddff;
+	scrollbar-face-color:#bbddff;
+	scrollbar-arrow-color:#333333;
+	scrollbar-3dlight-color:#bbddff;
+	scrollbar-darkshadow-color:#bbddff;
+	scrollbar-highlight-color:#333333;
+	scrollbar-shadow-color:#333333;
+	overflow:auto;
+	color:#000000;
+	background-color:#ffffff;
+}
+
+table.lst{
+	background-color: #bbddff;
+	border: solid;
+	border-color: #333333;
+	border-width:1px 0px 0px 1px;
+	table-layout: fixed;
+}
+
+td.lst,th.lst{
+	padding:4px;
+	text-align:center;
+	font-size:13px;
+	border: solid;
+	border-color: #333333;
+	border-width:0px 1px 1px 0px;
+}
+span.wk{
+	font-family:"ＭＳ ゴシック";
+}

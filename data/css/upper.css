@@ -1,0 +1,21 @@
+body         { font-size             : 9pt;
+               color                 : #000000;
+               background-color      : #9999cc;
+               background-repeat     : repeat; 
+               background-attachment : scroll;
+               background-position   : 0% 50%      }
+td           { font-size             : 10pt;
+               color                 : #000000     }
+td.title     { font-size             : 9pt;
+               color                 : #ffffff;
+               background-color      : #663399     }
+td.n         { font-size             : 9pt;
+               color                 : #000000;
+               background-color      : #ffffff     }
+
+a            { color                 : #cccccc     }
+a:active     { text-decoration       : underline;
+               color                 : #ccff66     }
+a:hover      { text-decoration       : underline;
+               color                 : #cc3333     }
+.nolink      { color                 : #77777      }

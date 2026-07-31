@@ -1,0 +1,129 @@
+body        { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #9999cc;
+              background-repeat     : repeat; 
+              background-attachment : scroll;
+              background-position   : 0% 50%;     }
+tr.t        { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #f0f8ff;    }
+td          { font-size             : 9pt;
+              color                 : #000000;    }
+td.title    { font-size             : 9pt;
+              color                 : #ffffff;
+              background-color      : #663399;    }
+td.titlebar  { font-size             : 10pt;
+               font-weight           : bold;
+               color                 : #ffffff;
+               background-color      : #0000ff;    }
+td.t        { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #ccccff;    }
+td.n        { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #ffffff;    }
+td.nr       { font-size             : 9pt;
+              color                 : #000000;
+              text-align            : right;
+              background-color      : #ffffff;    }
+td.nc       { font-size             : 9pt;
+              color                 : #000000;
+              text-align            : center;
+              background-color      : #ffffff;    }
+td.date     { font-size             : 9pt;
+              text-align            : right;
+              color                 : #000000;
+              background-color      : #ffffff;    }
+td.e        { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #f0f8ff;    }
+td.soldout  { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #ccffcc     }
+td.s        { font-size             : 9pt;
+              color                 : #ffffff;
+              background-color      : #777777;    }
+td.sr       { font-size             : 9pt;
+              color                 : #ffffff;
+              text-align            : right;
+              background-color      : #777777;    }
+td.sc       { font-size             : 9pt;
+              color                 : #ffffff;
+              text-align            : center;
+              background-color      : #777777;    }
+td.finish   { font-size             : 9pt;
+              background-color      : #20f0d5;
+              color                 : #000000;    }
+td.accept   { font-size             : 9pt;
+              background-color      : #ffbf01;
+              color                 : #000000;    }
+td.m        { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #ccffcc     }
+td.mr       { font-size             : 9pt;
+              color                 : #000000;
+              text-align            : right;
+              background-color      : #ccffcc;    }
+td.nfoe     { font-size             : 9pt;
+              color                 : #ff0000;
+              background-color      : #ffffff;    }
+td.ncol     { font-size             : 9pt;
+              color                 : #009900;
+              background-color      : #ffffff;    }
+td.nfoe_or  { font-size             : 9pt;
+              color                 : #ffa500;
+              background-color      : #ffffff;    }
+td.nfoe_rd  { font-size             : 9pt;
+              color                 : #ff0000;
+              background-color      : #ffffff;    }
+td.nfoe_bl  { font-size             : 9pt;
+              color                 : #0000ff;
+              background-color      : #ffffff;    }
+td.nfoe_pu  { font-size             : 9pt;
+              color                 : #800080;
+              background-color      : #ffffff;    }
+td.nfoe_bs  { font-size             : 9pt;
+              color                 : #696969;
+              background-color      : #ffffff;    }
+
+td.pink     { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #ff99ff;    }
+td.blue     { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #0099ff;    }
+td.orenge   { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #ff9900;    }
+td.yellow   { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #ffff00;    }
+td.sky      { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #66ffff;    }
+td.white    { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #f8f8ff;    }
+td.f        { font-size             : 9pt;
+              background-color      : #20f0d5;
+              color                 : #000000;    }
+td.fc       { font-size             : 9pt;
+              color                 : #000000;
+              text-align            : center;
+              background-color      : #20f0d5;    }
+td.no       { font-size             : 9pt;
+              color                 : #000000;
+              background-color      : #9999cc;    }
+th.menu     { font-size             : 20pt;
+              color                 : #ffffff;
+              background-color      : #000066;
+              text-align            : center      }
+
+
+
+a            { color                 : #cccccc     }
+a:active     { text-decoration       : underline;
+               color                 : #ccff66;    }
+a:hover      { text-decoration       : underline;
+               color                 : #cc3333;    }
+.nolink      { color                 : #777777;    }
