@@ -1,0 +1,32 @@
+<html>
+<head>
+  <title>エイテルさん的世界樹の迷宮攻略</title>
+</head>
+<script language="javascript">
+<!--
+function resizewindow(){
+if (navigator.appversion.charat(0) >=4){
+winsow.resizeto(800,600);
+}
+}
+//-->
+</script>
+
+<frameset cols="2,176,2,800" border="0">
+  <noframes><body bgcolor="#ffffff" onload="resizewindow()">
+  <p>このページを御覧頂くにはフレーム対応のブラウザが必要です。</p>
+  </body>
+  </noframes>
+  <frame src="./line.html" name="line" marginwidth="0" marginheight="0" scrolling="no"   noresize>
+  <frameset rows="*,20">
+    <frame src="./menu.html" name="Menu" marginwidth="0" marginheight="0" scrolling="auto" noresize>
+    <frame src="./line.html" name="line" marginwidth="0" marginheight="0" scrolling="no"   noresize>
+  </frameset>
+  <frame src="./line.html" name="line" marginwidth="0" marginheight="0" scrolling="no"   noresize>
+  <frameset rows="90,*,20" border="0">
+    <frame src="./title.html" name="title" marginwidth="0" marginheight="0" scrolling="no" noresize>
+    <frame src="./top-index.html" name="index" marginwidth="0" marginheight="0" scrolling="auto" noresize>
+    <frame src="./line.html" name="line" marginwidth="0" marginheight="0" scrolling="no" noresize>
+  </frameset>
+</frameset>
+</html>
