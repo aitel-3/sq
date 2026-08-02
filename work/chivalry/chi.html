@@ -1,0 +1,948 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <link id="csslink" rel=stylesheet href="../../data/css/skill.css" type="text/css">
+  <title>Paladin Skill Tree</title>
+  <style>
+    <!--
+    body    { font-size         : 9pt;
+              background-image  : url(../../data/other/back_chi.png);
+              background-repeat : no-repeat;
+            }
+    // -->
+  </style>
+  <script language="JavaScript" src="../../data/js/skill.js"></script>
+  <script language="JavaScript" src="../../data/js/skilllist.js"></script>
+  <script language="JavaScript">
+    <!--
+    var HPBS_P            // HPブースト
+      = TPBS_P            // TPブースト
+      = DFBS_P            // DEFブースト
+      = SHMS_P            // 盾マスタリー
+      = CUR1_P            // キュア
+      = CUR2_P            // キュアⅡ
+      = PRVK_P            // 挑発
+      = RSLT_P            // 決死の覚悟
+      = FTGD_P            // フロントガード
+      = BKGD_P            // バックガード
+      = PRRY_P            // パリング
+      = ATGD_P            // オートガード
+      = MXDF_P            // 渾身ディフェンス
+      = DFFM_P            // 防御陣形
+      = FRGD_P            // ファイアガード
+      = FZGD_P            // フリーズガード
+      = SKGD_P            // ショックガード
+      = SDSM_P            // シールドスマイト
+      = RNWY_P            // 猛進逃走
+      = CTWK_P            // 警戒歩行
+      = DIGG_P            // 採掘
+      = 0;
+    var RETR_P            // 引退ボーナス
+      = SKLL_P            // スキルポイント
+      = CHAR_N            // 名前
+      = 0;
+    var ver = "20";       // コードVer
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 各スキルの条件
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // HPブースト
+    function HPBS_F() {
+        Point(HPBS_P, 10, "HPBS_IN");
+        // HPブーストが3未満の場合、キュアを不活性
+        if( HPBS_P < 3 ) {
+            Disable("CUR1"); if( CUR1_P > 0 ) { CUR1_P=0; CUR1_F(); }
+        }
+        // HPブーストが3以上の場合、キュアを活性
+        if( HPBS_P >= 3 ) {
+            Visible("CUR1");
+        }
+        // HPブーストが5未満の場合、キュアⅡを不活性
+        if( HPBS_P < 5 ) {
+            Disable("CUR2"); if( CUR2_P > 0 ) { CUR2_P=0; CUR2_F(); }
+        }
+        // HPブーストが5以上の場合、キュアⅡを活性
+        if( HPBS_P >= 5 ) {
+            Visible("CUR2");
+        }
+    }
+    // TPブースト
+    function TPBS_F() {
+        Point(TPBS_P, 10, "TPBS_IN");
+        // TPブーストが3未満の場合、3色ガードを不活性
+        if( TPBS_P < 3 ) {
+            Disable("FRGD"); if( FRGD_P > 0 ) { FRGD_P=0; FRGD_F(); }
+            Disable("FZGD"); if( FZGD_P > 0 ) { FZGD_P=0; FZGD_F(); }
+            Disable("SKGD"); if( SKGD_P > 0 ) { SKGD_P=0; SKGD_F(); }
+        }
+        // TPブーストが3以上かつ盾マスタリーが5以上の場合、3色ガードを活性
+        if( TPBS_P >= 3 && SHMS_P >= 5 ) {
+            Visible("FRGD");
+            Visible("FZGD");
+            Visible("SKGD");
+        }
+    }
+    // DEFブースト
+    function DFBS_F() {
+        Point(DFBS_P, 10, "DFBS_IN");
+        // DEFブーストが1未満の場合、挑発を不活性
+        if( DFBS_P < 1 ) {
+            Disable("PRVK"); if( PRVK_P > 0 ) { PRVK_P=0; PRVK_F(); }
+        }
+        if( DFBS_P >= 1 ) {
+            Visible("PRVK");
+        }
+        // DEFブーストが3未満の場合、パリング、猛進逃走、渾身ディフェンスを不活性
+        if( DFBS_P < 3 ) {
+            Disable("PRRY"); if( PRRY_P > 0 ) { PRRY_P=0; PRRY_F(); }
+            Disable("RNWY"); if( RNWY_P > 0 ) { RNWY_P=0; RNWY_F(); }
+            Disable("MXDF"); if( MXDF_P > 0 ) { MXDF_P=0; MXDF_F(); }
+        }
+        // DEFFブーストが3以上の場合、パリング、猛進逃走を活性
+        if( DFBS_P >= 3 ) {
+            Visible("PRRY");
+            Visible("RNWY");
+        }
+        // DEFブーストが3以上かつ盾マスタリーが3以上の場合、渾身ディフェンスを活性
+        if( DFBS_P >= 3 && SHMS_P >= 3 ) {
+            Visible("MXDF");
+        }
+        // DEFブーストが5未満の場合、警戒歩行、決死の覚悟を不活性
+        if( DFBS_P < 5 ) {
+            Disable("CTWK"); if( CTWK_P > 0 ) { CTWK_P=0; CTWK_F(); }
+            Disable("RSLT"); if( RSLT_P > 0 ) { RSLT_P=0; RSLT_F(); }
+        }
+        // DEFブーストが5以上の場合、警戒歩行、決死の覚悟を活性
+        if( DFBS_P >= 5 ) {
+            Visible("CTWK");
+            Visible("RSLT");
+        }
+        // DEFブーストが7未満の場合、オートガードを不活性
+        if( DFBS_P < 7 ) {
+            Disable("ATGD"); if( ATGD_P > 0 ) { ATGD_P=0; ATGD_F(); }
+        }
+        // DEFブーストが7以上かつ盾マスタリーが7以上の場合、オートガードを活性
+        if( DFBS_P >= 7 && SHMS_P >= 7 ) {
+            Visible("ATGD");
+        }
+    }
+    // 盾マスタリー
+    function SHMS_F() {
+        Point(SHMS_P, 10, "SHMS_IN");
+        // 盾マスタリーが1未満の場合、フロントガード、バックガードを不活性
+        if( SHMS_P < 1 ) {
+            Disable("FTGD"); if( FTGD_P > 0 ) { FTGD_P=0; FTGD_F(); }
+            Disable("BKGD"); if( BKGD_P > 0 ) { BKGD_P=0; BKGD_F(); }
+        }
+        // 盾マスタリーが1以上の場合、フロントガード、バックガードを活性
+        if( SHMS_P >= 1 ) {
+            Visible("FTGD");
+            Visible("BKGD");
+        }
+        // 盾マスタリーが3未満の場合、渾身ディフェンスを不活性
+        if( SHMS_P < 3 ) {
+            Disable("MXDF"); if( MXDF_P > 0 ) { MXDF_P=0; MXDF_F(); }
+        }
+        // 盾マスタリーが3以上かつDEFブーストが3以上の場合、渾身ディフェンスを活性
+        if( SHMS_P >= 3 && DFBS_P >= 3 ) {
+            Visible("MXDF");
+        }
+        // 盾マスタリーが5未満の場合、3色ガードを不活性
+        if( SHMS_P < 5 ) {
+            Disable("FRGD"); if( FRGD_P > 0 ) { FRGD_P=0; FRGD_F(); }
+            Disable("FZGD"); if( FZGD_P > 0 ) { FZGD_P=0; FZGD_F(); }
+            Disable("SKGD"); if( SKGD_P > 0 ) { SKGD_P=0; SKGD_F(); }
+        }
+        // 盾マスタリーが5以上かつTPブーストが3以上の場合、3色ガードを活性
+        if( SHMS_P >= 5 && TPBS_P >= 3 ) {
+            Visible("FRGD");
+            Visible("FZGD");
+            Visible("SKGD");
+        }
+        // 盾マスタリーが7未満の場合、オートガードを不活性
+        if( SHMS_P < 7 ) {
+            Disable("ATGD"); if( ATGD_P > 0 ) { ATGD_P=0; ATGD_F(); }
+        }
+        // 盾マスタリーが7以上かつDEFブーストが7以上の場合、オートガードを活性
+        if( SHMS_P >= 7 && DFBS_P >= 7 ) {
+            Visible("ATGD");
+        }
+        // 盾マスタリーが10未満の場合、シールドスマイトを不活性
+        if( SHMS_P < 10 ) { 
+            Disable("SDSM"); if( SDSM_P > 0 ) { SDSM_P=0; SDSM_F(); }
+        }
+        // 盾マスタリーが10以上かつ渾身ディフェンスが5以上の場合、シールドスマイトを活性
+        if( SHMS_P >= 10 && MXDF_P >= 5 ) {
+            Visible("SDSM");
+        }
+    }
+    // キュア
+    function CUR1_F() {
+        Point(CUR1_P, 10, "CUR1_IN");
+        // HPブーストが3未満かつキュアが0より大きい場合
+        if( HPBS_P < 3 && CUR1_P > 0 ) {
+            // HPブーストを3にする
+            HPBS_P=3;
+            Visible("CUR1");
+            HPBS_F();
+        }
+    }
+    // キュアⅡ
+    function CUR2_F() {
+        Point(CUR2_P, 10, "CUR2_IN");
+        // HPブーストが5未満かつキュアⅡが0より大きい場合
+        if( HPBS_P < 5 && CUR2_P > 0 ) {
+            // HPブーストを5にする
+            HPBS_P=5;
+            Visible("CUR2");
+            HPBS_F();
+        }
+    }
+    // 挑発
+    function PRVK_F() {
+        Point(PRVK_P, 10, "PRVK_IN");
+        // DEFブーストが1未満かつ腸活が0より大きい場合
+        if( DFBS_P < 1 && PRVK_P > 0 ) {
+            // DEFブーストを1にする
+            DFBS_P=1;
+            Visible("PRVK");
+            DFBS_F();
+        }
+    }
+    // 決死の覚悟
+    function RSLT_F() {
+        Point(RSLT_P, 10, "RSLT_IN");
+        // DEFブーストが5未満かつ決死の覚悟が0より大きい場合
+        if( DFBS_P < 5 && RSLT_P > 0 ) {
+            // 決死の覚悟を5にする
+            DFBS_P=5;
+            Visible("RSLT");
+            DFBS_F();
+        }
+    }
+    // フロントガード
+    function FTGD_F() {
+        Point(FTGD_P, 10, "FTGD_IN");
+        // フロントガードが3未満の場合、防御陣形を不活性
+        if( FTGD_P < 3 ) {
+            Disable("DFFM"); if( DFFM_P > 0 ) { DFFM_P=0; DFFM_F(); }
+        }
+        // フロントガードが3以上かつバックガードが3以上の場合、防御陣形を活性
+        if( FTGD_P >= 3 && BKGD_P >= 3 ) {
+            Visible("DFFM");
+        }
+        // 盾マスタリーが1未満かつフロントガードが0より大きい場合
+        if( SHMS_P < 1 && FTGD_P > 0 ) {
+            // 盾マスタリーを1にする
+            SHMS_P=1;
+            Visible("FTGD");
+            SHMS_F();
+        }
+    }
+    // バックガード
+    function BKGD_F() {
+        Point(BKGD_P, 10, "BKGD_IN");
+        // バックガードが3未満の場合、防御陣形を不活性
+        if( BKGD_P < 3 ) {
+            Disable("DFFM"); if( DFFM_P > 0 ) { DFFM_P=0; DFFM_F(); }
+        }
+        // バックガードが3以上かつフロントガードが3以上の場合、防御陣形を活性
+        if( BKGD_P >= 3 && FTGD_P >= 3 ) {
+            Visible("DFFM");
+        }
+        // 盾マスタリーが1未満かつバックガードが0より大きい場合
+        if( SHMS_P < 1 && BKGD_P > 0 ) {
+            // 盾マスタリーを1にする
+            SHMS_P=1;
+            Visible("BKGD");
+            SHMS_F();
+        }
+    }
+    // パリング
+    function PRRY_F() {
+        Point(PRRY_P, 10, "PRRY_IN");
+        // DEFブーストが3未満かつパリングが0より大きい場合
+        if( DFBS_P < 3 && PRRY_P > 0 ) {
+            // DEFブーストを3にする
+            DFBS_P=3;
+            Visible("PRRY");
+            DFBS_F();
+        }
+    }
+    // オートガード
+    function ATGD_F() {
+        Point(ATGD_P, 10, "ATGD_IN");
+        // DEFブーストが7未満かつオートガードが0より大きい場合
+        if( DFBS_P < 7 && ATGD_P > 0 ) {
+            // DEFブーストを7にする
+            DFBS_P=7;
+            Visible("ATGD");
+            DFBS_F();
+        }
+        // 盾マスタリーが7未満かつオートガードが0より大きい場合
+        if( SHMS_P < 7 && ATGD_P > 0 ) {
+            // 盾マスタリーを7にする
+            SHMS_P=7;
+            Visible("ATGD");
+            SHMS_F();
+        }
+    }
+    // 渾身ディフェンス
+    function MXDF_F() {
+        Point(MXDF_P, 10, "MXDF_IN");
+        // 渾身ディフェンスが5未満の場合、シールドスマイトを不活性
+        if( MXDF_P < 5 ) {
+            Disable("SDSM"); if( SDSM_P > 0 ) { SDSM_P=0; SDSM_F(); }
+        }
+        // 渾身ディフェンスが5以上かつ盾マスタリーが10以上の場合、シールドスマイトを活性
+        if( MXDF_P >= 5 && SHMS_P >= 10 ) {
+            Visible("SDSM");
+        }
+        // DEFブーストが3未満かつ渾身ディフェンスが0より大きい場合
+        if( DFBS_P < 3 && MXDF_P > 0 ) {
+            // DEFブーストを3にする
+            DFBS_P=3;
+            Visible("MXDF");
+            DFBS_F();
+        }
+        // 盾マスタリーが3未満かつ渾身ディフェンスが0より大きい場合
+        if( SHMS_P < 3 && MXDF_P > 0 ) {
+            // 盾マスタリーを3にする
+            SHMS_P=3;
+            Visible("MXDF");
+            SHMS_F();
+        }
+    }
+    // 防御陣形
+    function DFFM_F() {
+        Point(DFFM_P, 10, "DFFM_IN");
+        // フロントガードが3未満かつ防御陣形が0より大きい場合
+        if( FTGD_P < 3 && DFFM_P > 0 ) {
+            // フロントガードを3にする
+            FTGD_P=3;
+            Visible("DFFM");
+            FTGD_F();
+        }
+        // バックガードが3未満かつ防御陣形が0より大きい場合
+        if( BKGD_P < 3 && DFFM_P > 0 ) {
+            // バックガードを3にする
+            BKGD_P=3;
+            Visible("DFFM");
+            BKGD_F();
+        }
+    }
+    // ファイアガード
+    function FRGD_F() {
+        Point(FRGD_P, 10, "FRGD_IN");
+        // TPブーストが3未満かつフロントガードが0より大きい場合
+        if( TPBS_P < 3 && FRGD_P > 0 ) {
+            // TPブーストを3にする
+            TPBS_P=3;
+            Visible("FRGD");
+            TPBS_F();
+        }
+        // 盾マスタリーが5未満かつフロントガードが0より大きい場合
+        if( SHMS_P < 5 && FRGD_P > 0 ) {
+            // 盾マスタリーを5にする
+            SHMS_P=5;
+            Visible("FRGD");
+            SHMS_F();
+        }
+    }
+    // フリーズガード
+    function FZGD_F() {
+        Point(FZGD_P, 10, "FZGD_IN");
+        // TPブーストが3未満かつフリーズガードが0より大きい場合
+        if( TPBS_P < 3 && FZGD_P > 0 ) {
+            // TPブーストを3にする
+            TPBS_P=3;
+            Visible("FZGD");
+            TPBS_F();
+        }
+        // 盾マスタリーが5未満かつフリーズガードが0より大きい場合
+        if( SHMS_P < 5 && FZGD_P > 0 ) {
+            // 盾マスタリーを5にする
+            SHMS_P=5;
+            Visible("FZGD");
+            SHMS_F();
+        }
+    }
+    // ショックガード
+    function SKGD_F() {
+        Point(SKGD_P, 10, "SKGD_IN");
+        // TPブーストが3未満かつショックガードが0より大きい場合
+        if( TPBS_P < 3 && SKGD_P > 0 ) {
+            // TPブーストを3にする
+            TPBS_P=3;
+            Visible("SKGD");
+            TPBS_F();
+        }
+        // 盾マスタリーが5未満かつショックガードが0より大きい場合
+        if( SHMS_P < 5 && SKGD_P > 0 ) {
+            // 盾マスタリーを5にする
+            SHMS_P=5;
+            Visible("SKGD");
+            SHMS_F();
+        }
+    }
+    // シールドスマイト
+    function SDSM_F() {
+        Point(SDSM_P, 10, "SDSM_IN");
+        // 盾マスタリーが10未満かつシールドスマイトが0より大きい場合
+        if( SHMS_P < 10 && SDSM_P > 0 ) {
+            // 盾マスタリーを10にする
+            SHMS_P=10;
+            Visible("SDSM");
+            SHMS_F();
+        }
+        // 渾身ディフェンスが5未満かつシールドスマイトが0より大きい場合
+        if( MXDF_P < 5 && SDSM_P > 0 ) {
+            // 渾身ディフェンスを5にする
+            MXDF_P=5;
+            Visible("SDSM");
+            MXDF_F();
+        }
+    }
+    // 猛進逃走
+    function RNWY_F() {
+        Point(RNWY_P, 10, "RNWY_IN");
+        // DEFブーストが3未満かつ猛進逃走が0より大きい場合
+        if( DFBS_P < 3 && RNWY_P > 0 ) {
+            // DEFブーストを3にする
+            DFBS_P=3;
+            Visible("RNWY");
+            DFBS_F();
+        }
+    }
+    // 警戒歩行
+    function CTWK_F() {
+        Point(CTWK_P, 10, "CTWK_IN");
+        // DEFブーストが5未満かつ警戒歩行が0より大きい場合
+        if( DFBS_P < 5 && CTWK_P > 0 ) {
+            // DEFブーストを5にする
+            DFBS_P=5;
+            Visible("CTWK");
+            DFBS_F();
+        }
+    }
+    // 採掘
+    function DIGG_F() {
+        Point(DIGG_P, 10, "DIGG_IN");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // イベント
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // スキルポイント設定
+    //   引数：parts スキル名
+    //         point 設定するポイント
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function setPoint(parts,point){
+        if( parts == "HPBS" ) { if( point >= 0 && point <= 10) HPBS_P=point; HPBS_F(); }    // HPブースト
+        if( parts == "TPBS" ) { if( point >= 0 && point <= 10) TPBS_P=point; TPBS_F(); }    // TPブースト
+        if( parts == "DFBS" ) { if( point >= 0 && point <= 10) DFBS_P=point; DFBS_F(); }    // DEFブースト
+        if( parts == "SHMS" ) { if( point >= 0 && point <= 10) SHMS_P=point; SHMS_F(); }    // 盾マスタリー
+        if( parts == "CUR1" ) { if( point >= 0 && point <= 10) CUR1_P=point; CUR1_F(); }    // キュア
+        if( parts == "CUR2" ) { if( point >= 0 && point <= 10) CUR2_P=point; CUR2_F(); }    // キュアⅡ
+        if( parts == "PRVK" ) { if( point >= 0 && point <= 10) PRVK_P=point; PRVK_F(); }    // 挑発
+        if( parts == "RSLT" ) { if( point >= 0 && point <= 10) RSLT_P=point; RSLT_F(); }    // 決死の覚悟
+        if( parts == "FTGD" ) { if( point >= 0 && point <= 10) FTGD_P=point; FTGD_F(); }    // フロントガード
+        if( parts == "BKGD" ) { if( point >= 0 && point <= 10) BKGD_P=point; BKGD_F(); }    // バックガード
+        if( parts == "PRRY" ) { if( point >= 0 && point <= 10) PRRY_P=point; PRRY_F(); }    // パリング
+        if( parts == "ATGD" ) { if( point >= 0 && point <= 10) ATGD_P=point; ATGD_F(); }    // オートガード
+        if( parts == "MXDF" ) { if( point >= 0 && point <= 10) MXDF_P=point; MXDF_F(); }    // 渾身ディフェンス
+        if( parts == "DFFM" ) { if( point >= 0 && point <= 10) DFFM_P=point; DFFM_F(); }    // 防御陣形
+        if( parts == "FRGD" ) { if( point >= 0 && point <= 10) FRGD_P=point; FRGD_F(); }    // ファイアガード
+        if( parts == "FZGD" ) { if( point >= 0 && point <= 10) FZGD_P=point; FZGD_F(); }    // フリーズガード
+        if( parts == "SKGD" ) { if( point >= 0 && point <= 10) SKGD_P=point; SKGD_F(); }    // ショックガード
+        if( parts == "SDSM" ) { if( point >= 0 && point <= 10) SDSM_P=point; SDSM_F(); }    // シールドスマイト
+        if( parts == "RNWY" ) { if( point >= 0 && point <= 10) RNWY_P=point; RNWY_F(); }    // 猛進逃走
+        if( parts == "CTWK" ) { if( point >= 0 && point <= 10) CTWK_P=point; CTWK_F(); }    // 警戒歩行
+        if( parts == "DIGG" ) { if (point >= 0 && point <= 10) DIGG_P=point; DIGG_F(); }    // 採掘
+        // ポイント表示
+        ShowPoint();
+}
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // ポイント表示
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function ShowPoint(){
+        SKLL_P = HPBS_P + TPBS_P + DFBS_P + SHMS_P
+               + CUR1_P + CUR2_P + PRVK_P + RSLT_P
+               + FTGD_P + BKGD_P + PRRY_P + ATGD_P
+               + MXDF_P + DFFM_P + FRGD_P + FZGD_P
+               + SKGD_P + SDSM_P + RNWY_P + CTWK_P
+               + DIGG_P;
+        showMsg();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+     //コントロール関連
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // clear
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function Clear(){
+        // スキルポイントを0に初期化
+        HPBS_P = TPBS_P = DFBS_P = SHMS_P = CUR1_P 
+               = CUR2_P = PRVK_P = RSLT_P = FTGD_P 
+               = BKGD_P = PRRY_P = ATGD_P = MXDF_P 
+               = DFFM_P = FRGD_P = FZGD_P = SKGD_P 
+               = SDSM_P = RNWY_P = CTWK_P = DIGG_P
+               = 0;
+        // 引退ボーナス、スキルポイント合計を初期化
+        RTRE_P = SKLL_P = 0;
+        // 各スキル再計算
+        HPBS_F(); TPBS_F(); DFBS_F(); SHMS_F(); 
+        CUR1_F(); CUR2_F(); PRVK_F(); RSLT_F(); 
+        FTGD_F(); BKGD_F(); PRRY_F(); ATGD_F(); 
+        MXDF_F(); DFFM_F(); FRGD_F(); FZGD_F(); 
+        SKGD_F(); SDSM_F(); RNWY_F(); CTWK_F(); 
+        DIGG_F();
+        // 名前と引退ボーナス初期化
+        document.Msg.chrName.value = "";
+        document.Msg.Retire.value = 0;
+        // ポイント表示
+        ShowPoint();
+        setAlertLayer("全てのポイントをクリアしました。",1);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 保存
+    //   引数：mode クッキーのモード
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function Save(mode){
+        // 保持内容
+        var tdata = new Array(24);
+        tdata[0]  = HPBS_P;    // HPブースト
+        tdata[1]  = TPBS_P;    // TPブースト
+        tdata[2]  = DFBS_P;    // DEFブースト
+        tdata[3]  = SHMS_P;    // 盾マスタリー
+        tdata[4]  = CUR1_P;    // キュア
+        tdata[5]  = CUR2_P;    // キュアⅡ
+        tdata[6]  = PRVK_P;    // 挑発
+        tdata[7]  = RSLT_P;    // 決死の覚悟
+        tdata[8]  = FTGD_P;    // フロントガード
+        tdata[9]  = BKGD_P;    // バックガード
+        tdata[10] = PRRY_P;    // パリング
+        tdata[11] = ATGD_P;    // オートガード
+        tdata[12] = MXDF_P;    // 渾身ディフェンス
+        tdata[13] = DFFM_P;    // 防御陣形
+        tdata[14] = FRGD_P;    // ファイアガード
+        tdata[15] = FZGD_P;    // フリーズガード
+        tdata[16] = SKGD_P;    // ショックガード
+        tdata[17] = SDSM_P;    // シールドスマイト
+        tdata[18] = RNWY_P;    // 猛進逃走
+        tdata[19] = CTWK_P;    // 警戒歩行
+        tdata[20] = DIGG_P;    // 採掘
+        tdata[21] = RETR_P;    // 引退ボーナス
+        tdata[22] = CHAR_N;    // 名前
+        tdata[23] = 11;
+
+        code = encode(tdata,ver);
+
+        if( mode == "scode" ) {
+            return code;
+        }
+        if( mode == "cookie" ) {
+            Save2(code);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Load
+    //   引数：mode クッキーのモード
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    function Load(mode){
+        // クッキーからロードする
+        code = loadType(mode);
+        if( code ) {
+            // デコードする
+            tdata = decode(code,ver);
+
+            HPBS_P = tdata[0] ;    // HPブースト
+            TPBS_P = tdata[1] ;    // TPブースト
+            DFBS_P = tdata[2] ;    // DEFブースト
+            SHMS_P = tdata[3] ;    // 盾マスタリー
+            CUR1_P = tdata[4] ;    // キュア
+            CUR2_P = tdata[5] ;    // キュアⅡ
+            PRVK_P = tdata[6] ;    // 挑発
+            RSLT_P = tdata[7] ;    // 決死の覚悟
+            FTGD_P = tdata[8] ;    // フロントガード
+            BKGD_P = tdata[9] ;    // バックガード
+            PRRY_P = tdata[10];    // パリング
+            ATGD_P = tdata[11];    // オートガード
+            MXDF_P = tdata[12];    // 渾身ディフェンス
+            DFFM_P = tdata[13];    // 防御陣形
+            FRGD_P = tdata[14];    // ファイアガード
+            FZGD_P = tdata[15];    // フリーズガード
+            SKGD_P = tdata[16];    // ショックガード
+            SDSM_P = tdata[17];    // シールドスマイト
+            RNWY_P = tdata[18];    // 猛進逃走
+            CTWK_P = tdata[19];    // 警戒歩行
+            DIGG_P = tdata[20];    // 採掘
+            RETR_P = tdata[21];    // 引退ボーナス
+        }
+        document.Msg.Retire.value = RETR_P;
+
+        HPBS_F(); TPBS_F(); DFBS_F(); SHMS_F(); 
+        CUR1_F(); CUR2_F(); PRVK_F(); RSLT_F(); 
+        FTGD_F(); BKGD_F(); PRRY_F(); ATGD_F(); 
+        MXDF_F(); DFFM_F(); FRGD_F(); FZGD_F(); 
+        SKGD_F(); SDSM_F(); RNWY_F(); CTWK_F(); 
+        DIGG_F();
+
+        // ポイント表示
+        ShowPoint();
+    }
+    // -->
+  </script>
+
+</head>
+
+<body onLoad="Init()">
+
+<div id="skill"style="position:absolute; z-index:1;"></div>
+
+<div style="position:absolute; top:10px; left:24px; width:760px; line-height:22px;">
+  <form name="Msg">
+    <nobr>
+      ポイント <input type="text" name="expMsg" id="expMsgID" size=20 value=" Loading..." readonly>　
+      名前 <input type="text" name="chrName" size=10 value="" maxlength=10 title="セーブスロットに名前がつきます">　
+      引退ボーナス 
+      <select name="Retire" onChange="ShowPoint();">
+        <option value="0" selected>0 (引退無し)
+        <option value="2">+2 (Lv30-39)
+        <option value="3">+3 (Lv40-49)
+        <option value="4">+4 (Lv50-59)
+        <option value="5">+5 (Lv60-69)
+        <option value="6">+6 (Lv70)
+      </select>　
+      セーブ 
+      <select name="Slot">
+        <option value="1" selected>Slot1 : no Save Data
+        <option value="2">Slot2 : no Save Data
+        <option value="3">Slot3 : no Save Data
+        <option value="4">Slot4 : no Save Data
+        <option value="5">Slot5 : no Save Data
+      </select>
+    </nobr>
+    <input type="hidden" name="scode" value="">
+    <div align=right>
+      <span style="color:#000066;"><u>
+        <a class="con" href="JavaScript:Save('cookie');" title="Cookieに今の状態をセーブ">Save</a>　
+        <a class="con" href="JavaScript:Load('cookie');" title="Cookieからロード">Load</a>　
+        <a class="con" href="JavaScript:Clear();" title="スキルポイントをリセット">Clear</a>　
+        <a class="con" href="JavaScript:DeleteCookie();" title="セーブスロットを消去">DeleteSlot</a>
+      </span>
+    </div>
+  </form>
+</div>
+
+
+<!-- Paladin -->
+
+<!-- 盾マスタリー -->
+<table class="job" cellspacing=0 cellpadding=0 id="SHMS" style="position:absolute; top:55px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[3]')" onmouseout="offLayer()">盾マスタリー</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="SHMS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- TPブースト -->
+<table class="job" cellspacing=0 cellpadding=0 id="TPBS" style="position:absolute; top:235px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'PldSkill[1]')" onmouseout="offLayer()">TPブースト</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="TPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr><
+/table>
+
+<!-- DEFブースト -->
+<table class="job" cellspacing=0 cellpadding=0 id="DFBS" style="position:absolute; top:295px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'PldSkill[2]')" onmouseout="offLayer()">DEFブースト</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="DFBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr><
+/table>
+
+<!-- HPブースト -->
+<table class="job" cellspacing=0 cellpadding=0 id="HPBS" style="position:absolute; top:505px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'PldSkill[0]')" onmouseout="offLayer()">HPブースト</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="HPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- 採掘 -->
+<table class="job" cellspacing=0 cellpadding=0 id="DIGG" style="position:absolute; top:565px; left:23px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[20]')" onmouseout="offLayer()">採掘</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="DIGG_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- フロントガード -->
+<table class="job" cellspacing=0 cellpadding=0 id="FTGD" style="position:absolute; top:85px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,135,'PldSkill[8]',FTGD_P)" onmouseout="offLayer()">フロントガード</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="FTGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- バックガード -->
+<table class="job" cellspacing=0 cellpadding=0 id="BKGD" style="position:absolute; top:115px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,135,'PldSkill[9]',BKGD_P)" onmouseout="offLayer()">バックガード</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="BKGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- ファイアガード -->
+<table class="job" cellspacing=0 cellpadding=0 id="FRGD" style="position:absolute; top:145px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'PldSkill[14]',FRGD_P)" onmouseout="offLayer()">ファイアガード</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="FRGD_IN" src="../../data/other/bar/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- フリーズガード -->
+<table class="job" cellspacing=0 cellpadding=0 id="FZGD" style="position:absolute; top:175px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'PldSkill[15]',FZGD_P)" onmouseout="offLayer()">フリーズガード</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="FZGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- ショックガード -->
+<table class="job" cellspacing=0 cellpadding=0 id="SKGD" style="position:absolute; top:205px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'PldSkill[16]',SKGD_P)" onmouseout="offLayer()">ショックガード</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="SKGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- 渾身ディフェンス -->
+<table class="job" cellspacing=0 cellpadding=0 id="MXDF" style="position:absolute; top:295px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'PldSkill[12]',MXDF_P)" onmouseout="offLayer()">渾身ディフェンス</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="MXDF_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- オートガード -->
+<table class="job" cellspacing=0 cellpadding=0 id="ATGD" style="position:absolute; top:325px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[11]')" onmouseout="offLayer()">オートガード</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="ATGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- 挑発 -->
+<table class="job" cellspacing=0 cellpadding=0 id="PRVK" style="position:absolute; top:355px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,180,'PldSkill[6]',PRVK_P)" onmouseout="offLayer()">挑発</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="PRVK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- パリング -->
+<table class="job" cellspacing=0 cellpadding=0 id="PRRY" style="position:absolute; top:385px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,165,'PldSkill[10]',PRRY_P)" onmouseout="offLayer()">パリング</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="PRRY_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- 猛進逃走 -->
+<table class="job" cellspacing=0 cellpadding=0 id="RNWY" style="position:absolute; top:415px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,165,'PldSkill[18]',RNWY_P)" onmouseout="offLayer()">猛進逃走</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="RNWY_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- 警戒歩行 -->
+<table class="job" cellspacing=0 cellpadding=0 id="CTWK" style="position:absolute; top:445px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,240,'PldSkill[19]',CTWK_P)" onmouseout="offLayer()">警戒歩行</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="CTWK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- 決死の覚悟 -->
+<table class="job" cellspacing=0 cellpadding=0 id="RSLT" style="position:absolute; top:475px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[7]',RSLT_P)" onmouseout="offLayer()">決死の覚悟</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="RSLT_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- キュア -->
+<table class="job" cellspacing=0 cellpadding=0 id="CUR1" style="position:absolute; top:505px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,240,'PldSkill[4]',CUR1_P)" onmouseout="offLayer()">キュア</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="CUR1_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- キュアⅡ -->
+<table class="job" cellspacing=0 cellpadding=0 id="CUR2" style="position:absolute; top:535px; left:223px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,240,'PldSkill[5]',CUR2_P)" onmouseout="offLayer()">キュアⅡ</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="CUR2_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- 防御陣形 -->
+<table class="job" cellspacing=0 cellpadding=0 id="DFFM" style="position:absolute; top:85px; left:423px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[13]',DFFM_P)" onmouseout="offLayer()">防御陣形</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="DFFM_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<!-- シールドスマイト -->
+<table class="job" cellspacing=0 cellpadding=0 id="SDSM" style="position:absolute; top:205px; left:423px;" onmousewheel="return false;">
+  <tr>
+    <td height=16 background="../../data/other/box1.png">
+      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'PldSkill[17]',SDSM_P)" onmouseout="offLayer()">シールドスマイト</div>
+    </td>
+  </tr>
+  <tr>
+    <td height=14 background="../../data/other/box2.png" valign=bottom>
+      <img class="bar" id="SDSM_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
+    </td>
+  </tr>
+</table>
+
+<div id="option1" style="position:absolute; top:0px; left:0px; width:0px; height:0px; background-image:url(../../data/alpha.png);" onclick="JavaScript:offOptionLayer();"></div>
+<div id="option2" style="position:absolute; top:0px; left:0px; width:0px; height:0px;"></div>
+<div id="dummy" style="position:absolute; top:0px; left:0px; width:800px; height:600px; z-index:-1;"></div>
+
+</body>
+</html>
