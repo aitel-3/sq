@@ -42,36 +42,28 @@ function Init() {
     latestSlotNum              = 0;              /*[]-- スロット番号                          --[]*/
     tmp = document.cookie;                       /*[]-- クッキーの値                          --[]*/
     // クッキーの値がある場合
-alert('tmp=' + tmp);
     if(tmp != ""){
         tmp = "; " + tmp;
         // 「; sekai_swd_」が含まれている場合
-        if( tmp.lastIndexOf("; sekai_" + job + "_") != -1){
+        if( tmp.lastIndexOf("; sekai_" + job + "_") != -1 ) {
             // スロット番号取得(1～5)
             latestSlotNum = tmp.charAt(tmp.lastIndexOf("; sekai_" + job + "_") + 12);
         }
         // 「slot1」～「slot5」の場合
-        if(location.search.substring(1).match("slot[1-5]$")){
+        if( location.search.substring(1).match("slot[1-5]$") ) {
             // スロット番号取得(1～5)
             latestSlotNum = location.search.charAt(5);
         }
     }
 
     // スロット番号1～5の場合
-    if(latestSlotNum>0 && latestSlotNum<=5) {
+    if( latestSlotNum > 0 && latestSlotNum <= 5 ) {
         // セーブSlotコンボ設定
         document.Msg.Slot.value = latestSlotNum;
     }
 
-//    // 「slot1」～「slot5」以外の場合
-//    if( location.search.substring(1) && !location.search.substring(1).match("slot[1-5]$") ){
-//        // URLからロード
-//        Load("url");
-//    }
-//    // 「slot1」～「slot5」の場合
-//    else if( !location.search.substring(1) || location.search.substring(1).match("slot[1-5]$") ){
+    // クッキーからロード
     if( !location.search.substring(1) || location.search.substring(1).match("slot[1-5]$") ){
-        // クッキーからロード
         Load("cookie");
     }
 
@@ -107,7 +99,7 @@ alert('tmp=' + tmp);
 /*|   引数  ：key クッキーのキー                                                                 |*/
 /*|   戻り値：クッキーの値（なしの場合空文字）                                                   |*/
 /*[]--------------------------------------------------------------------------------------------[]*/
-function getCookie(key){
+function getCookie(key) {
     tmp1 = " " + document.cookie + ";";
     xx1 = xx2 = 0;
     len = tmp1.length;
@@ -151,17 +143,6 @@ function loadType(mode) {
         }
     }
 
-    if (mode == "url") {
-        code = location.search.substring(1);
-        setAlertLayer("URLからロードします。", 1);
-        document.Msg.scode.value = code;
-    }
-
-    if (mode == "scode") {
-        code = document.Msg.scode.value;
-        setAlertLayer("入力されたコードからロードします。", 1);
-    }
-
     if (mode == "tmp") {
         code = tmpcode;
     }
@@ -175,7 +156,7 @@ function loadType(mode) {
 /*|   引数  ：code デコードされた保存値                                                          |*/
 /*|   戻り値：なし                                                                               |*/
 /*[]--------------------------------------------------------------------------------------------[]*/
-function Save2(code) {
+function SaveCookie(code) {
     // 選択されたスロット番号
     num = document.Msg.Slot.options[document.Msg.Slot.selectedIndex].value;
     // スロット名(Slot1～Slot5)
