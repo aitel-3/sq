@@ -18,7 +18,7 @@
     <!--
     var HPBS_P            // HPブースト
       = TPBS_P            // TPブースト
-      = ATBS_P            // ATCブースト
+      = ATBS_P            // ATKブースト
       = DFBS_P            // DEFブースト
       = SMST_P            // 剣マスタリー
       = AMST_P            // 斧マスタリー
@@ -67,22 +67,22 @@
             Visible("CSHK");
         }
     }
-    // ATCブースト
+    // ATKブースト
     function ATBS_F() {
         Point(ATBS_P, 10, "ATBS_IN");
-        // ATCブーストが3未満の場合、ウォークライを不活性
+        // ATKブーストが3未満の場合、ウォークライを不活性
         if( ATBS_P < 3 ) {
             Disable("WCRY"); if( WCRY_P > 0 ) { WCRY_P=0; WCRY_F(); }
         }
-        // ATCブーストが3以上の場合、ウォークライを活性
+        // ATKブーストが3以上の場合、ウォークライを活性
         if( ATBS_P >= 3 ) {
             Visible("WCRY");
         }
-        // ATCブーストが10未満の場合、ヘルズクライを不活性
+        // ATKブーストが10未満の場合、ヘルズクライを不活性
         if( ATBS_P < 10 ) {
             Disable("HCRY"); if( HCRY_P > 0 ) { HCRY_P=0; HCRY_F(); }
         }
-        // ATCブーストが10以上の場合、ヘルズクライを活性
+        // ATKブーストが10以上の場合、ヘルズクライを活性
         if( ATBS_P >= 10 ) {
             Visible("HCRY");
         }
@@ -183,9 +183,9 @@
     // ウォークライ
     function WCRY_F() {
         Point(WCRY_P, 10, "WCRY_IN");
-        // ATCブーストが3未満の場合かつウォークライが0より上の場合
+        // ATKブーストが3未満の場合かつウォークライが0より上の場合
         if( ATBS_P < 3 && WCRY_P > 0 ) {
-            // ATCブーストを3にする
+            // ATKブーストを3にする
             ATBS_P = 3;
             Visible("WCRY");
             ATBS_F();
@@ -194,9 +194,9 @@
     // ヘルズクライ
     function HCRY_F() {
         Point(HCRY_P, 10, "HCRY_IN");
-        // ATCブーストが10未満の場合かつヘルズクライが0より上の場合
+        // ATKブーストが10未満の場合かつヘルズクライが0より上の場合
         if( ATBS_P < 10 && HCRY_P > 0 ) {
-            // ATCブーストを10にする
+            // ATKブーストを10にする
             ATBS_P=10;
             Visible("HCRY");
             ATBS_F();
@@ -387,7 +387,7 @@
     function setPoint(parts,point) {
         if( parts == "HPBS" ) { if( point >= 0 && point <= 10 ) HPBS_P=point; HPBS_F(); }    // HPブースト
         if( parts == "TPBS" ) { if( point >= 0 && point <= 10 ) TPBS_P=point; TPBS_F(); }    // TPブースト
-        if( parts == "ATBS" ) { if( point >= 0 && point <= 10 ) ATBS_P=point; ATBS_F(); }    // ATCブースト
+        if( parts == "ATBS" ) { if( point >= 0 && point <= 10 ) ATBS_P=point; ATBS_F(); }    // ATKブースト
         if( parts == "DFBS" ) { if( point >= 0 && point <= 10 ) DFBS_P=point; DFBS_F(); }    // DEFブースト
         if( parts == "SMST" ) { if( point >= 0 && point <= 10 ) SMST_P=point; SMST_F(); }    // 剣マスタリー
         if( parts == "AMST" ) { if( point >= 0 && point <= 10 ) AMST_P=point; AMST_F(); }    // 斧マスタリー
@@ -464,7 +464,7 @@
         var tdata = new Array(24);
         tdata[0]  = HPBS_P;    // HPブースト
         tdata[1]  = TPBS_P;    // TPブースト
-        tdata[2]  = ATBS_P;    // ATCブースト
+        tdata[2]  = ATBS_P;    // ATKブースト
         tdata[3]  = DFBS_P;    // DEFブースト
         tdata[4]  = SMST_P;    // 剣マスタリー
         tdata[5]  = AMST_P;    // 斧マスタリー
@@ -493,7 +493,7 @@
             return code;
         }
         if( mode == "cookie" ) {
-            Save2(code);
+            SaveCookie(code);
         }
     }
 
@@ -510,7 +510,7 @@
 
             HPBS_P = tdata[0] ;    // HPブースト
             TPBS_P = tdata[1] ;    // TPブースト
-            ATBS_P = tdata[2] ;    // ATCブースト
+            ATBS_P = tdata[2] ;    // ATKブースト
             DFBS_P = tdata[3] ;    // DEFブースト
             SMST_P = tdata[4] ;    // 剣マスタリー
             AMST_P = tdata[5] ;    // 斧マスタリー
