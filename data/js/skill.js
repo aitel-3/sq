@@ -42,12 +42,13 @@ function Init() {
     latestSlotNum              = 0;              /*[]-- スロット番号                          --[]*/
     tmp = document.cookie;                       /*[]-- クッキーの値                          --[]*/
     // クッキーの値がある場合
+alert('tmp=' + tmp);
     if(tmp != ""){
         tmp = "; " + tmp;
         // 「; sekai_swd_」が含まれている場合
-        if( tmp.lastIndexOf("; sekai_"+job+"_") != -1){
+        if( tmp.lastIndexOf("; sekai_" + job + "_") != -1){
             // スロット番号取得(1～5)
-            latestSlotNum = tmp.charAt(tmp.lastIndexOf("; sekai_"+job+"_")+12);
+            latestSlotNum = tmp.charAt(tmp.lastIndexOf("; sekai_" + job + "_") + 12);
         }
         // 「slot1」～「slot5」の場合
         if(location.search.substring(1).match("slot[1-5]$")){
@@ -62,17 +63,17 @@ function Init() {
         document.Msg.Slot.value = latestSlotNum;
     }
 
-    // 「slot1」～「slot5」以外の場合
-    if( location.search.substring(1) && !location.search.substring(1).match("slot[1-5]$") ){
-        // URLからロード
-        Load("url");
-    }
-    // 「slot1」～「slot5」の場合
-    else if( !location.search.substring(1) || location.search.substring(1).match("slot[1-5]$") ){
+//    // 「slot1」～「slot5」以外の場合
+//    if( location.search.substring(1) && !location.search.substring(1).match("slot[1-5]$") ){
+//        // URLからロード
+//        Load("url");
+//    }
+//    // 「slot1」～「slot5」の場合
+//    else if( !location.search.substring(1) || location.search.substring(1).match("slot[1-5]$") ){
+    if( !location.search.substring(1) || location.search.substring(1).match("slot[1-5]$") ){
         // クッキーからロード
         Load("cookie");
     }
-
 
     // Saveスロット数分クッキーから値を取得
     for( idx = 1; idx <= document.Msg.Slot.options.length; idx++ ) {
@@ -512,15 +513,15 @@ function setLayer(posX, posY, Width, Height, SkillTxt, SkillP) {
 /*|   戻り値：なし                                                                               |*/
 /*[]--------------------------------------------------------------------------------------------[]*/
 function offLayer() {
-	document.getElementById("skill").style.width           = 0;
-	document.getElementById("skill").style.height          = 0;
-	document.getElementById("skill").innerHTML             = "";
-	document.getElementById("skill").style.backgroundColor = "transparent";
-	document.getElementById("skill").style.border          = 0;
+    document.getElementById("skill").style.width           = 0;
+    document.getElementById("skill").style.height          = 0;
+    document.getElementById("skill").innerHTML             = "";
+    document.getElementById("skill").style.backgroundColor = "transparent";
+    document.getElementById("skill").style.border          = 0;
 }
 
 /*[]--------------------------------------------------------------------------------------------[]*/
-/*| ヘルプ表示                                                                                   |*/
+/*| スキルポイント表示(クリック対応)                                                             |*/
 /*|                                                                                              |*/
 /*|   引数  ：x     this.id                                                                      |*/
 /*|           y     水平座標                                                                     |*/
@@ -542,7 +543,7 @@ function prp(x, y, z) {
 }
 
 /*[]--------------------------------------------------------------------------------------------[]*/
-/*| ヘルプ表示                                                                                   |*/
+/*| スキルポイント表示(MouseWheel対応)                                                           |*/
 /*|                                                                                              |*/
 /*|   引数  ：x     this.id                                                                      |*/
 /*|           y     2                                                                            |*/
@@ -551,20 +552,18 @@ function prp(x, y, z) {
 function und(x, y) {
 
     if( y == 2 ) {
+        // 移動量を＋方向に１する
         if( event.wheelDelta <= -120 ) {
             y = 1;
         }
+        // 移動量を－方向に１する
         else {
             y = -1;
         }
     }
 
-    if(window.opera){
-        tmp = x.substring(0,4);
-        setPoint(tmp,0);
-    } else {
-        tmp = x.substring(0,4);
-        setPoint(tmp,eval(tmp + "_P") + y);
-    }
+    // ポイント表示
+    tmp = x.substring(0,4);
+    setPoint(tmp,eval(tmp + "_P") + y);
 }
 
