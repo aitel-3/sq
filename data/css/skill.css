@@ -1,143 +1,220 @@
-body{
-	padding-left:20px;
-	padding-right:20px;
-	font-size:12px;
-	font-family:MS UI GOTHIC;
-	background-color:#bbddff;
-	background-repeat:no-repeat;
-	scrollbar-track-color:#bbddff;
-	scrollbar-face-color:#bbddff;
-	scrollbar-arrow-color:#333333;
-	scrollbar-3dlight-color:#bbddff;
-	scrollbar-darkshadow-color:#bbddff;
-	scrollbar-highlight-color:#333333;
-	scrollbar-shadow-color:#333333;
-	overflow:auto;
-	color:#333333;
-	line-height:1.7em;
-}
-div{
-	line-height:normal;
-}
-div.alert{
-	color:#0B102D;
-	font-size:12px;
-	font-family:"MS UI Gothic";
-}
-div.help{
-	font-family:"MS UI Gothic";
-	font-size:12px;
-	cursor:help;
-	overflow:hidden;
-	width:120px;
-	height:13px;
-	text-align:center;
-}
-div.sn{
-	font-family:"ＭＳ Ｐ明朝";
-	font-size:16px;
-	font-weight:bold;
-	height:22px;
-}
-div.st{
-	font-family:"MS UI Gothic";
-	position:absolute;
-	right:10px;
-	top:10px;
-	font-size:12px;
-	color:#006688;
-}
-table.job{
-	background-color:#3f6fbf;
-	color:#8fffff;
-	height:30px;
-	width:128px;
-}
-img.bar{
-	width:120px;
-	height:14px;
-}
-td{
-	background-color:transparent;
-}
-a{
-	color:#4422ff;
-}
-a:visited {
-	color:#4422ff;
-}
-a:hover{
-	color:#ff0033;
-}
-a.con{
-	color:#000066;
-	font-size:11px;
-	font-weight:bold;
-}
-a.con:visited{
-	color:#000066;
-	font-size:11px;
-	font-weight:bold;
-}
-a.con:hover{
-	color:#ff0033;
-	font-size:11px;
-	font-weight:bold;
-}
-input{
-	font-size:13px;
-	border-style:solid;
-	border-width:1px 1px 1px 1px;
-	border-color:#000000;
-	background-color:#ffffff;
-	color:#000000;
-}
-select{
-	background-color:#ffffff;
-	color:#000000;
-}
-input.btn{
-	font-size:12px;
-	border-style:solid;
-	border-width:1px 1px 1px 1px;
-	padding:0px 0px 0px 0px;
-}
-input.con{
-	font-size:13px;
-	border:solid 0px;
-}
-textarea{
-	padding:2px;
-	font-size:12px;
-	border:solid 1px;
-	scrollbar-track-color:#bbddff;
-	scrollbar-face-color:#bbddff;
-	scrollbar-arrow-color:#333333;
-	scrollbar-3dlight-color:#bbddff;
-	scrollbar-darkshadow-color:#bbddff;
-	scrollbar-highlight-color:#333333;
-	scrollbar-shadow-color:#333333;
-	overflow:auto;
-	color:#000000;
-	background-color:#ffffff;
+/*[]----------------------------------------------[]*/
+/*| スキル                                         |*/
+/*[]----------------------------------------------[]*/
+.skill {
+  background-color           : #3f6fbf;
+  color                      : #8fffff;
+  height                     : 30px;
+  width                      : 130px;
+  border-radius: 6px;
 }
 
-table.lst{
-	background-color: #bbddff;
-	border: solid;
-	border-color: #333333;
-	border-width:1px 0px 0px 1px;
-	table-layout: fixed;
+/*[]----------------------------------------------[]*/
+/*| スキル - タイトル部                            |*/
+/*[]----------------------------------------------[]*/
+.skill-title {
+  font-size: 10px;
+  font-weight: bold;
+  color: #00faff;
+  width: 130px;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
 }
 
-td.lst,th.lst{
-	padding:4px;
-	text-align:center;
-	font-size:13px;
-	border: solid;
-	border-color: #333333;
-	border-width:0px 1px 1px 0px;
+/*[]----------------------------------------------[]*/
+/*| スキル - バー部                                |*/
+/*[]----------------------------------------------[]*/
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 1px 0;
+  user-select: none;
+  pointer-events: auto;
+  position:relative;
+  left:6px;
+  z-index: 1;
 }
-span.wk{
-	font-family:"ＭＳ ゴシック";
+
+/*[]----------------------------------------------[]*/
+/*| スキル - 箱部                                  |*/
+/*[]----------------------------------------------[]*/
+.boxes {
+  display: flex;
+  gap: 1px;
+  pointer-events: auto;
+  position:relative;
+  z-index: 1;
+}
+
+.box {
+  width: 5px;
+  height: 5px;
+  border: 1px solid #999;
+  background: #fff;
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.box.active {
+  background: #00faff;
+  box-shadow: 0 0 8px #00faff;
+}
+
+.box.zero {
+  background: #222222;
+  box-shadow: 0 0 8px #00faff;
+}
+
+/*[]----------------------------------------------[]*/
+/*| スキル - Lv表示部                              |*/
+/*[]----------------------------------------------[]*/
+.level-display {
+  font-size: 10px;
+  width: 30px;
+}
+
+/*[]----------------------------------------------[]*/
+/*| メニュー部                                     |*/
+/*[]----------------------------------------------[]*/
+.table {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.table form {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.table:first-of-type {
+  justify-content: flex-start;
+}
+.table:last-of-type {
+  justify-content: flex-end;
+}
+
+/*[]----------------------------------------------[]*/
+/*| メニュー部 - グループ化                        |*/
+/*[]----------------------------------------------[]*/
+.pair {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 3px;
+  border: 1px solid #c400ff55;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
+}
+
+/*[]----------------------------------------------[]*/
+/*| メニュー部 - ラベル                            |*/
+/*[]----------------------------------------------[]*/
+.label {
+  background: #c400ff22;        /* ラベル：蛍光ブルー系 */
+  border: 1px solid #c400ff;    /* ラベルの枠線 */
+  padding: 2px 3px;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+/*[]----------------------------------------------[]*/
+/*| メニュー部 - 値                                |*/
+/*[]----------------------------------------------[]*/
+.value {
+  background: rgba(0, 0, 0, 0.45);   /* 暗めの黒ガラス */
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 2px 3px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 10px;
+}
+.value2 {
+  background: rgba(0, 0, 0, 0.45);   /* 暗めの黒ガラス */
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 2px 3px;
+  border-radius: 3px;
+  color: #fff;
+  width: 20px;
+  font-size: 10px;
+  text-align: right;
+}
+
+/*[]----------------------------------------------[]*/
+/*| リンクボタン                                   |*/
+/*[]----------------------------------------------[]*/
+/* ガラスボタン */
+.glass-btn {
+  display: inline-block;
+  padding: 2px 5px;
+  font-size: 10px;
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  position: relative;
+
+  /* 紫ガラスの本体（透明感を保つ） */
+  background: rgba(150, 60, 200, 0.15); /* ← 紫ガラス色 */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* ガラスの縁も紫寄りに */
+  border: 2px solid rgba(200, 120, 255, 0.4);
+
+  /* ネオンなし */
+  box-shadow: none;
+
+  transition: 0.25s ease;
+}
+/* ガラスの反射（透明感のハイライト） */
+.glass-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.45),
+    rgba(255,255,255,0)
+  );
+  pointer-events: none;
+}
+/* 内側の発光なし（完全ガラス） */
+.glass-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: none;
+  pointer-events: none;
+}
+/* 押した時の沈み込み */
+.glass-btn:active {
+  transform: translateY(6px);
+}
+
+/*[]----------------------------------------------[]*/
+/*| 罫線 - 横                                      |*/
+/*[]----------------------------------------------[]*/
+.line_hor {
+  height: 2px;
+  background: #000000;
+}
+
+/*[]----------------------------------------------[]*/
+/*| 罫線 - 縦                                      |*/
+/*[]----------------------------------------------[]*/
+.line_ver {
+  width: 2px;
+  background: #000000;
 }
