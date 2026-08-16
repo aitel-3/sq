@@ -4,869 +4,1083 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <link id="csslink" rel=stylesheet href="../../data/css/skill.css" type="text/css">
   <title>Swordman Skill Tree</title>
-  <style>
-    <!--
-    body    { font-size         : 9pt;
-              background-image  : url(../../data/other/back_swd.png);
-              background-repeat : no-repeat;
-            }
-    // -->
-  </style>
   <script language="JavaScript" src="../../data/js/skill.js"></script>
-  <script language="JavaScript" src="../../data/js/skilllist.js"></script>
-  <script language="JavaScript">
+  <script>
     <!--
-    var HPBS_P            // HPブースト
-      = TPBS_P            // TPブースト
-      = ATBS_P            // ATKブースト
-      = DFBS_P            // DEFブースト
-      = SMST_P            // 剣マスタリー
-      = AMST_P            // 斧マスタリー
-      = WCRY_P            // ウォークライ
-      = HCRY_P            // ヘルズクライ
-      = WATK_P            // ダブルアタック
-      = ARMR_P            // アームリカバリー
-      = MSTS_P            // 猛進逃走
-      = RGSL_P            // レイジングエッジ
-      = TRND_P            // トルネード
-      = HYBS_P            // ハヤブサ駆け
-      = CFIR_P            // チェイスファイア
-      = CFRZ_P            // チェイスフリーズ
-      = CSHK_P            // チェイスショック
-      = PWCR_P            // パワークラッシュ
-      = STSM_P            // スタンスマッシュ
-      = HDBS_P            // ヘッドバッシュ
-      = DIGG_P            // 採掘
+    /*[]----------------------------------------------[]*/
+    /*| 初期化                                         |*/
+    /*[]----------------------------------------------[]*/
+    var SDMST_P        // 剣マスタリー
+      = AXMST_P        // 斧マスタリー
+      = RGEDG_P        // レイジングエッジ
+      = PWCRS_P        // パワークラッシュ
+      = DBATK_P        // ダブルアタック
+      = STSMA_P        // スタンスマッシュ
+      = HDBAS_P        // ヘッドバッシュ
+      = TORND_P        // トルネード
+      = HPBST_P        // HPブースト
+      = FALSH_P        // ハヤブサ駆け
+      = CHSFR_P        // チェイスファイア
+      = CHSFZ_P        // チェイスフリーズ
+      = CHSKK_P        // チェイスショック
+      = TPBST_P        // TPブースト
+      = ATBST_P        // ATKブースト
+      = WRCRY_P        // ウォークライ
+      = HLCRY_P        // ヘルズクライ
+      = DFBST_P        // DEFブースト
+      = ARMRC_P        // アームリカバリー
+      = FLSPD_P        // 猛進逃走
+      = MNING_P        // 採掘
       = 0;
-    var RETR_P            // 引退ボーナス
-      = SKLL_P            // スキルポイント
-      = CHAR_N            // 名前
+    var RTIRE_P        // 引退ポイント
+      = SKILL_P        // スキルポイント
+      = CHAR_NM        // 名前
       = 0;
-    var ver = "20";       // コードVer
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 各スキルの条件
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // HPブースト
-    function HPBS_F() {
-        Point(HPBS_P, 10, "HPBS_IN");
-    }
-    // TPブースト
-    function TPBS_F() {
-        Point(TPBS_P, 10, "TPBS_IN");
-        // TPブーストが3未満の場合、チェイス系不活性
-        if( TPBS_P < 3 ) {
-            Disable("CFIR"); if( CFIR_P > 0 ) { CFIR_P=0; CFIR_F(); }
-            Disable("CFRZ"); if( CFRZ_P > 0 ) { CFRZ_P=0; CFRZ_F(); }
-            Disable("CSHK"); if( CSHK_P > 0 ) { CSHK_P=0; CSHK_F(); }
+    /*[]----------------------------------------------[]*/
+    /*| 斧マスタリー                                   |*/
+    /*[]----------------------------------------------[]*/
+    function AXMST_F(bar) {
+console.log("AXMST_F() AXMST_P=[" + AXMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("AXMST",AXMST_P);
+        if( AXMST_P < 1 ) {
+            Disable("PWCRS");
+            if( PWCRS_P > 0 ) { PWCRS_P = 0; statusValues.set(bar, 0); PWCRS_F(bar); }
         }
-        // TPブーストが3以上かつ剣マスタリーが7以上の場合、チェイス系活性
-        if( TPBS_P >= 3 && SMST_P >= 7 ) {
-            Visible("CFIR");
-            Visible("CFRZ");
-            Visible("CSHK");
+        if( AXMST_P >= 1 ) {
+            Visible("PWCRS");
         }
-    }
-    // ATKブースト
-    function ATBS_F() {
-        Point(ATBS_P, 10, "ATBS_IN");
-        // ATKブーストが3未満の場合、ウォークライを不活性
-        if( ATBS_P < 3 ) {
-            Disable("WCRY"); if( WCRY_P > 0 ) { WCRY_P=0; WCRY_F(); }
+        if( AXMST_P < 3 ) {
+            Disable("STSMA");
+            if( STSMA_P > 0 ) { STSMA_P = 0; statusValues.set(bar, 0); STSMA_F(bar); }
         }
-        // ATKブーストが3以上の場合、ウォークライを活性
-        if( ATBS_P >= 3 ) {
-            Visible("WCRY");
+        if( AXMST_P >= 3 ) {
+            Visible("STSMA");
         }
-        // ATKブーストが10未満の場合、ヘルズクライを不活性
-        if( ATBS_P < 10 ) {
-            Disable("HCRY"); if( HCRY_P > 0 ) { HCRY_P=0; HCRY_F(); }
+        if( AXMST_P < 5 ) {
+            Disable("DBATK");
+            if( DBATK_P > 0 ) { DBATK_P = 0; statusValues.set(bar, 0); DBATK_F(bar); }
         }
-        // ATKブーストが10以上の場合、ヘルズクライを活性
-        if( ATBS_P >= 10 ) {
-            Visible("HCRY");
+        if( AXMST >= 5 && SDMST >= 5 ) {
+            Visible("DBATK");
         }
-    }
-    // DEFブースト
-    function DFBS_F() {
-        Point(DFBS_P, 10, "DFBS_IN");
-        // DEFブーストが1未満の場合、アームリカバリーを不活性
-        if( DFBS_P < 1 ) {
-            Disable("ARMR"); if( ARMR_P > 0 ) { ARMR_P=0; ARMR_F(); }
+        if( AXMST_P < 7 ) {
+            Disable("HDBAS");
+            if( HDBAS_P > 0 ) { HDBAS_P = 0; statusValues.set(bar, 0); HDBAS_F(bar); }
         }
-        // DEFブーストが1以上の場合、アームリカバリーを活性
-        if( DFBS_P >= 1 ) {
-            Visible("ARMR");
+        if( AXMST_P >= 7 ) {
+            Visible("HDBAS");
         }
-        // DEFブーストが5未満の場合、猛進逃走を不活性
-        if( DFBS_P < 5 ) {
-            Disable("MSTS"); if( MSTS_P > 0 ) { MSTS_P=0; MSTS_F(); }
-        }
-        // DEFブーストが5以上の場合、猛進逃走を活性
-        if( DFBS_P >= 5 ) {
-            Visible("MSTS");
-        }
-    }
-    // 剣マスタリー
-    function SMST_F() {
-        Point( SMST_P, 10, "SMST_IN");
-        // 剣マスタリーが1未満の場合、レイジングエッジ不活性
-        if( SMST_P < 1 ) {
-            Disable("RGSL"); if( RGSL_P > 0 ) { RGSL_P=0; RGSL_F(); }
-        }
-        // 剣マスタリーが1以上の場合、レイジングエッジ活性
-        if(SMST_P>=1){
-            Visible("RGSL");
-        }
-        // 剣マスタリーが5未満の場合、トルネード、ダブルアタックを不活性
-        if(SMST_P<5){
-            Disable("TRND"); if( TRND_P > 0 ) { TRND_P=0; TRND_F(); }
-            Disable("WATK"); if( WATK_P > 0 ) { WATK_P=0; WATK_F(); }
-        }
-        // 剣マスタリーが5以上の場合、トルネードを活性
-        if( SMST_P >= 5 ) {
-            Visible("TRND");
-        }
-        // 剣マスタリーが5以上かつ斧マスタリーが5以上の場合、ダブルアタックを活性
-        if( SMST_P >= 5 && AMST_P >= 5 ) {
-            Visible("WATK");
-        }
-        // 剣マスタリーが7未満の場合、チェイス系不活性
-        if( SMST_P < 7 ) {
-            Disable("CFIR"); if( CFIR_P > 0 ) { CFIR_P=0; CFIR_F(); }
-            Disable("CFRZ"); if( CFRZ_P > 0 ) { CFRZ_P=0; CFRZ_F(); }
-            Disable("CSHK"); if( CSHK_P > 0 ) { CSHK_P=0; CSHK_F(); }
-        }
-        // 剣マスタリーが7以上かつTPブーストが3以上の場合、チェイス系を活性
-        if( SMST_P >= 7 && TPBS_P >= 3 ) {
-            Visible("CFIR");
-            Visible("CFRZ");
-            Visible("CSHK");
-        }
-    }
-    // 斧マスタリー
-    function AMST_F(){
-        Point(AMST_P, 10, "AMST_IN");
-        // 斧マスタリーが1未満の場合、パワークラッシュを不活性
-        if( AMST_P < 1 ) {
-            Disable("PWCR"); if( PWCR_P > 0 ) { PWCR_P=0; PWCR_F(); }
-        }
-        // 斧マスタリーが1以上の場合、パワークラッシュを活性
-        if( AMST_P >= 1 ) {
-            Visible("PWCR");
-        }
-        // 斧マスタリーが3未満の場合、スタンスマッシュを不活性
-        if(AMST_P<3){
-            Disable("STSM"); if( STSM_P > 0 ) { STSM_P=0; STSM_F(); }
-        }
-        // 斧マスタリーが3以上の場合、スタンスマッシュを活性
-        if( AMST_P >= 3 ) {
-            Visible("STSM");
-        }
-        // 斧マスタリーが5未満の場合、ダブルアタックを不活性
-        if( AMST_P < 5 ) {
-            Disable("WATK"); if( WATK_P > 0 ) { WATK_P=0; WATK_F(); }
-        }
-        // 斧マスタリーが5以上かつ剣マスタリーが5以上の場合、ダブルアタックを活性
-        if( AMST_P >= 5 && SMST_P >= 5 ) {
-            Visible("WATK");
-        }
-        // 斧マスタリーが7未満の場合、ヘッドバッシュを不活性
-        if( AMST_P < 7 ) {
-            Disable("HDBS"); if( HDBS_P > 0 ) { HDBS_P=0; HDBS_F(); }
-        }
-        // 斧マスタリーが7以上の場合、ヘッドバッシュを活性
-        if(AMST_P>=7){
-            Visible("HDBS");
-        }
-    }
-    // ウォークライ
-    function WCRY_F() {
-        Point(WCRY_P, 10, "WCRY_IN");
-        // ATKブーストが3未満の場合かつウォークライが0より上の場合
-        if( ATBS_P < 3 && WCRY_P > 0 ) {
-            // ATKブーストを3にする
-            ATBS_P = 3;
-            Visible("WCRY");
-            ATBS_F();
-        }
-    }
-    // ヘルズクライ
-    function HCRY_F() {
-        Point(HCRY_P, 10, "HCRY_IN");
-        // ATKブーストが10未満の場合かつヘルズクライが0より上の場合
-        if( ATBS_P < 10 && HCRY_P > 0 ) {
-            // ATKブーストを10にする
-            ATBS_P=10;
-            Visible("HCRY");
-            ATBS_F();
-        }
-    }
-    // ダブルアタック
-    function WATK_F() {
-        Point(WATK_P, 10, "WATK_IN");
-        // ダブルアタックが3未満の場合、ハヤブサ駆けを不活性
-        if( WATK_P < 3 ) {
-            Disable("HYBS"); if( HYBS_P > 0 ) { HYBS_P=0; HYBS_F(); }
-        }
-        // ダブルアタックが3以上の場合、ハヤブサ駆けを活性
-        if(WATK_P>=3){
-            Visible("HYBS");
-        }
-        // 剣マスタリーが5未満の場合かつダブルアタックが0より上の場合
-        if( SMST_P < 5 && WATK_P > 0 ) {
-            // 剣マスタリーを5にする
-            SMST_P=5;
-            Visible("WATK");
-            SMST_F();
-        }
-        // 斧マスタリーが5未満の場合かつダブルアタックが0より上の場合
-        if( AMST_P < 5 && WATK_P > 0 ) {
-            // 斧マスタリーを5にする
-            AMST_P=5;
-            Visible("WATK");
-            AMST_F();
-        }
-    }
-    // アームリカバリー
-    function ARMR_F() {
-        Point(ARMR_P, 10, "ARMR_IN");
-        //DEFブーストが1未満の場合かつアームリカバリーが0より上の場合
-        if( DFBS_P < 1 && ARMR_P > 0 ) {
-            // DEFブーストを1にする
-            DFBS_P=1;
-            Visible("ARMR");
-            DFBS_F();
-        }
-    }
-    // 猛進逃走
-    function MSTS_F() {
-        Point(MSTS_P, 10, "MSTS_IN");
-        // DEFブーストが5未満の場合かつ猛進逃走が0より上の場合
-        if( DFBS_P < 5 && MSTS_P > 0 ) {
-            // DEFブーストを5にする
-            DFBS_P=5;
-            Visible("MSTS");
-            DFBS_F();
-        }
-    }
-    // レイジングエッジ
-    function RGSL_F() {
-        Point(RGSL_P, 10, "RGSL_IN");
-        // 剣マスタリーが1未満の場合かつレイジングエッジが0より上の場合
-        if( SMST_P < 1 && RGSL_P > 0 ) {
-            // 剣マスタリーを1にする
-            SMST_P=1;
-            Visible("RGSL");
-            SMST_F();
-        }
-    }
-    // トルネード
-    function TRND_F() {
-        Point(TRND_P, 10, "TRND_IN");
-        // 剣マスタリーが5未満の場合かつトルネードが0より上の場合
-        if( SMST_P < 5 && TRND_P > 0 ) {
-            // 剣マスタリーを5にする
-            SMST_P=5;
-            Visible("TRND");
-            SMST_F();
-        }
-    }
-    // ハヤブサ駆け
-    function HYBS_F() {
-        Point(HYBS_P, 10, "HYBS_IN");
-        // ダブルアタックが3未満の場合かつハヤブサ駆けが0より上の場合
-        if( WATK_P < 3 && HYBS_P > 0 ) {
-            // ダブルアタックを3にする
-            WATK_P=3;
-            Visible("HYBS");
-            WATK_F();
-        }
-    }
-    // チェイスファイア
-    function CFIR_F() {
-        Point(CFIR_P, 10, "CFIR_IN");
-        // 剣マスタリーが7未満の場合かつチェイスファイアが0より上の場合
-        if( SMST_P < 7 && CFIR_P > 0 ) {
-            // 剣マスタリーを7にする
-            SMST_P=7;
-            Visible("CFIR");
-            SMST_F();
-        }
-        // TPブーストが3未満の場合かつチェイスファイアが0より上の場合
-        if( TPBS_P < 3 && CFIR_P > 0 ) {
-            // TPブーストを3にする
-            TPBS_P=3;
-            Visible("CFIR");
-            TPBS_F();
-        }
-    }
-    // チェイスフリーズ
-    function CFRZ_F() {
-        Point(CFRZ_P, 10, "CFRZ_IN");
-        // 剣マスタリーが7未満の場合かつチェイスフリーズが0より上の場合
-        if(SMST_P<7 && CFRZ_P>0){
-            // 剣マスタリーを7にする
-            SMST_P=7;
-            Visible("CFRZ");
-            SMST_F();
-        }
-        // TPブーストが3未満の場合かつチェイスフリーズが0より上の場合
-        if( TPBS_P < 3 && CFRZ_P > 0 ) {
-            // TPブーストを3にする
-            TPBS_P=3;
-            Visible("CFRZ");
-            TPBS_F();
-        }
-    }
-    // チェイスショック
-    function CSHK_F() {
-        Point(CSHK_P, 10, "CSHK_IN");
-        // 剣マスタリーが7未満の場合かつチェイスショックが0より上の場合
-        if( SMST_P < 7 && CSHK_P > 0 ) {
-            // 剣マスタリーを7にする
-            SMST_P=7;
-            Visible("CSHK");
-            SMST_F();
-        }
-        // TPブーストが3未満の場合かつチェイスショックが0より上の場合
-        if( TPBS_P < 3 && CSHK_P > 0 ) {
-            // TPブーストを3にする
-            TPBS_P=3;
-            Visible("CSHK");
-            TPBS_F();
-        }
-    }
-    // パワークラッシュ
-    function PWCR_F() {
-        Point(PWCR_P, 10, "PWCR_IN");
-        // 斧マスタリーが1未満の場合かつパワークラッシュが0より上の場合
-        if( AMST_P < 1 && PWCR_P > 0 ) {
-            // 斧マスタリーを1にする
-            AMST_P=1;
-            Visible("PWCR");
-            AMST_F();
-        }
-    }
-    // スタンスマッシュ
-    function STSM_F() {
-        Point(STSM_P, 10, "STSM_IN");
-        // 斧マスタリーが3未満の場合かつスタンスマッシュが0より上の場合
-        if(AMST_P<3 && STSM_P>0){
-            // 斧マスタリーを3にする
-            AMST_P=3;
-            Visible("STSM");
-            AMST_F();
-        }
-    }
-    // ヘッドバッシュ
-    function HDBS_F() {
-        Point(HDBS_P, 10, "HDBS_IN");
-        // 斧マスタリーが7未満の場合かつヘッドバッシュが0より上の場合
-        if( AMST_P < 7 && HDBS_P > 0 ) {
-            // 斧マスタリーを7にする
-            AMST_P=7;
-            Visible("HDBS");
-            AMST_F();
-        }
-    }
-    // 採掘
-    function DIGG_F() {
-        Point(DIGG_P, 10, "DIGG_IN");
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // イベント
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // スキルポイント設定
-    //   引数：parts スキル名
-    //         point 設定するポイント
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function setPoint(parts,point) {
-        if( parts == "HPBS" ) { if( point >= 0 && point <= 10 ) HPBS_P=point; HPBS_F(); }    // HPブースト
-        if( parts == "TPBS" ) { if( point >= 0 && point <= 10 ) TPBS_P=point; TPBS_F(); }    // TPブースト
-        if( parts == "ATBS" ) { if( point >= 0 && point <= 10 ) ATBS_P=point; ATBS_F(); }    // ATKブースト
-        if( parts == "DFBS" ) { if( point >= 0 && point <= 10 ) DFBS_P=point; DFBS_F(); }    // DEFブースト
-        if( parts == "SMST" ) { if( point >= 0 && point <= 10 ) SMST_P=point; SMST_F(); }    // 剣マスタリー
-        if( parts == "AMST" ) { if( point >= 0 && point <= 10 ) AMST_P=point; AMST_F(); }    // 斧マスタリー
-        if( parts == "WCRY" ) { if( point >= 0 && point <= 10 ) WCRY_P=point; WCRY_F(); }    // ウォークライ
-        if( parts == "HCRY" ) { if( point >= 0 && point <= 10 ) HCRY_P=point; HCRY_F(); }    // ヘルズクライ
-        if( parts == "WATK" ) { if( point >= 0 && point <= 10 ) WATK_P=point; WATK_F(); }    // ダブルアタック
-        if( parts == "ARMR" ) { if( point >= 0 && point <= 10 ) ARMR_P=point; ARMR_F(); }    // アームリカバリー
-        if( parts == "MSTS" ) { if( point >= 0 && point <= 10 ) MSTS_P=point; MSTS_F(); }    // 猛進逃走
-        if( parts == "RGSL" ) { if( point >= 0 && point <= 10 ) RGSL_P=point; RGSL_F(); }    // レイジングエッジ
-        if( parts == "TRND" ) { if( point >= 0 && point <= 10 ) TRND_P=point; TRND_F(); }    // トルネード
-        if( parts == "HYBS" ) { if( point >= 0 && point <= 10 ) HYBS_P=point; HYBS_F(); }    // ハヤブサ駆け
-        if( parts == "CFIR" ) { if( point >= 0 && point <= 10 ) CFIR_P=point; CFIR_F(); }    // チェイスファイア
-        if( parts == "CFRZ" ) { if( point >= 0 && point <= 10 ) CFRZ_P=point; CFRZ_F(); }    // チェイスフリーズ
-        if( parts == "CSHK" ) { if( point >= 0 && point <= 10 ) CSHK_P=point; CSHK_F(); }    // チェイスショック
-        if( parts == "PWCR" ) { if( point >= 0 && point <= 10 ) PWCR_P=point; PWCR_F(); }    // パワークラッシュ
-        if( parts == "STSM" ) { if( point >= 0 && point <= 10 ) STSM_P=point; STSM_F(); }    // スタンスマッシュ
-        if( parts == "HDBS" ) { if( point >= 0 && point <= 10 ) HDBS_P=point; HDBS_F(); }    // ヘッドバッシュ
-        if( parts == "DIGG" ) { if( point >= 0 && point <= 10 ) DIGG_P=point; DIGG_F(); }    // 採掘
-        // ポイント表示
-        ShowPoint();
+    /*[]----------------------------------------------[]*/
+    /*| パワークラッシュ                               |*/
+    /*[]----------------------------------------------[]*/
+    function PWCRS_F(bar) {
+console.log("PWCRS_F() AXMST_P=[" + AXMST_P +"] PWCRS_P=[" + PWCRS_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("PWCRS",PWCRS_P);
+        if( AXMST_P < 1 && PWCRS_P > 0 ) {
+            AXMST_P = 1;
+            Visible("PWCRS");
+            AXMST_F(bar);
+        }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ポイント表示
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function ShowPoint() {
-        SKLL_P = HPBS_P + TPBS_P + ATBS_P + DFBS_P
-               + SMST_P + AMST_P + WCRY_P + HCRY_P
-               + WATK_P + ARMR_P + MSTS_P + RGSL_P
-               + TRND_P + HYBS_P + CFIR_P + CFRZ_P
-               + CSHK_P + PWCR_P + STSM_P + HDBS_P
-               + DIGG_P;
+    /*[]----------------------------------------------[]*/
+    /*| スタンスマッシュ                               |*/
+    /*[]----------------------------------------------[]*/
+    function STSMA_F(bar) {
+console.log("STSMA_F() AXMST_P=[" + AXMST_P +"] STSMA_P=[" + STSMA_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("STSMA",STSMA_P);
+        if( AXMST_P < 3 && STSMA_P > 0 ) {
+            AXMST_P = 3;
+            Visible("STSMA");
+            AXMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ヘッドバッシュ                                 |*/
+    /*[]----------------------------------------------[]*/
+    function HDBAS_F(bar) {
+console.log("HDBAS_F() AXMST_P=[" + AXMST_P +"] HDBAS_P=[" + HDBAS_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("HDBAS",HDBAS_P);
+        if( AXMST_P < 7 && HDBAS_P > 0 ) {
+            AXMST_P = 7;
+            Visible("HDBAS");
+            AXMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 剣マスタリー                                   |*/
+    /*[]----------------------------------------------[]*/
+    function SDMST_F(bar) {
+console.log("SDMST_F() SDMST_P=[" + SDMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("SDMST",SDMST_P);
+        if( SDMST_P < 1 ) {
+            Disable("RGEDG");
+            if( RGEDG_P > 0 ) { RGEDG_P = 0; statusValues.set(bar, 0); RGEDG_F(bar); }
+        }
+        if( SDMST_P >= 1 ) {
+            Visible("RGEDG");
+        }
+        if( SDMST_P < 5 ) {
+            Disable("TORND");
+            if( TORND_P > 0 ) { TORND_P = 0; statusValues.set(bar, 0); TORND_F(bar); }
+            Disable("DBATK");
+            if( DBATK_P > 0 ) { DBATK_P = 0; statusValues.set(bar, 0); DBATK_F(bar); }
+        }
+        if( SDMST_P >= 5 ) {
+            Visible("TORND");
+        }
+        if( SDMST_P >= 5 && AXMST_P >= 5 ) {
+            Visible("DBATK");
+        }
+        if( SDMST_P < 7 ) {
+            Disable("CHSFR");
+            if( CHSFR_P > 0 ) { CHSFR_P = 0; statusValues.set(bar, 0); CHSFR_F(bar); }
+            Disable("CHSFZ");
+            if( CHSFZ_P > 0 ) { CHSFZ_P = 0; statusValues.set(bar, 0); CHSFZ_F(bar); }
+            Disable("CHSKK");
+            if( CHSKK_P > 0 ) { CHSKK_P = 0; statusValues.set(bar, 0); CHSKK_F(bar); }
+        }
+        if( SDMST_P >= 7 && TPBST_P >= 3 ) {
+            Visible("CHSFR");
+            Visible("CHSFZ");
+            Visible("CHSKK");
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| レイジングエッジ                               |*/
+    /*[]----------------------------------------------[]*/
+    function RGEDG_F(bar) {
+console.log("RGEDG_F() SDMST_P=[" + SDMST_P +"] RGEDG_P=[" + RGEDG_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("RGEDG",RGEDG_P);
+        if( SDMST_P < 1 && RGEDG_P > 0 ) {
+            SDMST_P = 1;
+            Visible("RGEDG");
+            SDMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| トルネード                                     |*/
+    /*[]----------------------------------------------[]*/
+    function TORND_F(bar) {
+console.log("TORND_F() SDMST_P=[" + SDMST_P +"] TORND_P=[" + TORND_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("TORND",TORND_P);
+        if( SDMST_P < 5 && TORND_P > 0 ) {
+            SDMST_P = 5;
+            Visible("TORND");
+            SDMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ダブルアタック                                 |*/
+    /*[]----------------------------------------------[]*/
+    function DBATK_F(bar) {
+console.log("DBATK_F() SDMST_P=[" + SDMST_P + "] AXMST_P=[" + AXMST_P +"] DBATK_P=[" + DBATK_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("DBATK",DBATK_P);
+        if( DBATK_P < 3 ) {
+            Disable("FALSH");
+            if( FALSH_P > 0 ) { FALSH_P = 0; statusValues.set(bar, 0); FALSH_F(bar); }
+        }
+        if( DBATK_P >= 3 ) {
+            Visible("FALSH");
+        }
+        if( SDMST_P < 5 && DBATK_P > 0 ) {
+            SDMST_P = 5;
+            Visible("DBATK");
+            SDMST_F(bar);
+        }
+        if( AXMST_P < 5 && DBATK_P > 0 ) {
+            AXMST_P = 5;
+            Visible("DBATK");
+            AXMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| HPブースト                                     |*/
+    /*[]----------------------------------------------[]*/
+    function HPBST_F(bar) {
+console.log("HPBST_F() HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("HPBST",HPBST_P);
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ハヤブサ駆け                                   |*/
+    /*[]----------------------------------------------[]*/
+    function FALSH_F(bar) {
+console.log("FALSH_F() DBATK_P=[" + DBATK_P +"] FALSH_P=[" + FALSH_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("FALSH",FALSH_P);
+        if( DBATK_P < 3 && FALSH_P > 0 ) {
+            DBATK_P = 3;
+            Visible("FALSH");
+            DBATK_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| チェイスファイア                               |*/
+    /*[]----------------------------------------------[]*/
+    function CHSFR_F(bar) {
+console.log("CHSFR_F() SDMST_P=[" + SDMST_P +"] CHSFR_P=[" + CHSFR_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("CHSFR",CHSFR_P);
+        if( SDMST_P < 7 && CHSFR_P > 0 ) {
+            SDMST_P = 7;
+            Visible("CHSFR");
+            SDMST_F(bar);
+        }
+        if( TPBST_P < 3 && CHSFR_P > 0 ) {
+            TPBST_P = 3;
+            Visible("CHSFR");
+            TPBST(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| チェイスフリーズ                               |*/
+    /*[]----------------------------------------------[]*/
+    function CHSFZ_F(bar) {
+console.log("CHSFZ_F() SDMST_P=[" + SDMST_P +"] CHSFZ_P=[" + CHSFZ_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("CHSFZ",CHSFZ_P);
+        if( SDMST_P < 7 && CHSFZ_P > 0 ) {
+            SDMST_P = 7;
+            Visible("CHSFZ");
+            SDMST_F(bar);
+        }
+        if( TPBST_P < 3 && CHSFZ_P > 0 ) {
+            TPBST_P = 3;
+            Visible("CHSFZ");
+            TPBST(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| チェイスショック                               |*/
+    /*[]----------------------------------------------[]*/
+    function CHSKK_F(bar) {
+console.log("CHSKK_F() SDMST_P=[" + SDMST_P +"] CHSKK_P=[" + CHSKK_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("CHSKK",CHSKK_P);
+        if( SDMST_P < 7 && CHSKK_P > 0 ) {
+            SDMST_P = 7;
+            Visible("CHSKK");
+            SDMST_F(bar);
+        }
+        if( TPBST_P < 3 && CHSKK_P > 0 ) {
+            TPBST_P = 3;
+            Visible("CHSKK");
+            TPBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| TPブースト                                     |*/
+    /*[]----------------------------------------------[]*/
+    function TPBST_F(bar) {
+console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] CHSFR_P=[" + CHSFR_P +"] CHSFZ_P=[" + CHSFZ_P +"] CHSKK_P=[" + CHSKK_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("TPBST",TPBST_P);
+        if( TPBST_P < 3 ) {
+            Disable("CHSFR");
+            if( CHSFR_P > 0 ) { CHSFR_P = 0; statusValues.set(bar, 0); CHSFR_F(bar); }
+            Disable("CHSFZ");
+            if( CHSFZ_P > 0 ) { CHSFZ_P = 0; statusValues.set(bar, 0); CHSFZ_F(bar); }
+            Disable("CHSKK");
+            if( CHSKK_P > 0 ) { CHSKK_P = 0; statusValues.set(bar, 0); CHSKK_F(bar); }
+        }
+        if( TPBST_P >= 3 && SDMST_P >= 7 ) {
+            Visible("CHSFR");
+            Visible("CHSFZ");
+            Visible("CHSKK");
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ATKブースト                                    |*/
+    /*[]----------------------------------------------[]*/
+    function ATBST_F(bar) {
+console.log("ATBST_F() ATBST_P=[" + ATBST_P +"] WRCRY_P=[" + WRCRY_P +"] HLCRY_P=[" + HLCRY_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("ATBST",ATBST_P);
+        if( ATBST_P < 3 ) {
+            Disable("WRCRY");
+            if( WRCRY_P > 0 ) { WRCRY_P = 0; statusValues.set(bar, 0); WRCRY_F(bar); }
+        }
+        if( ATBST_P >= 3 ) {
+            Visible("WRCRY");
+        }
+        if( ATBST_P < 10 ) {
+            Disable("HLCRY");
+            if( HLCRY_P > 0 ) { HLCRY_P = 0; statusValues.set(bar, 0); HLCRY_F(bar); }
+        }
+        if( ATBST_P >= 10 ) {
+            Visible("HLCRY");
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ウォークライ                                   |*/
+    /*[]----------------------------------------------[]*/
+    function WRCRY_F(bar) {
+console.log("WRCRY_F() ATBST_P=[" + ATBST_P +"] WRCRY_P=[" + WRCRY_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("WRCRY",WRCRY_P);
+        if( ATBST_P < 3 && WRCRY_P > 0 ) {
+            ATBST_P = 3;
+            Visible("WRCRY");
+            ATBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ヘルズクライ                                   |*/
+    /*[]----------------------------------------------[]*/
+    function HLCRY_F(bar) {
+console.log("HLCRY_F() ATBST_P=[" + ATBST_P +"] HLCRY_P=[" + HLCRY_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("HLCRY",HLCRY_P);
+        if( ATBST_P < 10 && HLCRY_P > 0 ) {
+            ATBST_P = 10;
+            Visible("HLCRY");
+            ATBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| DEFブースト                                    |*/
+    /*[]----------------------------------------------[]*/
+    function DFBST_F(bar) {
+console.log("DFBST_F() DFBST_P=[" + DFBST_P +"] ARMRC_P=[" + ARMRC_P +"] FLSPD_P=[" + FLSPD_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("DFBST",DFBST_P);
+        if( DFBST_P < 1 ) {
+            Disable("ARMRC");
+            if( ARMRC_P > 0 ) { ARMRC_P = 0; statusValues.set(bar, 0); ARMRC_F(bar); }
+        }
+        if( DFBST_P >= 1 ) {
+            Visible("ARMRC");
+        }
+        if( DFBST_P < 5 ) {
+            Disable("FLSPD");
+            if( FLSPD_P > 0 ) { FLSPD_P = 0; statusValues.set(bar, 0); FLSPD_F(bar); }
+        }
+        if( DFBST_P >= 5 ) {
+            Visible("FLSPD");
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| アームリカバリー                               |*/
+    /*[]----------------------------------------------[]*/
+    function ARMRC_F(bar) {
+console.log("ARMRC_F() DFBST_P=[" + DFBST_P +"] ARMRC_P=[" + ARMRC_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("ARMRC",ARMRC_P);
+        if( DFBST_P < 3 && ARMRC_P > 0 ) {
+            DFBST_P = 3;
+            Visible("ARMRC");
+            DFBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 猛進逃走                                       |*/
+    /*[]----------------------------------------------[]*/
+    function FLSPD_F(bar) {
+console.log("FLSPD_F() DFBST_P=[" + DFBST_P +"] FLSPD_P=[" + FLSPD_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("FLSPD",FLSPD_P);
+        if( DFBST_P < 5 && FLSPD_P > 0 ) {
+            DFBST_P = 5;
+            Visible("FLSPD");
+            DFBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 採掘                                           |*/
+    /*[]----------------------------------------------[]*/
+    function MNING_F(bar) {
+console.log("MNING_F() MNING_P=[" + MNING_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("MNING",MNING_P);
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| スキル値初期化                                 |*/
+    /*[]----------------------------------------------[]*/
+    function setPointInit(bar) {
+console.log("setPointInit()");
+        AXMST_F(bar); 
+        PWCRS_F(bar); 
+        STSMA_F(bar); 
+        HDBAS_F(bar); 
+        SDMST_F(bar); 
+        RGEDG_F(bar); 
+        TORND_F(bar); 
+        DBATK_F(bar); 
+        HPBST_F(bar); 
+        FALSH_F(bar); 
+        CHSFR_F(bar); 
+        CHSFZ_F(bar); 
+        CHSKK_F(bar); 
+        TPBST_F(bar); 
+        ATBST_F(bar); 
+        WRCRY_F(bar); 
+        HLCRY_F(bar); 
+        DFBST_F(bar); 
+        ARMRC_F(bar); 
+        FLSPD_F(bar); 
+        MNING_F(bar); 
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| スキル表示                                     |*/
+    /*[]----------------------------------------------[]*/
+    function setPoint(parts, point, bar) {
+console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
+        if( parts == "AXMST" ) { if( point >= 0 && point <= 10 ) AXMST_P = point; AXMST_F(bar); }
+        if( parts == "PWCRS" ) { if( point >= 0 && point <= 10 ) PWCRS_P = point; PWCRS_F(bar); }
+        if( parts == "STSMA" ) { if( point >= 0 && point <= 10 ) STSMA_P = point; STSMA_F(bar); }
+        if( parts == "HDBAS" ) { if( point >= 0 && point <= 10 ) HDBAS_P = point; HDBAS_F(bar); }
+        if( parts == "SDMST" ) { if( point >= 0 && point <= 10 ) SDMST_P = point; SDMST_F(bar); }
+        if( parts == "RGEDG" ) { if( point >= 0 && point <= 10 ) RGEDG_P = point; RGEDG_F(bar); }
+        if( parts == "TORND" ) { if( point >= 0 && point <= 10 ) TORND_P = point; TORND_F(bar); }
+        if( parts == "DBATK" ) { if( point >= 0 && point <= 10 ) DBATK_P = point; DBATK_F(bar); }
+        if( parts == "HPBST" ) { if( point >= 0 && point <= 10 ) HPBST_P = point; HPBST_F(bar); }
+        if( parts == "FALSH" ) { if( point >= 0 && point <= 10 ) FALSH_P = point; FALSH_F(bar); }
+        if( parts == "CHSFR" ) { if( point >= 0 && point <= 10 ) CHSFR_P = point; CHSFR_F(bar); }
+        if( parts == "CHSFZ" ) { if( point >= 0 && point <= 10 ) CHSFZ_P = point; CHSFZ_F(bar); }
+        if( parts == "CHSKK" ) { if( point >= 0 && point <= 10 ) CHSKK_P = point; CHSKK_F(bar); }
+        if( parts == "TPBST" ) { if( point >= 0 && point <= 10 ) TPBST_P = point; TPBST_F(bar); }
+        if( parts == "ATBST" ) { if( point >= 0 && point <= 10 ) ATBST_P = point; ATBST_F(bar); }
+        if( parts == "WRCRY" ) { if( point >= 0 && point <= 10 ) WRCRY_P = point; WRCRY_F(bar); }
+        if( parts == "HLCRY" ) { if( point >= 0 && point <= 10 ) HLCRY_P = point; HLCRY_F(bar); }
+        if( parts == "DFBST" ) { if( point >= 0 && point <= 10 ) DFBST_P = point; DFBST_F(bar); }
+        if( parts == "ARMRC" ) { if( point >= 0 && point <= 10 ) ARMRC_P = point; ARMRC_F(bar); }
+        if( parts == "FLSPD" ) { if( point >= 0 && point <= 10 ) FLSPD_P = point; FLSPD_F(bar); }
+        if( parts == "MNING" ) { if( point >= 0 && point <= 10 ) MNING_P = point; MNING_F(bar); }
+
+        // スキルポイント表示
+        showPoint();
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| スキルポイント表示                             |*/
+    /*[]----------------------------------------------[]*/
+    function showPoint() {
+        SKILL_P = AXMST_P + PWCRS_P + STSMA_P + HDBAS_P
+                + SDMST_P + RGEDG_P + TORND_P + DBATK_P
+                + HPBST_P + FALSH_P + CHSFR_P + CHSFZ_P
+                + CHSKK_P + TPBST_P + ATBST_P + WRCRY_P
+                + HLCRY_P + DFBST_P + ARMRC_P + FLSPD_P
+                + MNING_P;
+        // Lv、使用、残表示
         showMsg();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //コントロール関連
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // clear
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*[]----------------------------------------------[]*/
+    /*| ポイントクリア                                 |*/
+    /*[]----------------------------------------------[]*/
     function Clear() {
         // スキルポイントを0に初期化
-        HPBS_P = TPBS_P = ATBS_P = DFBS_P= SMST_P 
-               = AMST_P = WCRY_P = HCRY_P= WATK_P 
-               = ARMR_P = MSTS_P = RGSL_P= TRND_P 
-               = HYBS_P = CFIR_P = CFRZ_P= CSHK_P 
-               = PWCR_P = STSM_P = HDBS_P= DIGG_P
-               = 0;
+        AXMST_P = PWCRS_P = STSMA_P = HDBAS_P = SDMST_P
+                = RGEDG_P = TORND_P = DBATK_P = HPBST_P
+                = FALSH_P = CHSFR_P = CHSFZ_P = CHSKK_P
+                = TPBST_P = ATBST_P = WRCRY_P = HLCRY_P
+                = DFBST_P = ARMRC_P = FLSPD_P = MNING_P
+                = 0;
         // 引退ボーナス、スキルポイント合計を初期化
-        RTRE_P = SKLL_P = 0;
+        RTIRE_P = SKILL_P = 0;
         // 各スキル再計算
-        HPBS_F(); TPBS_F(); ATBS_F(); DFBS_F();
-        SMST_F(); AMST_F(); WCRY_F(); HCRY_F();
-        WATK_F(); ARMR_F(); MSTS_F(); RGSL_F();
-        TRND_F(); HYBS_F(); CFIR_F(); CFRZ_F();
-        CSHK_F(); PWCR_F(); STSM_F(); HDBS_F();
-        DIGG_F();
+        const barAXMST = skillValuess.get("AXMST"); AXMST_F(barAXMST);
+        const barPWCRS = skillValuess.get("PWCRS"); PWCRS_F(barPWCRS);
+        const barSTSMA = skillValuess.get("STSMA"); STSMA_F(barSTSMA);
+        const barHDBAS = skillValuess.get("HDBAS"); HDBAS_F(barHDBAS);
+        const barSDMST = skillValuess.get("SDMST"); SDMST_F(barSDMST);
+        const barRGEDG = skillValuess.get("RGEDG"); RGEDG_F(barRGEDG);
+        const barTORND = skillValuess.get("TORND"); TORND_F(barTORND);
+        const barDBATK = skillValuess.get("DBATK"); DBATK_F(barDBATK);
+        const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST);
+        const barFALSH = skillValuess.get("FALSH"); FALSH_F(barFALSH);
+        const barCHSFR = skillValuess.get("CHSFR"); CHSFR_F(barCHSFR);
+        const barCHSFZ = skillValuess.get("CHSFZ"); CHSFZ_F(barCHSFZ);
+        const barCHSKK = skillValuess.get("CHSKK"); CHSKK_F(barCHSKK);
+        const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST);
+        const barATBST = skillValuess.get("ATBST"); ATBST_F(barATBST);
+        const barWRCRY = skillValuess.get("WRCRY"); WRCRY_F(barWRCRY);
+        const barHLCRY = skillValuess.get("HLCRY"); HLCRY_F(barHLCRY);
+        const barDFBST = skillValuess.get("DFBST"); DFBST_F(barDFBST);
+        const barARMRC = skillValuess.get("ARMRC"); ARMRC_F(barARMRC);
+        const barFLSPD = skillValuess.get("FLSPD"); FLSPD_F(barFLSPD);
+        const barMNING = skillValuess.get("MNING"); MNING_F(barMNING);
         // 名前と引退ボーナス初期化
         document.Msg.chrName.value = "";
-        document.Msg.Retire.value  = 0;
-        // ポイント表示
-        ShowPoint();
-        setAlertLayer("全てのポイントをクリアしました。",1);
+        document.Msg.Retire.value = 0;
+        // スキルポイント表示
+        showPoint();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 保存
-    //   引数：mode クッキーのモード
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function Save(mode) {
-        // 保持内容
-        var tdata = new Array(24);
-        tdata[0]  = HPBS_P;    // HPブースト
-        tdata[1]  = TPBS_P;    // TPブースト
-        tdata[2]  = ATBS_P;    // ATKブースト
-        tdata[3]  = DFBS_P;    // DEFブースト
-        tdata[4]  = SMST_P;    // 剣マスタリー
-        tdata[5]  = AMST_P;    // 斧マスタリー
-        tdata[6]  = WCRY_P;    // ウォークライ
-        tdata[7]  = HCRY_P;    // ヘルズクライ
-        tdata[8]  = WATK_P;    // ダブルアタック
-        tdata[9]  = ARMR_P;    // アームリカバリー
-        tdata[10] = MSTS_P;    // 猛進逃走
-        tdata[11] = RGSL_P;    // レイジングエッジ
-        tdata[12] = TRND_P;    // トルネード
-        tdata[13] = HYBS_P;    // ハヤブサ駆け
-        tdata[14] = CFIR_P;    // チェイスファイア
-        tdata[15] = CFRZ_P;    // チェイスフリーズ
-        tdata[16] = CSHK_P;    // チェイスショック
-        tdata[17] = PWCR_P;    // パワークラッシュ
-        tdata[18] = STSM_P;    // スタンスマッシュ
-        tdata[19] = HDBS_P;    // ヘッドバッシュ
-        tdata[20] = DIGG_P;    // 採掘
-        tdata[21] = RETR_P;    // 引退ボーナス
-        tdata[22] = CHAR_N;    // 名前
-        tdata[23] = 11;
-
-        code = encode(tdata, ver);
-
-        if( mode == "scode" ) {
-            return code;
-        }
-        if( mode == "cookie" ) {
-            SaveCookie(code);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Load
-    //   引数：mode クッキーのモード
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function Load(mode) {
-        // クッキーからロードする
-        code = loadType(mode);
-        if( code ) {
-            // デコードする
-            tdata = decode(code, ver);
-
-            HPBS_P = tdata[0] ;    // HPブースト
-            TPBS_P = tdata[1] ;    // TPブースト
-            ATBS_P = tdata[2] ;    // ATKブースト
-            DFBS_P = tdata[3] ;    // DEFブースト
-            SMST_P = tdata[4] ;    // 剣マスタリー
-            AMST_P = tdata[5] ;    // 斧マスタリー
-            WCRY_P = tdata[6] ;    // ウォークライ
-            HCRY_P = tdata[7] ;    // ヘルズクライ
-            WATK_P = tdata[8] ;    // ダブルアタック
-            ARMR_P = tdata[9] ;    // アームリカバリー
-            MSTS_P = tdata[10];    // 猛進逃走
-            RGSL_P = tdata[11];    // レイジングエッジ
-            TRND_P = tdata[12];    // トルネード
-            HYBS_P = tdata[13];    // ハヤブサ駆け
-            CFIR_P = tdata[14];    // チェイスファイア
-            CFRZ_P = tdata[15];    // チェイスフリーズ
-            CSHK_P = tdata[16];    // チェイスショック
-            PWCR_P = tdata[17];    // パワークラッシュ
-            STSM_P = tdata[18];    // スタンスマッシュ
-            HDBS_P = tdata[19];    // ヘッドバッシュ
-            DIGG_P = tdata[20];    // 採掘
-            RETR_P = tdata[21];    // 引退ボーナス
-        }
-        document.Msg.Retire.value = RETR_P;
-
-        HPBS_F(); TPBS_F(); ATBS_F(); DFBS_F();
-        SMST_F(); AMST_F(); WCRY_F(); HCRY_F();
-        WATK_F(); ARMR_F(); MSTS_F(); RGSL_F();
-        TRND_F(); HYBS_F(); CFIR_F(); CFRZ_F();
-        CSHK_F(); PWCR_F(); STSM_F(); HDBS_F();
-        DIGG_F();
-
-        // ポイント表示
-        ShowPoint();
-    }
     // -->
   </script>
-
 </head>
 
-<body onLoad="Init()">
+<body bgcolor="#bbddff">
 
 <div id="skill"style="position:absolute; z-index:1;"></div>
 
-<div style="position:absolute; top:10px; left:24px; width:760px; line-height:22px;">
+<div class="table">
   <form name="Msg">
-    <nobr>
-      ポイント <input type="text" name="expMsg" id="expMsgID" size=20 value=" Loading..." readonly>　
-      名前 <input type="text" name="chrName" size=10 value="" maxlength=10 title="セーブスロットに名前がつきます">　
-      引退ボーナス 
-      <select name="Retire" onChange="ShowPoint();">
+
+    <div class="pair">
+      <div class="label">Lv</div>
+      <div class="value2" id="LV">1</div>
+
+      <div class="label">使用</div>
+      <div class="value2" id="USE">0</div>
+
+      <div class="label">残</div>
+      <div class="value2" id="RES">72</div>
+    </div>
+
+    <div class="pair">
+      <div class="label">引退ボーナス</div>
+      <select name="Retire" onChange="showPoint();">
         <option value="0" selected>0 (引退無し)
         <option value="2">+2 (Lv30-39)
         <option value="3">+3 (Lv40-49)
         <option value="4">+4 (Lv50-59)
         <option value="5">+5 (Lv60-69)
         <option value="6">+6 (Lv70)
-      </select>　
-      セーブ 
+      </select>
+    </div>
+
+    <div class="pair">
+      <div class="label">名前</div>
+      <input type="text" name="chrName" size="10" maxlength="10">
+    </div>
+
+    <div class="pair">
+      <div class="label">セーブ</div>
       <select name="Slot">
         <option value="1" selected>Slot1 : no Save Data
         <option value="2">Slot2 : no Save Data
         <option value="3">Slot3 : no Save Data
         <option value="4">Slot4 : no Save Data
         <option value="5">Slot5 : no Save Data
+        <option value="6">Slot6 : no Save Data
+        <option value="7">Slot7 : no Save Data
+        <option value="8">Slot8 : no Save Data
+        <option value="9">Slot9 : no Save Data
+        <option value="10">Slot10 : no Save Data
       </select>
-    </nobr>
-    <input type="hidden" name="scode" value="">
-    <div align=right>
-      <span style="color:#000066;"><u>
-        <a class="con" href="JavaScript:Save('cookie');" title="Cookieに今の状態をセーブ">Save</a>　
-        <a class="con" href="JavaScript:Load('cookie');" title="Cookieからロード">Load</a>　
-        <a class="con" href="JavaScript:Clear();" title="スキルポイントをリセット">Clear</a>　
-        <a class="con" href="JavaScript:DeleteCookie();" title="セーブスロットを消去">DeleteSlot</a>
-      </span>
     </div>
   </form>
 </div>
 
-
-<!-- Swordman -->
+<div class="table"  style="position:absolute; top:40px; left:543px;">
+  <div class="pair">
+    <a href="#" class="glass-btn">Load</a>
+    <a href="#" class="glass-btn">Save</a>
+    <a href="JavaScript:Clear();" class="glass-btn">Clear</a>
+    <a href="#" class="glass-btn">Delete</a>
+  </div>
+</div>
 
 <!-- 斧マスタリー -->
-<table class="job" cellspacing=0 cellpadding=0 id="AMST" style="position:absolute; top:55px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[5]')" onmouseout="offLayer()">斧マスタリー</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="AMST_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- 剣マスタリー -->
-<table class="job" cellspacing=0 cellpadding=0 id="SMST" style="position:absolute; top:175px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[4]')" onmouseout="offLayer()">剣マスタリー</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="SMST_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- HPブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="HPBS" style="position:absolute; top:265px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'SwdSkill[0]')" onmouseout="offLayer()">HPブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="HPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- TPブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="TPBS" style="position:absolute; top:385px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'SwdSkill[1]')" onmouseout="offLayer()">TPブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="TPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- ATKブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="ATBS" style="position:absolute; top:415px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[2]')" onmouseout="offLayer()">ATKブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="ATBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- DEFブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="DFBS" style="position:absolute; top:475px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[3]')" onmouseout="offLayer()">DEFブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="DFBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- 採掘 -->
-<table class="job" cellspacing=0 cellpadding=0 id="DIGG" style="position:absolute; top:535px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[20]')" onmouseout="offLayer()">採掘</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="DIGG_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- パワークラッシュ -->
-<table class="job" cellspacing=0 cellpadding=0 id="PWCR" style="position:absolute; top:55px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[17]',PWCR_P)" onmouseout="offLayer()">パワークラッシュ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="PWCR_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- スタンスマッシュ -->
-<table class="job" cellspacing=0 cellpadding=0 id="STSM" style="position:absolute; top:85px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[18]',STSM_P)" onmouseout="offLayer()">スタンスマッシュ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="STSM_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- ヘッドバッシュ -->
-<table class="job" cellspacing=0 cellpadding=0 id="HDBS" style="position:absolute; top:115px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[19]',HDBS_P)" onmouseout="offLayer()">ヘッドバッシュ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="HDBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- レイジングエッジ -->
-<table class="job" cellspacing=0 cellpadding=0 id="RGSL" style="position:absolute; top:175px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'SwdSkill[11]',RGSL_P)" onmouseout="offLayer()">レイジングエッジ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="RGSL_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- トルネード -->
-<table class="job" cellspacing=0 cellpadding=0 id="TRND" style="position:absolute; top:205px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[12]',TRND_P)" onmouseout="offLayer()">トルネード</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="TRND_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- ダブルアタック -->
-<table class="job" cellspacing=0 cellpadding=0 id="WATK" style="position:absolute; top:235px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'SwdSkill[8]')" onmouseout="offLayer()">ダブルアタック</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="WATK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- チェイスファイア -->
-<table class="job" cellspacing=0 cellpadding=0 id="CFIR" style="position:absolute; top:295px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[14]',CFIR_P)" onmouseout="offLayer()">チェイスファイア</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="CFIR_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- チェイスフリーズ -->
-<table class="job" cellspacing=0 cellpadding=0 id="CFRZ" style="position:absolute; top:325px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[15]',CFRZ_P)" onmouseout="offLayer()">チェイスフリーズ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="CFRZ_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- チェイスショック -->
-<table class="job" cellspacing=0 cellpadding=0 id="CSHK" style="position:absolute; top:355px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'SwdSkill[16]',CSHK_P)" onmouseout="offLayer()">チェイスショック</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="CSHK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- ウォークライ -->
-<table class="job" cellspacing=0 cellpadding=0 id="WCRY" style="position:absolute; top:415px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'SwdSkill[6]',WCRY_P)" onmouseout="offLayer()">ウォークライ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="WCRY_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- ヘルズクライ -->
-<table class="job" cellspacing=0 cellpadding=0 id="HCRY" style="position:absolute; top:445px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'SwdSkill[7]',HCRY_P)" onmouseout="offLayer()">ヘルズクライ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="HCRY_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- アームリカバリー -->
-<table class="job" cellspacing=0 cellpadding=0 id="ARMR" style="position:absolute; top:475px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,90,'SwdSkill[9]',ARMR_P)" onmouseout="offLayer()">アームリカバリー</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="ARMR_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- 猛進逃走 -->
-<table class="job" cellspacing=0 cellpadding=0 id="MSTS" style="position:absolute; top:505px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'SwdSkill[10]',MSTS_P)" onmouseout="offLayer()">猛進逃走</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="MSTS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-<!-- ハヤブサ駆け -->
-<table class="job" cellspacing=0 cellpadding=0 id="HYBS" style="position:absolute; top:265px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,165,'SwdSkill[13]',HYBS_P)" onmouseout="offLayer()">ハヤブサ駆け</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="HYBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="AXMST_SKILL" class="skill" style="position:absolute; top:55px; left:20px;">
+  <div class="skill-title">斧マスタリー</div>
+  <div id="AXMST" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="AXMST" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="AXMST" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
 
-<div id="option1" style="position:absolute; top:0px; left:0px; width:0px; height:0px; background-image:url(../../data/other/alpha.png);" onclick="JavaScript:offOptionLayer();"></div>
-<div id="option2" style="position:absolute; top:0px; left:0px; width:0px; height:0px;"></div>
-<div id="dummy" style="position:absolute; top:0px; left:0px; width:800px; height:600px; z-index:-1;"></div>
+<!-- パワークラッシュ -->
+<div id="PWCRS_SKILL" class="skill" style="position:absolute; top:55px; left:200px;">
+  <div class="skill-title">パワークラッシュ</div>
+  <div id="PWCRS" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="PWCRS" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="PWCRS" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- スタンスマッシュ -->
+<div id="STSMA_SKILL" class="skill" style="position:absolute; top:90px; left:200px;">
+  <div class="skill-title">スタンスマッシュ</div>
+  <div id="STSMA" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="STSMA" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="STSMA" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- ヘッドバッシュ -->
+<div id="HDBAS_SKILL" class="skill" style="position:absolute; top:125px; left:200px;">
+  <div class="skill-title">ヘッドバッシュ</div>
+  <div id="HDBAS" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="HDBAS" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="HDBAS" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- 剣マスタリー -->
+<div id="SDMST_SKILL" class="skill" style="position:absolute; top:180px; left:20px;">
+  <div class="skill-title">剣マスタリー</div>
+  <div id="SDMST" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="SDMST" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="SDMST" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- レイジングエッジ -->
+<div id="RGEDG_SKILL" class="skill" style="position:absolute; top:180px; left:200px;">
+  <div class="skill-title">レイジングエッジ</div>
+  <div id="RGEDG" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="RGEDG" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="RGEDG" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- トルネード -->
+<div id="TORND_SKILL" class="skill" style="position:absolute; top:215px; left:200px;">
+  <div class="skill-title">トルネード</div>
+  <div id="TORND" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="TORND" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="TORND" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- ダブルアタック -->
+<div id="DBATK_SKILL" class="skill" style="position:absolute; top:250px; left:200px;">
+  <div class="skill-title">ダブルアタック</div>
+  <div id="DBATK" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="DBATK" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="DBATK" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- HPブースト -->
+<div id="HPBST_SKILL" class="skill" style="position:absolute; top:275px; left:20px;">
+  <div class="skill-title">HPブースト</div>
+  <div id="HPBST" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="HPBST" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="HPBST" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- ハヤブサ駆け -->
+<div id="FALSH_SKILL" class="skill" style="position:absolute; top:275px; left:380px;">
+  <div class="skill-title">ハヤブサ駆け</div>
+  <div id="FALSH" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FALSH" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="FALSH" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- チェイスファイア -->
+<div id="CHSFR_SKILL" class="skill" style="position:absolute; top:305px; left:200px;">
+  <div class="skill-title">チェイスファイア</div>
+  <div id="CHSFR" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="CHSFR" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="CHSFR" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- チェイスフリーズ -->
+<div id="CHSFZ_SKILL" class="skill" style="position:absolute; top:340px; left:200px;">
+  <div class="skill-title">チェイスフリーズ</div>
+  <div id="CHSFZ" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="CHSFZ" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- チェイスショック -->
+<div id="CHSKK_SKILL" class="skill" style="position:absolute; top:375px; left:200px;">
+  <div class="skill-title">チェイスショック</div>
+  <div id="CHSKK" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="CHSKK" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="CHSKK" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- TPブースト -->
+<div id="TPBST_SKILL" class="skill" style="position:absolute; top:400px; left:20px;">
+  <div class="skill-title">TPブースト</div>
+  <div id="TPBST" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="TPBST" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="TPBST" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- ATKブースト -->
+<div id="ATBST_SKILL" class="skill" style="position:absolute; top:445px; left:20px;">
+  <div class="skill-title">ATKブースト</div>
+  <div id="ATBST" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="ATBST" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="ATBST" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- ウォークライ -->
+<div id="WRCRY_SKILL" class="skill" style="position:absolute; top:430px; left:200px;">
+  <div class="skill-title">ウォークライ</div>
+  <div id="WRCRY" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="WRCRY" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="WRCRY" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- ヘルズクライ -->
+<div id="HLCRY_SKILL" class="skill" style="position:absolute; top:465px; left:200px;">
+  <div class="skill-title">ヘルズクライ</div>
+  <div id="HLCRY" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="HLCRY" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="HLCRY" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- DEFブースト -->
+<div id="DFBST_SKILL" class="skill" style="position:absolute; top:515px; left:20px;">
+  <div class="skill-title">DEFブースト</div>
+  <div id="DFBST" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="DFBST" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="DFBST" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- アームリカバリー -->
+<div id="ARMRC_SKILL" class="skill" style="position:absolute; top:500px; left:200px;">
+  <div class="skill-title">アームリカバリー</div>
+  <div id="ARMRC" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="ARMRC" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="ARMRC" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- 猛進逃走 -->
+<div id="FLSPD_SKILL" class="skill" style="position:absolute; top:535px; left:200px;">
+  <div class="skill-title">猛進逃走</div>
+  <div id="FLSPD" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FLSPD" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="FLSPD" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- 採掘 -->
+<div id="MNING_SKILL" class="skill" style="position:absolute; top:570px; left:20px;">
+  <div class="skill-title">採掘</div>
+  <div id="MNING" class="status-bar" onmousewheel="handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="MNING" class="box" onclick="handleClick(this, 0)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 1)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 2)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 3)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 4)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 5)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 6)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 7)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 8)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this, 9)"></div>
+      <div id="MNING" class="box" onclick="handleClick(this,10)"></div>
+    </div>
+    <span class="level-display">0/10</span>
+  </div>
+</div>
+
+<!-- 罫線 -->
+<!-- 斧マスタリー → パワークラッシュ -->
+<div class="line_hor" style="position:absolute; top: 70px; left:150px; width : 50px"></div>
+<!-- 斧マスタリー → スタンスマッシュ -->
+<div class="line_hor" style="position:absolute; top:105px; left:175px; width : 25px"></div>
+<!-- 斧マスタリー → ヘッドバッシュ -->
+<div class="line_hor" style="position:absolute; top:140px; left:175px; width : 25px"></div>
+<!-- 斧マスタリー → ダブルアタック -->
+<div class="line_ver" style="position:absolute; top: 70px; left:175px; height: 95px"></div>
+<div class="line_hor" style="position:absolute; top:165px; left:175px; width :180px"></div>
+<div class="line_ver" style="position:absolute; top:165px; left:355px; height:102px"></div>
+<div class="line_hor" style="position:absolute; top:265px; left:330px; width : 25px"></div>
+
+<!-- 剣マスタリー → レイジングエッジ -->
+<div class="line_hor" style="position:absolute; top:195px; left:150px; width : 50px"></div>
+<!-- 剣マスタリー → トルネード -->
+<div class="line_hor" style="position:absolute; top:230px; left:175px; width : 25px"></div>
+<!-- 剣マスタリー → ダブルアタック -->
+<div class="line_hor" style="position:absolute; top:265px; left:175px; width : 25px"></div>
+
+<!-- ダブルアタック → ハヤブサ駆け -->
+<div class="line_ver" style="position:absolute; top:280px; left:260px; height: 14px"></div>
+<div class="line_hor" style="position:absolute; top:292px; left:260px; width :120px"></div>
+
+<!-- 剣マスタリー → チェイスファイア -->
+<div class="line_hor" style="position:absolute; top:320px; left:175px; width : 25px"></div>
+<!-- 剣マスタリー → チェイスフリーズ -->
+<div class="line_hor" style="position:absolute; top:355px; left:175px; width : 25px"></div>
+<!-- 剣マスタリー → チェイスショック -->
+<div class="line_hor" style="position:absolute; top:390px; left:175px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:195px; left:175px; height:195px"></div>
+
+<!-- TPブースト → チェイスファイア -->
+<div class="line_hor" style="position:absolute; top:320px; left:330px; width : 25px"></div>
+<!-- TPブースト → チェイスフリーズ -->
+<div class="line_hor" style="position:absolute; top:355px; left:330px; width : 25px"></div>
+<!-- TPブースト → チェイスショック -->
+<div class="line_hor" style="position:absolute; top:390px; left:330px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:320px; left:355px; height: 97px"></div>
+<div class="line_hor" style="position:absolute; top:415px; left:150px; width :205px"></div>
+
+<!-- ATKブースト → ウォークライ -->
+<div class="line_hor" style="position:absolute; top:460px; left:150px; width : 25px"></div>
+<div class="line_hor" style="position:absolute; top:445px; left:175px; width : 25px"></div>
+<!-- ATKブースト → ヘルズクライ -->
+<div class="line_hor" style="position:absolute; top:480px; left:175px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:445px; left:175px; height: 35px"></div>
+
+<!-- DEFブースト → アームリカバリー -->
+<div class="line_hor" style="position:absolute; top:530px; left:150px; width : 25px"></div>
+<div class="line_hor" style="position:absolute; top:515px; left:175px; width : 25px"></div>
+<!-- DEFブースト → 猛進逃走 -->
+<div class="line_hor" style="position:absolute; top:550px; left:175px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:515px; left:175px; height: 35px"></div>
 
 </body>
 </html>
