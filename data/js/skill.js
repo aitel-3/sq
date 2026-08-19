@@ -232,9 +232,9 @@ function LoadCookie() {
 function SaveCookie(saveData) {
 
     // 選択されたスロット番号
-    slotNum = document.Msg.Slot.options[document.Msg.Slot.selectIndex].value;
+    slotNum = document.Msg.Slot.options[document.Msg.Slot.selectedIndex].value;
     // スロット名
-    slotName = (document.Msg.Slot.options[document.Msg.Slot.selectIndex].text).split(" : ")[1];
+    slotName = (document.Msg.Slot.options[document.Msg.Slot.selectedIndex].text).split(" : ")[1];
 
     if( document.Msg.chrName.value == "" ) {
         // 名前が空の場合
@@ -246,7 +246,7 @@ function SaveCookie(saveData) {
         slotName = (document.Msg.chrName.value).replace(/&/g, "＆");
     }
     // スロット名編集
-    document.Msg.Slot.options[document.Msg.Slot.selectIndex].text = "Slot" + slotNum + " : " + slotName;
+    document.Msg.Slot.options[document.Msg.Slot.selectedIndex].text = "Slot" + slotNum + " : " + slotName;
 
     // 配列 → JSON文字列
     const json = JSON.stringify(saveData);
@@ -267,7 +267,7 @@ function SaveCookie(saveData) {
 function Delete() {
 
     // 選択されたスロット番号
-    slotNum = document.Msg.Slot.options[document.Msg.Slot.selectIndex].value;
+    slotNum = document.Msg.Slot.options[document.Msg.Slot.selectedIndex].value;
     // キーを作成
     const key = "sq1_" + nameWithoutExt + "_" + slotNum;
 
