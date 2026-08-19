@@ -277,6 +277,6 @@ function Delete() {
     // 有効期限を過去にして削除
     document.cookie = `${key}=; expires=${expires}; path=/`;
 
-    document.Msg.Slot.options[].text = "Slot" + slotNum + " : no Save Data";
+    document.Msg.Slot.options[document.Msg.Slot.selectedIndex].text = "Slot" + slotNum + " : no Save Data";
 
 }
