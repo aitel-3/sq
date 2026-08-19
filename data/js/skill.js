@@ -1,3 +1,9 @@
+/*[]-- ファイル名取得 ----------------------------[]*/
+const filename = location.pathname.split('/').pop();
+const f_index = filename.lastIndexOf('.');
+const nameWithoutExt = f_index !== -1 ? filename.slice(0, f_index) : filename;
+console.log("FileName=[" + nameWithoutExt + "]");
+
 /*[]-- 各スキルの値保存領域 ----------------------[]*/
 const statusValues = new WeakMap();
 const skillValuess = new Map();
@@ -11,9 +17,8 @@ const skillValuess = new Map();
 function handleClick(box, index) {
     const bar = box.closest(".status-bar");
     id = box.id.substring(0,5);
-
-console.log(id);
-console.log(index);
+console.log("handleClick() id=[" + id + "]");
+console.log("handleClick() index=[" + index + "]");
 
     if(0<=index + 1) setPoint(id, index, box);
 
@@ -52,7 +57,7 @@ function handleWheel(event, bar, parts) {
 
     level = Math.max(0, Math.min(10, level));
 
-console.log("id=[" + id + "] level=[" + level + "] bar=[" + bar + "]");
+console.log("handleWheel() id=[" + id + "] level=[" + level + "] bar=[" + bar + "]");
     if(0<=level) setPoint(id, level, bar);
 
     // スキル値保存
@@ -162,7 +167,7 @@ function showMsg() {
         document.getElementById("RES").textContent = eval(72 - SKILL_P + RTIRE_P);
 
         const el = document.getElementById("RES");
-        el.style.background = 'rgba(0, 0, 0, 0.45)';   // 赤ガラス
+        el.style.background = 'rgba(0, 0, 0, 0.45)';
         el.style.border     = '1px solid rgba(255,255,255,0.25)';
         el.style.padding    = '2px 3px';
         el.style.color      = '#fff';
@@ -175,26 +180,101 @@ function showMsg() {
         document.getElementById("RES").textContent = eval(72 - SKILL_P + RTIRE_P);
 
         const el = document.getElementById("RES");
-        el.style.background = 'rgba(0, 0, 0, 0.45)';   // 赤ガラス
-        el.style.border = '1px solid rgba(255,255,255,0.25)';
-        el.style.padding = '2px 3px';
-        el.style.color = '#fff';
-        el.style.width = '20px';
+        el.style.background = 'rgba(0, 0, 0, 0.45)';
+        el.style.border     = '1px solid rgba(255,255,255,0.25)';
+        el.style.padding    = '2px 3px';
+        el.style.color      = '#fff';
+        el.style.width      = '20px';
     }
 
     if( SKILL_P > 72 + RTIRE_P ) {
         document.getElementById("LV").textContent  = 70;
         document.getElementById("USE").textContent = SKILL_P;
-//        document.getElementById("RES").textContent = eval(SKILL_P - 72 - RTIRE_P);
         document.getElementById("RES").textContent = eval(72 - SKILL_P - RTIRE_P);
 
         const el = document.getElementById("RES");
         el.style.background = 'rgba(255, 0, 80, 0.35)';   // 赤ガラス
-        el.style.border = '1px solid rgba(255, 80, 120, 0.7)';
-        el.style.boxShadow = '0 0 8px rgba(255, 0, 80, 0.6)';
-        el.style.padding = '2px 3px';
-        el.style.color = '#fff';
-        el.style.width = '20px';
+        el.style.border     = '1px solid rgba(255, 80, 120, 0.7)';
+        el.style.boxShadow  = '0 0 8px rgba(255, 0, 80, 0.6)';
+        el.style.padding    = '2px 3px';
+        el.style.color      = '#fff';
+        el.style.width      = '20px';
     }
+}
+
+/*[]----------------------------------------------[]*/
+/*| cookieからロード                               |*/
+/*[]----------------------------------------------[]*/
+function LoadCookie() {
+
+    // 選択されたスロット番号
+    slotNum = document.Msg.slot.options[document.Msg.Slot.selectIndex].value;
+    // キー値
+    saveKey = "sq1_" + nameWithoutExt + "_" + slotNum;
+
+
+    const cookies = document.cookie.split("; ");
+    for (const c of cookies) {
+        const [key, val] = c.split("=");
+        if (key === saveKey) {
+            const decoded = decodeURIComponent(val);
+            return JSON.parse(decoded);
+        }
+    }
+    return null;
+}
+
+/*[]----------------------------------------------[]*/
+/*| cookieに保存                                   |*/
+/*|   引数                                         |*/
+/*|     saveData : 保持内容配列                    |*/
+/*[]----------------------------------------------[]*/
+function SaveCookie(saveData) {
+
+    // 選択されたスロット番号
+    slotNum = document.Msg.Slot.options[document.Msg.Slot.selectIndex].value;
+    // スロット名
+    slotName = (document.Msg.Slot.options[document.Msg.Slot.selectIndex].text).split(" : ")[1];
+
+    if( document.Msg.chrName.value == "" ) {
+        // 名前が空の場合
+        slotName = "no Name";
+    }
+    else {
+        // 名前が空でない場合、「:」「&」を「：」「＆」に変換
+        slotName = (document.Msg.chrName.value).replace(/:/g, "：");
+        slotName = (document.Msg.chrName.value).replace(/&/g, "＆");
+    }
+    // スロット名編集
+    document.Msg.Slot.options[document.Msg.Slot.selectIndex].text = "Slot" + slotNum + " : " + slotName;
+
+    // 配列 → JSON文字列
+    const json = JSON.stringify(saveData);
+    // エンコード
+    const encoded = encodeURIComponent(json);
+    // UTC形式の日付取得
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    // キーを作成
+    const key = "sq1_" + nameWithoutExt + "_" + slotNum;
+
+    // cookieに保存
+    document.cookie = `${key}=${encoded}; expires=${expires}; path=/`;
+}
+
+/*[]----------------------------------------------[]*/
+/*| cookieから削除                                 |*/
+/*[]----------------------------------------------[]*/
+function Delete() {
+
+    // 選択されたスロット番号
+    slotNum = document.Msg.Slot.options[document.Msg.Slot.selectIndex].value;
+    // キーを作成
+    const key = "sq1_" + nameWithoutExt + "_" + slotNum;
+
+    // UTC形式の日付取得
+    const expires = "Thu, 01 Jan 1970 00:00:00 GMT";
+
+    // 有効期限を過去にして削除
+    document.cookie = `${key}=; expires=${expires}; path=/`;
 
 }
