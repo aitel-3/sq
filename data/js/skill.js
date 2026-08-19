@@ -229,7 +229,7 @@ function LoadCookie() {
 /*|   引数                                         |*/
 /*|     saveData : 保持内容配列                    |*/
 /*[]----------------------------------------------[]*/
-function SaveCookie(saveData) {
+function SaveCookie(saveData, days = 7) {
 
     // 選択されたスロット番号
     slotNum = document.Msg.Slot.options[document.Msg.Slot.selectedIndex].value;
