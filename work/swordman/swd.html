@@ -408,27 +408,27 @@ console.log("MNING_F() MNING_P=[" + MNING_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     function setPointInit(bar) {
 console.log("setPointInit()");
-        AXMST_F(bar); 
-        PWCRS_F(bar); 
-        STSMA_F(bar); 
-        HDBAS_F(bar); 
-        SDMST_F(bar); 
-        RGEDG_F(bar); 
-        TORND_F(bar); 
-        DBATK_F(bar); 
-        HPBST_F(bar); 
-        FALSH_F(bar); 
-        CHSFR_F(bar); 
-        CHSFZ_F(bar); 
-        CHSKK_F(bar); 
-        TPBST_F(bar); 
-        ATBST_F(bar); 
-        WRCRY_F(bar); 
-        HLCRY_F(bar); 
-        DFBST_F(bar); 
-        ARMRC_F(bar); 
-        FLSPD_F(bar); 
-        MNING_F(bar); 
+        AXMST_F(bar);     // 斧マスタリー
+        PWCRS_F(bar);     // パワークラッシュ
+        STSMA_F(bar);     // スタンスマッシュ
+        HDBAS_F(bar);     // ヘッドバッシュ
+        SDMST_F(bar);     // 剣マスタリー
+        RGEDG_F(bar);     // レイジングエッジ
+        TORND_F(bar);     // トルネード
+        DBATK_F(bar);     // ダブルアタック
+        HPBST_F(bar);     // HPブースト
+        FALSH_F(bar);     // ハヤブサ駆け
+        CHSFR_F(bar);     // チェイスファイア
+        CHSFZ_F(bar);     // チェイスフリーズ
+        CHSKK_F(bar);     // チェイスショック
+        TPBST_F(bar);     // TPブースト
+        ATBST_F(bar);     // ATKブースト
+        WRCRY_F(bar);     // ウォークライ
+        HLCRY_F(bar);     // ヘルズクライ
+        DFBST_F(bar);     // DEFブースト
+        ARMRC_F(bar);     // アームリカバリー
+        FLSPD_F(bar);     // 猛進逃走
+        MNING_F(bar);     // 採掘
     }
 
     /*[]----------------------------------------------[]*/
@@ -436,27 +436,27 @@ console.log("setPointInit()");
     /*[]----------------------------------------------[]*/
     function setPoint(parts, point, bar) {
 console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
-        if( parts == "AXMST" ) { if( point >= 0 && point <= 10 ) AXMST_P = point; AXMST_F(bar); }
-        if( parts == "PWCRS" ) { if( point >= 0 && point <= 10 ) PWCRS_P = point; PWCRS_F(bar); }
-        if( parts == "STSMA" ) { if( point >= 0 && point <= 10 ) STSMA_P = point; STSMA_F(bar); }
-        if( parts == "HDBAS" ) { if( point >= 0 && point <= 10 ) HDBAS_P = point; HDBAS_F(bar); }
-        if( parts == "SDMST" ) { if( point >= 0 && point <= 10 ) SDMST_P = point; SDMST_F(bar); }
-        if( parts == "RGEDG" ) { if( point >= 0 && point <= 10 ) RGEDG_P = point; RGEDG_F(bar); }
-        if( parts == "TORND" ) { if( point >= 0 && point <= 10 ) TORND_P = point; TORND_F(bar); }
-        if( parts == "DBATK" ) { if( point >= 0 && point <= 10 ) DBATK_P = point; DBATK_F(bar); }
-        if( parts == "HPBST" ) { if( point >= 0 && point <= 10 ) HPBST_P = point; HPBST_F(bar); }
-        if( parts == "FALSH" ) { if( point >= 0 && point <= 10 ) FALSH_P = point; FALSH_F(bar); }
-        if( parts == "CHSFR" ) { if( point >= 0 && point <= 10 ) CHSFR_P = point; CHSFR_F(bar); }
-        if( parts == "CHSFZ" ) { if( point >= 0 && point <= 10 ) CHSFZ_P = point; CHSFZ_F(bar); }
-        if( parts == "CHSKK" ) { if( point >= 0 && point <= 10 ) CHSKK_P = point; CHSKK_F(bar); }
-        if( parts == "TPBST" ) { if( point >= 0 && point <= 10 ) TPBST_P = point; TPBST_F(bar); }
-        if( parts == "ATBST" ) { if( point >= 0 && point <= 10 ) ATBST_P = point; ATBST_F(bar); }
-        if( parts == "WRCRY" ) { if( point >= 0 && point <= 10 ) WRCRY_P = point; WRCRY_F(bar); }
-        if( parts == "HLCRY" ) { if( point >= 0 && point <= 10 ) HLCRY_P = point; HLCRY_F(bar); }
-        if( parts == "DFBST" ) { if( point >= 0 && point <= 10 ) DFBST_P = point; DFBST_F(bar); }
-        if( parts == "ARMRC" ) { if( point >= 0 && point <= 10 ) ARMRC_P = point; ARMRC_F(bar); }
-        if( parts == "FLSPD" ) { if( point >= 0 && point <= 10 ) FLSPD_P = point; FLSPD_F(bar); }
-        if( parts == "MNING" ) { if( point >= 0 && point <= 10 ) MNING_P = point; MNING_F(bar); }
+        if( parts == "AXMST" ) { if( point >= 0 && point <= 10 ) AXMST_P = point; AXMST_F(bar); }     // 斧マスタリー
+        if( parts == "PWCRS" ) { if( point >= 0 && point <= 10 ) PWCRS_P = point; PWCRS_F(bar); }     // パワークラッシュ
+        if( parts == "STSMA" ) { if( point >= 0 && point <= 10 ) STSMA_P = point; STSMA_F(bar); }     // スタンスマッシュ
+        if( parts == "HDBAS" ) { if( point >= 0 && point <= 10 ) HDBAS_P = point; HDBAS_F(bar); }     // ヘッドバッシュ
+        if( parts == "SDMST" ) { if( point >= 0 && point <= 10 ) SDMST_P = point; SDMST_F(bar); }     // 剣マスタリー
+        if( parts == "RGEDG" ) { if( point >= 0 && point <= 10 ) RGEDG_P = point; RGEDG_F(bar); }     // レイジングエッジ
+        if( parts == "TORND" ) { if( point >= 0 && point <= 10 ) TORND_P = point; TORND_F(bar); }     // トルネード
+        if( parts == "DBATK" ) { if( point >= 0 && point <= 10 ) DBATK_P = point; DBATK_F(bar); }     // ダブルアタック
+        if( parts == "HPBST" ) { if( point >= 0 && point <= 10 ) HPBST_P = point; HPBST_F(bar); }     // HPブースト
+        if( parts == "FALSH" ) { if( point >= 0 && point <= 10 ) FALSH_P = point; FALSH_F(bar); }     // ハヤブサ駆け
+        if( parts == "CHSFR" ) { if( point >= 0 && point <= 10 ) CHSFR_P = point; CHSFR_F(bar); }     // チェイスファイア
+        if( parts == "CHSFZ" ) { if( point >= 0 && point <= 10 ) CHSFZ_P = point; CHSFZ_F(bar); }     // チェイスフリーズ
+        if( parts == "CHSKK" ) { if( point >= 0 && point <= 10 ) CHSKK_P = point; CHSKK_F(bar); }     // チェイスショック
+        if( parts == "TPBST" ) { if( point >= 0 && point <= 10 ) TPBST_P = point; TPBST_F(bar); }     // TPブースト
+        if( parts == "ATBST" ) { if( point >= 0 && point <= 10 ) ATBST_P = point; ATBST_F(bar); }     // ATKブースト
+        if( parts == "WRCRY" ) { if( point >= 0 && point <= 10 ) WRCRY_P = point; WRCRY_F(bar); }     // ウォークライ
+        if( parts == "HLCRY" ) { if( point >= 0 && point <= 10 ) HLCRY_P = point; HLCRY_F(bar); }     // ヘルズクライ
+        if( parts == "DFBST" ) { if( point >= 0 && point <= 10 ) DFBST_P = point; DFBST_F(bar); }     // DEFブースト
+        if( parts == "ARMRC" ) { if( point >= 0 && point <= 10 ) ARMRC_P = point; ARMRC_F(bar); }     // アームリカバリー
+        if( parts == "FLSPD" ) { if( point >= 0 && point <= 10 ) FLSPD_P = point; FLSPD_F(bar); }     // 猛進逃走
+        if( parts == "MNING" ) { if( point >= 0 && point <= 10 ) MNING_P = point; MNING_F(bar); }     // 採掘
 
         // スキルポイント表示
         showPoint();
@@ -475,9 +475,12 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
         // Lv、使用、残表示
         showMsg();
     }
+    /*[]-----------------------------------------------------------------------------------[]*/
+    /*| メニューコマンド処理                                                                |*/
+    /*[]-----------------------------------------------------------------------------------[]*/
 
     /*[]----------------------------------------------[]*/
-    /*| ポイントクリア                                 |*/
+    /*| クリア処理                                     |*/
     /*[]----------------------------------------------[]*/
     function Clear() {
         // スキルポイントを0に初期化
@@ -490,32 +493,131 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
         // 引退ボーナス、スキルポイント合計を初期化
         RTIRE_P = SKILL_P = 0;
         // 各スキル再計算
-        const barAXMST = skillValuess.get("AXMST"); AXMST_F(barAXMST);
-        const barPWCRS = skillValuess.get("PWCRS"); PWCRS_F(barPWCRS);
-        const barSTSMA = skillValuess.get("STSMA"); STSMA_F(barSTSMA);
-        const barHDBAS = skillValuess.get("HDBAS"); HDBAS_F(barHDBAS);
-        const barSDMST = skillValuess.get("SDMST"); SDMST_F(barSDMST);
-        const barRGEDG = skillValuess.get("RGEDG"); RGEDG_F(barRGEDG);
-        const barTORND = skillValuess.get("TORND"); TORND_F(barTORND);
-        const barDBATK = skillValuess.get("DBATK"); DBATK_F(barDBATK);
-        const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST);
-        const barFALSH = skillValuess.get("FALSH"); FALSH_F(barFALSH);
-        const barCHSFR = skillValuess.get("CHSFR"); CHSFR_F(barCHSFR);
-        const barCHSFZ = skillValuess.get("CHSFZ"); CHSFZ_F(barCHSFZ);
-        const barCHSKK = skillValuess.get("CHSKK"); CHSKK_F(barCHSKK);
-        const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST);
-        const barATBST = skillValuess.get("ATBST"); ATBST_F(barATBST);
-        const barWRCRY = skillValuess.get("WRCRY"); WRCRY_F(barWRCRY);
-        const barHLCRY = skillValuess.get("HLCRY"); HLCRY_F(barHLCRY);
-        const barDFBST = skillValuess.get("DFBST"); DFBST_F(barDFBST);
-        const barARMRC = skillValuess.get("ARMRC"); ARMRC_F(barARMRC);
-        const barFLSPD = skillValuess.get("FLSPD"); FLSPD_F(barFLSPD);
-        const barMNING = skillValuess.get("MNING"); MNING_F(barMNING);
+        const barAXMST = skillValuess.get("AXMST"); AXMST_F(barAXMST);     // 斧マスタリー
+        const barPWCRS = skillValuess.get("PWCRS"); PWCRS_F(barPWCRS);     // パワークラッシュ
+        const barSTSMA = skillValuess.get("STSMA"); STSMA_F(barSTSMA);     // スタンスマッシュ
+        const barHDBAS = skillValuess.get("HDBAS"); HDBAS_F(barHDBAS);     // ヘッドバッシュ
+        const barSDMST = skillValuess.get("SDMST"); SDMST_F(barSDMST);     // 剣マスタリー
+        const barRGEDG = skillValuess.get("RGEDG"); RGEDG_F(barRGEDG);     // レイジングエッジ
+        const barTORND = skillValuess.get("TORND"); TORND_F(barTORND);     // トルネード
+        const barDBATK = skillValuess.get("DBATK"); DBATK_F(barDBATK);     // ダブルアタック
+        const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST);     // HPブースト
+        const barFALSH = skillValuess.get("FALSH"); FALSH_F(barFALSH);     // ハヤブサ駆け
+        const barCHSFR = skillValuess.get("CHSFR"); CHSFR_F(barCHSFR);     // チェイスファイア
+        const barCHSFZ = skillValuess.get("CHSFZ"); CHSFZ_F(barCHSFZ);     // チェイスフリーズ
+        const barCHSKK = skillValuess.get("CHSKK"); CHSKK_F(barCHSKK);     // チェイスショック
+        const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST);     // TPブースト
+        const barATBST = skillValuess.get("ATBST"); ATBST_F(barATBST);     // ATKブースト
+        const barWRCRY = skillValuess.get("WRCRY"); WRCRY_F(barWRCRY);     // ウォークライ
+        const barHLCRY = skillValuess.get("HLCRY"); HLCRY_F(barHLCRY);     // ヘルズクライ
+        const barDFBST = skillValuess.get("DFBST"); DFBST_F(barDFBST);     // DEFブースト
+        const barARMRC = skillValuess.get("ARMRC"); ARMRC_F(barARMRC);     // アームリカバリー
+        const barFLSPD = skillValuess.get("FLSPD"); FLSPD_F(barFLSPD);     // 猛進逃走
+        const barMNING = skillValuess.get("MNING"); MNING_F(barMNING);     // 採掘
         // 名前と引退ボーナス初期化
         document.Msg.chrName.value = "";
         document.Msg.Retire.value = 0;
         // スキルポイント表示
         showPoint();
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| Load処理                                       |*/
+    /*[]----------------------------------------------[]*/
+    function Load() {
+        // cookieからロード
+        saveData = LoadCookie();
+        if( saveData != null ){
+            AXMST_P = saveData[0] ;    // 斧マスタリー
+            PWCRS_P = saveData[1] ;    // パワークラッシュ
+            STSMA_P = saveData[2] ;    // スタンスマッシュ
+            HDBAS_P = saveData[3] ;    // ヘッドバッシュ
+            SDMST_P = saveData[4] ;    // 剣マスタリー
+            RGEDG_P = saveData[5] ;    // レイジングエッジ
+            TORND_P = saveData[6] ;    // トルネード
+            DBATK_P = saveData[7] ;    // ダブルアタック
+            HPBST_P = saveData[8] ;    // HPブースト
+            FALSH_P = saveData[9] ;    // ハヤブサ駆け
+            CHSFR_P = saveData[10];     // チェイスファイア
+            CHSFZ_P = saveData[11];     // チェイスフリーズ
+            CHSKK_P = saveData[12];     // チェイスショック
+            TPBST_P = saveData[13];     // TPブースト
+            ATBST_P = saveData[14];     // ATKブースト
+            WRCRY_P = saveData[15];     // ウォークライ
+            HLCRY_P = saveData[16];     // ヘルズクライ
+            DFBST_P = saveData[17];     // DEFブースト
+            ARMRC_P = saveData[18];     // アームリカバリー
+            FLSPD_P = saveData[19];     // 猛進逃走
+            MNING_P = saveData[20];     // 採掘
+            RTIRE_P = saveData[21];     // 引退ポイント
+            CHAR_NM = saveData[22];     // 名前
+
+            // 引退ポイントを反映
+            document.Msg.Retire.value = RTIRE_P;
+            // 名前を反映
+            document.Msg.chrName.value = CHAR_NM;
+
+            // 各スキル再計算
+            const barAXMST = skillValuess.get("AXMST"); AXMST_F(barAXMST);     // 斧マスタリー
+            const barPWCRS = skillValuess.get("PWCRS"); PWCRS_F(barPWCRS);     // パワークラッシュ
+            const barSTSMA = skillValuess.get("STSMA"); STSMA_F(barSTSMA);     // スタンスマッシュ
+            const barHDBAS = skillValuess.get("HDBAS"); HDBAS_F(barHDBAS);     // ヘッドバッシュ
+            const barSDMST = skillValuess.get("SDMST"); SDMST_F(barSDMST);     // 剣マスタリー
+            const barRGEDG = skillValuess.get("RGEDG"); RGEDG_F(barRGEDG);     // レイジングエッジ
+            const barTORND = skillValuess.get("TORND"); TORND_F(barTORND);     // トルネード
+            const barDBATK = skillValuess.get("DBATK"); DBATK_F(barDBATK);     // ダブルアタック
+            const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST);     // HPブースト
+            const barFALSH = skillValuess.get("FALSH"); FALSH_F(barFALSH);     // ハヤブサ駆け
+            const barCHSFR = skillValuess.get("CHSFR"); CHSFR_F(barCHSFR);     // チェイスファイア
+            const barCHSFZ = skillValuess.get("CHSFZ"); CHSFZ_F(barCHSFZ);     // チェイスフリーズ
+            const barCHSKK = skillValuess.get("CHSKK"); CHSKK_F(barCHSKK);     // チェイスショック
+            const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST);     // TPブースト
+            const barATBST = skillValuess.get("ATBST"); ATBST_F(barATBST);     // ATKブースト
+            const barWRCRY = skillValuess.get("WRCRY"); WRCRY_F(barWRCRY);     // ウォークライ
+            const barHLCRY = skillValuess.get("HLCRY"); HLCRY_F(barHLCRY);     // ヘルズクライ
+            const barDFBST = skillValuess.get("DFBST"); DFBST_F(barDFBST);     // DEFブースト
+            const barARMRC = skillValuess.get("ARMRC"); ARMRC_F(barARMRC);     // アームリカバリー
+            const barFLSPD = skillValuess.get("FLSPD"); FLSPD_F(barFLSPD);     // 猛進逃走
+            const barMNING = skillValuess.get("MNING"); MNING_F(barMNING);     // 採掘
+
+            // スキルポイント表示
+            showPoint();
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| Save処理                                       |*/
+    /*[]----------------------------------------------[]*/
+    function Save() {
+        // 保持内容
+        CHAR_NM = document.Msg.chrName.value;
+        var saveData = new Array(23);
+        saveData[0]  = AXMST_P;    // 斧マスタリー
+        saveData[1]  = PWCRS_P;    // パワークラッシュ
+        saveData[2]  = STSMA_P;    // スタンスマッシュ
+        saveData[3]  = HDBAS_P;    // ヘッドバッシュ
+        saveData[4]  = SDMST_P;    // 剣マスタリー
+        saveData[5]  = RGEDG_P;    // レイジングエッジ
+        saveData[6]  = TORND_P;    // トルネード
+        saveData[7]  = DBATK_P;    // ダブルアタック
+        saveData[8]  = HPBST_P;    // HPブースト
+        saveData[9]  = FALSH_P;    // ハヤブサ駆け
+        saveData[10] = CHSFR_P;    // チェイスファイア
+        saveData[11] = CHSFZ_P;    // チェイスフリーズ
+        saveData[12] = CHSKK_P;    // チェイスショック
+        saveData[13] = TPBST_P;    // TPブースト
+        saveData[14] = ATBST_P;    // ATKブースト
+        saveData[15] = WRCRY_P;    // ウォークライ
+        saveData[16] = HLCRY_P;    // ヘルズクライ
+        saveData[17] = DFBST_P;    // DEFブースト
+        saveData[18] = ARMRC_P;    // アームリカバリー
+        saveData[19] = FLSPD_P;    // 猛進逃走
+        saveData[20] = MNING_P;    // 採掘
+        saveData[21] = RTIRE_P;    // 引退ポイント
+        saveData[22] = CHAR_NM;    // 名前
+
+        // クッキーに保存
+        SaveCookie(saveData);
     }
 
     // -->
@@ -577,10 +679,10 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
 
 <div class="table"  style="position:absolute; top:40px; left:543px;">
   <div class="pair">
-    <a href="#" class="glass-btn">Load</a>
-    <a href="#" class="glass-btn">Save</a>
+    <a href="Javascript:Load();" class="glass-btn">Load</a>
+    <a href="Javascript:Save();" class="glass-btn">Save</a>
     <a href="JavaScript:Clear();" class="glass-btn">Clear</a>
-    <a href="#" class="glass-btn">Delete</a>
+    <a href="Javascript:Delete();" class="glass-btn">Delete</a>
   </div>
 </div>
 
