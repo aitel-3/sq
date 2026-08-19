@@ -208,7 +208,7 @@ function showMsg() {
 function LoadCookie() {
 
     // 選択されたスロット番号
-    slotNum = document.Msg.slot.options[document.Msg.Slot.selectIndex].value;
+    slotNum = document.Msg.slot.options[document.Msg.Slot.selectedIndex].value;
     // キー値
     saveKey = "sq1_" + nameWithoutExt + "_" + slotNum;
 
