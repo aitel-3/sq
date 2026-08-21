@@ -205,7 +205,6 @@ function Init() {
     for( idx = 1; idx <= document.Msg.Slot.options.length; idx++ ) {
         // キー値
         saveKey = "sq1_" + nameWithoutExt + "_" + idx;
-        dataflg = 0;
 
         const cookies = document.cookie.split("; ");
         for (const c of cookies) {
@@ -219,17 +218,16 @@ console.log("Init() idx=[" + idx + "] slotInfo[22]=[" + slotInfo[22] + "]");
                     if( slotInfo[22] != "" ) {
                         document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : " + slotInfo[22];
                         document.Msg.chrName.value = slotInfo[22];
-                        dataflg = 1;
                         break;
                     }
                     if( slotInfo[22] === "" ) {
                         document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Name";
-                        dataflg = 1;
                         break;
                     }
                 }
                 else {
                     document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Save Data";
+                    break;
                 }
             }
         }
