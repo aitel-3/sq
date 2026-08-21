@@ -94,7 +94,7 @@ console.log("updateBar() level=[" + level + "]");
 }
 
 /*[]----------------------------------------------[]*/
-/*| 初期化処理                                     |*/
+/*| 各種値初期化処理                               |*/
 /*[]----------------------------------------------[]*/
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -132,6 +132,8 @@ console.log("DispPoint() level=[" + statusValues.get(bar_id) + "]");
 
 /*[]----------------------------------------------[]*/
 /*| スキル活性化                                   |*/
+/*|   引数                                         |*/
+/*|     parts : スキル名                           |*/
 /*[]----------------------------------------------[]*/
 function Visible(parts) {
     skill_box = parts + "_SKILL";
@@ -142,6 +144,8 @@ console.log("Visible() skikk_box=[" + skill_box + "]");
 
 /*[]----------------------------------------------[]*/
 /*| スキル非活性化                                 |*/
+/*|   引数                                         |*/
+/*|     parts : スキル名                           |*/
 /*[]----------------------------------------------[]*/
 function Disable(parts){
     skill_box = parts + "_SKILL";
@@ -157,6 +161,7 @@ function showMsg() {
     // 引退ボーナス値取得
     RTIRE_P = eval(document.Msg.Retire.options[document.Msg.Retire.selectedIndex].value);
 
+    // スキルポイント合計が引退ボーナス込み＋３以下の場合
     if( SKILL_P <= 3 + RTIRE_P ) {
         document.getElementById("LV").textContent  = 1;
         document.getElementById("USE").textContent = SKILL_P;
@@ -170,6 +175,7 @@ function showMsg() {
         el.style.width      = '20px';
     }
 
+     // スキルポイント合計が引退ボーナス込み＋３より多く引退ボーナス込み＋７２以下の場合
     if( SKILL_P > 3 + RTIRE_P && SKILL_P <= 72 + RTIRE_P ) {
         document.getElementById("LV").textContent  = eval(SKILL_P - 2 - RTIRE_P);
         document.getElementById("USE").textContent = SKILL_P;
@@ -183,7 +189,8 @@ function showMsg() {
         el.style.width      = '20px';
     }
 
-    if( SKILL_P > 72 + RTIRE_P ) {
+    // スキルポイント合計が引退ボーナス込み＋７２より多い場合
+   if( SKILL_P > 72 + RTIRE_P ) {
         document.getElementById("LV").textContent  = 70;
         document.getElementById("USE").textContent = SKILL_P;
         document.getElementById("RES").textContent = eval(72 - SKILL_P - RTIRE_P);
@@ -198,9 +205,11 @@ function showMsg() {
     }
 }
 
+/*[]----------------------------------------------[]*/
+/*| 画面初期表示処理                               |*/
+/*[]----------------------------------------------[]*/
 function Init() {
     document.Msg.chrName.value = "";
-    lastSlotNum = 0;
 
     for( idx = 1; idx <= document.Msg.Slot.options.length; idx++ ) {
         // キー値
@@ -217,7 +226,6 @@ function Init() {
 console.log("Init() idx=[" + idx + "] slotInfo[22]=[" + slotInfo[22] + "]");
                     if( slotInfo[22] != "" ) {
                         document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : " + slotInfo[22];
-                        document.Msg.chrName.value = slotInfo[22];
                         break;
                     }
                     if( slotInfo[22] === "" ) {
@@ -244,7 +252,6 @@ function LoadCookie() {
     // キー値
     saveKey = "sq1_" + nameWithoutExt + "_" + slotNum;
 
-
     const cookies = document.cookie.split("; ");
     for (const c of cookies) {
         const [key, val] = c.split("=");
@@ -260,6 +267,7 @@ function LoadCookie() {
 /*| cookieに保存                                   |*/
 /*|   引数                                         |*/
 /*|     saveData : 保持内容配列                    |*/
+/*|     days     : 保持期間                        |*/
 /*[]----------------------------------------------[]*/
 function SaveCookie(saveData, days = 7) {
 
