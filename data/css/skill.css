@@ -1,8 +1,15 @@
 /*[]----------------------------------------------[]*/
+/*| body                                          |*/
+/*[]----------------------------------------------[]*/
+body {
+  background-color           : #146fad;
+}
+
+/*[]----------------------------------------------[]*/
 /*| スキル                                         |*/
 /*[]----------------------------------------------[]*/
 .skill {
-  background-color           : #3f6fbf;
+  background-color           : #004a79;
   color                      : #8fffff;
   height                     : 30px;
   width                      : 130px;
@@ -74,6 +81,47 @@
   font-size: 10px;
   width: 30px;
 }
+.diag-box {
+  position: relative;
+  display: flex;
+  width: 30px;
+  font-size: 9px;
+  font-family: "Segoe UI", sans-serif;
+  border-radius: 3px;       /* 角を丸める */
+  overflow: hidden;         /* 斜め線がはみ出さないように */
+  color: #000;
+/*  border: 1px solid #999;*/
+}
+
+/* 左右のエリア */
+.level-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #97cef4;
+}
+.level-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #5b9ed2;
+}
+
+/* 横方向の斜め区切り線 */
+.diag-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 45%;
+  width: 2px;
+  background: #00faff;
+  transform: skewX(-20deg);     /* 横方向に斜め */
+  transform-origin: center;
+  box-shadow: 0 0 8px #00faff;  /* 発光（未来UI） */
+}
 
 /*[]----------------------------------------------[]*/
 /*| メニュー部                                     |*/
@@ -114,7 +162,8 @@
 /*| メニュー部 - ラベル                            |*/
 /*[]----------------------------------------------[]*/
 .label {
-  background: #c400ff22;        /* ラベル：蛍光ブルー系 */
+//  background: #c400ff22;        /* ラベル：蛍光ブルー系 */
+  background: #7f5bff;
   border: 1px solid #c400ff;    /* ラベルの枠線 */
   padding: 2px 3px;
   border-radius: 3px;
@@ -200,7 +249,7 @@
 }
 /* 押した時の沈み込み */
 .glass-btn:active {
-  transform: translateY(6px);
+  transform: translateY(3px);
 }
 
 /*[]----------------------------------------------[]*/
