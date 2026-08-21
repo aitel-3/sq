@@ -76,7 +76,8 @@ function updateBar(bar) {
 console.log("updateBar() bar=[" + bar + "]");
     const level = statusValues.get(bar);
     const boxes = bar.querySelectorAll(".box");
-    const display = bar.querySelector(".level-display");
+    const display = bar.querySelector(".level-left");
+console.log("updateBar() level=[" + level + "]");
 
     boxes.forEach((box, i) => {
       if (i == 0) box.classList.add("zero");
@@ -86,9 +87,9 @@ console.log("updateBar() bar=[" + bar + "]");
 
     // スキルレベル値を更新
     if( level < 10 ) {
-        display.textContent = level + "/10";
+        display.textContent = level;
     } else {
-        display.textContent = "★/10";
+        display.textContent = "★";
     }
 }
 
@@ -100,20 +101,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // 初期化（ここが最重要）
     document.querySelectorAll(".status-bar").forEach(bar => {
         id = bar.id;
+console.log("addEventListener() id=[" + id + "]");
         skillValuess.set(id, bar);
-        updateBar(bar);             // DOM を 0 の状態に同期（必須）
-        // onmousewheel が初期状態で発火しないブラウザ対策
-        bar.addEventListener("wheel", (e) => handleWheel(e, bar));
-    });
-
-    document.querySelectorAll(".status-bar").forEach(bar => {
         statusValues.set(bar, 0);   // 内部値を 0 にセット
         updateBar(bar);             // DOM を 0 の状態に同期（必須）
 
         // onmousewheel が初期状態で発火しないブラウザ対策
         bar.addEventListener("wheel", (e) => handleWheel(e, bar));
 
-        setPointInit(bar);
+        setPointInit(bar, id);
     });
 });
 
@@ -140,7 +136,7 @@ console.log("DispPoint() level=[" + statusValues.get(bar_id) + "]");
 function Visible(parts) {
     skill_box = parts + "_SKILL";
 console.log("Visible() skikk_box=[" + skill_box + "]");
-    document.getElementById(skill_box).style.backgroundColor = '#3f6fbf';
+    document.getElementById(skill_box).style.backgroundColor = '#004a79';
     document.getElementById(skill_box).style.color           = '#8fffff';
 }
 
@@ -150,7 +146,7 @@ console.log("Visible() skikk_box=[" + skill_box + "]");
 function Disable(parts){
     skill_box = parts + "_SKILL";
 console.log("Disable() skikk_box=[" + skill_box + "]");
-    document.getElementById(skill_box).style.backgroundColor = '#999999';
+    document.getElementById(skill_box).style.backgroundColor = '#777777';
     document.getElementById(skill_box).style.color           = '#333333';
 }
 
@@ -199,6 +195,42 @@ function showMsg() {
         el.style.padding    = '2px 3px';
         el.style.color      = '#fff';
         el.style.width      = '20px';
+    }
+}
+
+function Init() {
+    document.Msg.chrName.value = "";
+    lastSlotNum = 0;
+
+    cookies = document.cookie;
+    if( cookies != "" ) {
+        cookies = "; " + cookies;
+        if( cookies.lastIndexOf("; sq1_" + nameWithoutExt + "_") != -1 ) {
+            lastSlotNum = cookies.charAt(cookies.lastIndexOf("; sq1_" + nameWithoutExt + "_") + 8);
+console.log("Init() lastSlotNum=[" + lastSlotNum + "]");
+        }
+    }
+    
+    if( lastSlotNum > 0 && lastSlotNum <= 10 ) {
+        document.Msg.Slot.value = lastSlotNum;
+    }
+
+    saveData = LoadCookie();
+
+    if( saveData != null ) {
+        for( idx = 1; idx <= document.Msg.Slot.options.length; idx++ ) {
+            if( saveData[22] != "" ) {
+                document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : " + saveData[22];
+            }
+            if( saveData[22] === "" ) {
+                document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Name";
+            }
+        }
+    }
+    else {
+        for( idx = 1; idx <= document.Msg.Slot.options.length; idx++ ) {
+            document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Save Data";
+        }
     }
 }
 
