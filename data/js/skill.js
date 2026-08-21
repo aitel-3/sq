@@ -206,7 +206,7 @@ function Init() {
     if( cookies != "" ) {
         cookies = "; " + cookies;
         if( cookies.lastIndexOf("; sq1_" + nameWithoutExt + "_") != -1 ) {
-            lastSlotNum = cookies.charAt(cookies.lastIndexOf("; sq1_" + nameWithoutExt + "_") + 8);
+            lastSlotNum = cookies.charAt(cookies.lastIndexOf("; sq1_" + nameWithoutExt + "_") + 10);
 console.log("Init() lastSlotNum=[" + lastSlotNum + "]");
         }
     }
