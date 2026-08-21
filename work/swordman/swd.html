@@ -406,29 +406,29 @@ console.log("MNING_F() MNING_P=[" + MNING_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     /*| スキル値初期化                                 |*/
     /*[]----------------------------------------------[]*/
-    function setPointInit(bar) {
-console.log("setPointInit()");
-        AXMST_F(bar);     // 斧マスタリー
-        PWCRS_F(bar);     // パワークラッシュ
-        STSMA_F(bar);     // スタンスマッシュ
-        HDBAS_F(bar);     // ヘッドバッシュ
-        SDMST_F(bar);     // 剣マスタリー
-        RGEDG_F(bar);     // レイジングエッジ
-        TORND_F(bar);     // トルネード
-        DBATK_F(bar);     // ダブルアタック
-        HPBST_F(bar);     // HPブースト
-        FALSH_F(bar);     // ハヤブサ駆け
-        CHSFR_F(bar);     // チェイスファイア
-        CHSFZ_F(bar);     // チェイスフリーズ
-        CHSKK_F(bar);     // チェイスショック
-        TPBST_F(bar);     // TPブースト
-        ATBST_F(bar);     // ATKブースト
-        WRCRY_F(bar);     // ウォークライ
-        HLCRY_F(bar);     // ヘルズクライ
-        DFBST_F(bar);     // DEFブースト
-        ARMRC_F(bar);     // アームリカバリー
-        FLSPD_F(bar);     // 猛進逃走
-        MNING_F(bar);     // 採掘
+    function setPointInit(bar,parts) {
+console.log("setPointInit() parts=[" + parts + "]");
+        if( parts == "AXMST" ) { const barAXMST = skillValuess.get("AXMST"); AXMST_F(barAXMST); }     // 斧マスタリー
+        if( parts == "PWCRS" ) { const barPWCRS = skillValuess.get("PWCRS"); PWCRS_F(barPWCRS); }     // パワークラッシュ
+        if( parts == "STSMA" ) { const barSTSMA = skillValuess.get("STSMA"); STSMA_F(barSTSMA); }     // スタンスマッシュ
+        if( parts == "HDBAS" ) { const barHDBAS = skillValuess.get("HDBAS"); HDBAS_F(barHDBAS); }     // ヘッドバッシュ
+        if( parts == "SDMST" ) { const barSDMST = skillValuess.get("SDMST"); SDMST_F(barSDMST); }     // 剣マスタリー
+        if( parts == "RGEDG" ) { const barRGEDG = skillValuess.get("RGEDG"); RGEDG_F(barRGEDG); }     // レイジングエッジ
+        if( parts == "TORND" ) { const barTORND = skillValuess.get("TORND"); TORND_F(barTORND); }     // トルネード
+        if( parts == "DBATK" ) { const barDBATK = skillValuess.get("DBATK"); DBATK_F(barDBATK); }     // ダブルアタック
+        if( parts == "HPBST" ) { const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST); }     // HPブースト
+        if( parts == "FALSH" ) { const barFALSH = skillValuess.get("FALSH"); FALSH_F(barFALSH); }     // ハヤブサ駆け
+        if( parts == "CHSFR" ) { const barCHSFR = skillValuess.get("CHSFR"); CHSFR_F(barCHSFR); }     // チェイスファイア
+        if( parts == "CHSFZ" ) { const barCHSFZ = skillValuess.get("CHSFZ"); CHSFZ_F(barCHSFZ); }     // チェイスフリーズ
+        if( parts == "CHSKK" ) { const barCHSKK = skillValuess.get("CHSKK"); CHSKK_F(barCHSKK); }     // チェイスショック
+        if( parts == "TPBST" ) { const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST); }     // TPブースト
+        if( parts == "ATBST" ) { const barATBST = skillValuess.get("ATBST"); ATBST_F(barATBST); }     // ATKブースト
+        if( parts == "WRCRY" ) { const barWRCRY = skillValuess.get("WRCRY"); WRCRY_F(barWRCRY); }     // ウォークライ
+        if( parts == "HLCRY" ) { const barHLCRY = skillValuess.get("HLCRY"); HLCRY_F(barHLCRY); }     // ヘルズクライ
+        if( parts == "DFBST" ) { const barDFBST = skillValuess.get("DFBST"); DFBST_F(barDFBST); }     // DEFブースト
+        if( parts == "ARMRC" ) { const barARMRC = skillValuess.get("ARMRC"); ARMRC_F(barARMRC); }     // アームリカバリー
+        if( parts == "FLSPD" ) { const barFLSPD = skillValuess.get("FLSPD"); FLSPD_F(barFLSPD); }     // 猛進逃走
+        if( parts == "MNING" ) { const barMNING = skillValuess.get("MNING"); MNING_F(barMNING); }     // 採掘
     }
 
     /*[]----------------------------------------------[]*/
@@ -624,7 +624,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
   </script>
 </head>
 
-<body bgcolor="#bbddff">
+<body onLoad="Init()">
 
 <div id="skill"style="position:absolute; z-index:1;"></div>
 
@@ -704,7 +704,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="AXMST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="AXMST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -725,7 +725,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="PWCRS" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="PWCRS" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -746,7 +746,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="STSMA" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="STSMA" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -767,7 +767,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="HDBAS" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="HDBAS" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -789,7 +789,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="SDMST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="SDMST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -810,7 +810,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="RGEDG" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="RGEDG" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -831,7 +831,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="TORND" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="TORND" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -852,7 +852,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="DBATK" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="DBATK" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -873,7 +873,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="HPBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -894,7 +894,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="FALSH" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="FALSH" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -915,7 +915,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="CHSFR" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="CHSFR" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -936,7 +936,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="CHSFZ" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="CHSFZ" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -957,7 +957,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="CHSKK" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="CHSKK" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -978,7 +978,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="TPBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -999,7 +999,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="ATBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="ATBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -1020,7 +1020,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="WRCRY" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="WRCRY" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -1041,7 +1041,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="HLCRY" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="HLCRY" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -1062,7 +1062,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="DFBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -1083,7 +1083,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="ARMRC" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="ARMRC" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -1104,7 +1104,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="FLSPD" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="FLSPD" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
@@ -1125,7 +1125,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
       <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
       <div id="MNING" class="box" onclick="JavaScript:handleClick(this,10)"></div>
     </div>
-    <span class="level-display">0/10</span>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
   </div>
 </div>
 
