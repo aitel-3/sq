@@ -212,15 +212,16 @@ function Init() {
             const [key, val] = c.split("=");
             if (key === saveKey) {
                 const decoded = decodeURIComponent(val);
-console.log("Init() idx=[" + idx + "] decoded[22]=[" + decoded[22] + "]");
+                contt slotInfo = JSON.parse(decoded)
+console.log("Init() idx=[" + idx + "] slotInfo[22]=[" + slotInfo[22] + "]");
 
-                if( decoded[22] != "" ) {
-                    document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : " + decoded[22];
-                    document.Msg.chrName.value = decoded[22];
+                if( slotInfo[22] != "" ) {
+                    document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : " + slotInfo[22];
+                    document.Msg.chrName.value = slotInfo[22];
                     dataflg = 1;
                     break;
                 }
-                if( decoded[22] === "" ) {
+                if( slotInfo[22] === "" ) {
                     document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Name";
                     dataflg = 1;
                     break;
@@ -228,7 +229,7 @@ console.log("Init() idx=[" + idx + "] decoded[22]=[" + decoded[22] + "]");
             }
         }
 
-       if( dataflg == 0 ) {
+       if( dataflg === 0 ) {
             document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Save Data";
        }
     }
