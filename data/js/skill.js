@@ -202,35 +202,35 @@ function Init() {
     document.Msg.chrName.value = "";
     lastSlotNum = 0;
 
-    cookies = document.cookie;
-    if( cookies != "" ) {
-        cookies = "; " + cookies;
-        if( cookies.lastIndexOf("; sq1_" + nameWithoutExt + "_") != -1 ) {
-            lastSlotNum = cookies.charAt(cookies.lastIndexOf("; sq1_" + nameWithoutExt + "_") + 10);
-console.log("Init() lastSlotNum=[" + lastSlotNum + "]");
-        }
-    }
-    
-    if( lastSlotNum > 0 && lastSlotNum <= 10 ) {
-        document.Msg.Slot.value = lastSlotNum;
-    }
+    for( idx = 1; idx <= document.Msg.Slot.options.length; idx++ ) {
+        // キー値
+        saveKey = "sq1_" + nameWithoutExt + "_" + idx;
+        dataflg = 0;
 
-    saveData = LoadCookie();
+        const cookies = document.cookie.split("; ");
+        for (const c of cookies) {
+            const [key, val] = c.split("=");
+            if (key === saveKey) {
+                const decoded = decodeURIComponent(val);
+console.log("Init() idx=[" + idx + "] decoded[22]=[" + decoded[22] + "]");
 
-    if( saveData != null ) {
-        for( idx = 1; idx <= document.Msg.Slot.options.length; idx++ ) {
-            if( saveData[22] != "" ) {
-                document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : " + saveData[22];
-            }
-            if( saveData[22] === "" ) {
-                document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Name";
+                if( decoded[22] != "" ) {
+                    document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : " + decoded[22];
+                    document.Msg.chrName.value = decoded[22];
+                    dataflg = 1;
+                    break;
+                }
+                if( decoded[22] === "" ) {
+                    document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Name";
+                    dataflg = 1;
+                    break;
+                }
             }
         }
-    }
-    else {
-        for( idx = 1; idx <= document.Msg.Slot.options.length; idx++ ) {
+
+       if( dataflg == 0 ) {
             document.Msg.Slot.options[ idx - 1 ].text = "Slot" + idx + " : no Save Data";
-        }
+       }
     }
 }
 
