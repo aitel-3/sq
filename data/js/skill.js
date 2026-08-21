@@ -212,7 +212,7 @@ function Init() {
             const [key, val] = c.split("=");
             if (key === saveKey) {
                 const decoded = decodeURIComponent(val);
-                contt slotInfo = JSON.parse(decoded)
+                const slotInfo = JSON.parse(decoded)
 console.log("Init() idx=[" + idx + "] slotInfo[22]=[" + slotInfo[22] + "]");
 
                 if( slotInfo[22] != "" ) {
