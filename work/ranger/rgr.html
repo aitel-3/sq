@@ -4,393 +4,446 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <link id="csslink" rel=stylesheet href="../../data/css/skill.css" type="text/css">
   <title>Ranger Skill Tree</title>
-  <style>
-    <!--
-    body    { font-size         : 9pt;
-              background-image  : url(../../data/other/back_rgr.png);
-              background-repeat : no-repeat;
-            }
-    // -->
-  </style>
   <script language="JavaScript" src="../../data/js/skill.js"></script>
-  <script language="JavaScript" src="../../data/js/skilllist.js"></script>
   <script language="JavaScript">
     <!--
-    var HPBS_P            // HPブースト
-      = TPBS_P            // TPブースト
-      = AGBS_P            // AGIブースト
-      = BWMS_P            // 弓マスタリー
-      = TRST_P            // トリックステップ
-      = FSST_P            // ファストステップ
-      = SDET_P            // シャドウエントリ
-      = ACFS_P            // アクトファースト
-      = OTST_P            // アザーズステップ
-      = SPBS_P            // 先制ブースト
-      = SPBL_P            // 先制ブロック
-      = RNPR_P            // 逃走準備
-      = PWST_P            // パワーショット
-      = WSHT_P            // ダブルショット
-      = AMFT_P            // エイミングフット
-      = SGTR_P            // サジタリウスの矢
-      = OWLE_P            // オウルアイ
-      = CTWK_P            // 警戒歩行
-      = FLLN_P            // 伐採
-      = DIGG_P            // 採掘
-      = PICK_P            // 採取
+    /*[]----------------------------------------------[]*/
+    /*| 初期化                                         |*/
+    /*[]----------------------------------------------[]*/
+    var BWMST_P            // 弓マスタリー
+      = PWSHT_P            // パワーショット
+      = AMGFT_P            // エイミングフット
+      = DBSHT_P            // ダブルショット
+      = SGARW_P            // サジタリウスの矢
+      = AGBST_P            // AGIブースト
+      = ACTFS_P            // アクトファースト
+      = SHDNT_P            // シャドウエントリ
+      = TRKST_P            // トリックステップ
+      = FSTST_P            // ファストステップ
+      = OTHST_P            // アザーズステップ
+      = ESCPT_P            // 逃走準備
+      = HPBST_P            // HPブースト
+      = TPBST_P            // TPブースト
+      = FSTBS_P            // 先制ブースト
+      = OWLEY_P            // オウルアイ
+      = FSTBL_P            // 先制ブロック
+      = ALTWK_P            // 警戒歩行
+      = FLLNG_P            // 伐採
+      = MNING_P            // 採掘
+      = GATHR_P            // 採取
       = 0;
-    var RETR_P            // 引退ボーナス
-      = SKLL_P            // スキルポイント
-      = CHAR_N            // 名前
+    var RTIRE_P            // 引退ボーナス
+      = SKILL_P            // スキルポイント
+      = CHAR_NM            // 名前
       = 0;
-    var ver = "20";       // コードVer
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 各スキルの条件
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // HPブースト
-    function HPBS_F() {
-        Point(HPBS_P, 10, "HPBS_IN");
-    }
-    // TPブースト
-    function TPBS_F() {
-        Point(TPBS_P, 10, "TPBS_IN");
-    }
-    // AGIブースト
-    function AGBS_F() {
-        Point(AGBS_P, 10, "AGBS_IN");
-        // AGIブーストが1未満の場合、トリックステップ、ファストステップを不活性
-        if( AGBS_P < 1 ) {
-            Disable("TRST"); if( TRST_P > 0 ) { TRST_P=0; TRST_F(); }
-            Disable("FSST"); if( FSST_P > 0 ) { FSST_P=0; FSST_F(); }
+    /*[]----------------------------------------------[]*/
+    /*| 弓マスタリー                                   |*/
+    /*[]----------------------------------------------[]*/
+    function BWMST_F(bar) {
+console.log("BWMST_F() BWMST_P=[" + BWMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("BWMST",BWMST_P);
+        if( BWMST_P < 1 ) {
+            Disable("PWSHT");
+            if( PWSHT_P > 0 ) { PWSHT_P = 0; statusValues.set(bar, 0); PWSHT_F(bar); }
         }
-        // AGIブーストが1以上の場合、トリックステップ、ファストステップを活性
-        if( AGBS_P >= 1 ) {
-            Visible("TRST");
-            Visible("FSST");
+        if( BWMST_P >= 1 ) {
+            Visible("PWSHT");
         }
-        // AGIブーストが3未満の場合、先制ブーストを不活性
-        if( AGBS_P < 3 ) {
-            Disable("SPBS"); if( SPBS_P > 0 ) { SPBS_P=0; SPBS_F(); }
+        if( BWMST_P < 3 ) {
+            Disable("AMGFT");
+            if( AMGFT_P > 0 ) { AMGFT_P = 0; statusValues.set(bar, 0); AMGFT_F(bar); }
         }
-        // AGIブーストが3以上の場合、先制ブーストを活性
-        if( AGBS_P >= 3 ) {
-            Visible("SPBS");
+        if( BWMST_P >= 3 ) {
+            Visible("AMGFT");
         }
-        // AGIブーストが5未満の場合、アクトファーストを不活性
-        if( AGBS_P < 5 ) {
-            Disable("ACFS"); if( ACFS_P > 0 ) { ACFS_P=0; ACFS_F(); }
+        if( BWMST_P < 5 ) {
+            Disable("DBSHT");
+            if( DBSHT_P > 0 ) { DBSHT_P = 0; statusValues.set(bar, 0); DBSHT_F(bar); }
         }
-        // AGIブーストが5以上かつアザーズステップが3以上の場合、アクトファーストを活性
-        if( AGBS_P >= 5 && OTST_P >= 3 ) {
-            Visible("ACFS");
+        if( BWMST_P >= 5 ) {
+            Visible("DBSHT");
         }
-    }
-    // 弓マスタリー
-    function BWMS_F() {
-        Point(BWMS_P, 10, "BWMS_IN");
-        // 弓マスタリーが1未満の場合、パワーショットを不活性
-        if( BWMS_P < 1 ) {
-            Disable("PWST"); if( PWST_P > 0 ) { PWST_P=0; PWST_F(); }
+        if( BWMST_P < 10 ) {
+            Disable("SGARW");
+            if( SGARW_P > 0 ) { SGARW_P = 0; statusValues.set(bar, 0); SGARW_F(bar); }
         }
-        // 弓マスタリーが1以上の場合、パワーショットを活性
-        if( BWMS_P >= 1 ) {
-            Visible("PWST");
+        if( BWMST_P >= 10 ) {
+            Visible("SGARW");
         }
-        // 弓マスタリーが3未満の場合、エイミングフットを不活性
-        if( BWMS_P < 3 ) {
-            Disable("AMFT"); if( AMFT_P > 0 ) { AMFT_P=0; AMFT_F(); }
-        }
-        // 弓マスタリーが3以上の場合、エイミングフットを活性
-        if( BWMS_P >= 3 ) {
-            Visible("AMFT");
-        }
-        // 弓マスタリーが5未満の場合、ダブルショットを不活性
-        if( BWMS_P < 5 ) {
-            Disable("WSHT"); if( WSHT_P > 0 ) { WSHT_P=0; WSHT_F(); }
-        }
-        // 弓マスタリーが5以上の場合、ダブルショットを活性
-        if( BWMS_P >= 5 ) {
-            Visible("WSHT");
-        }
-        // 弓マスタリーが10未満の場合、サジタリウスの矢を不活性
-        if( BWMS_P < 10 ) {
-            Disable("SGTR"); if( SGTR_P > 0 ) { SGTR_P=0; SGTR_F(); }
-        }
-        // 弓マスタリーが10以上の場合、サジタリウスの矢を活性
-        if( BWMS_P >= 10 ) {
-            Visible("SGTR");
-        }
-    }
-    // トリックステップ
-    function TRST_F() {
-        Point(TRST_P, 10, "TRST_IN");
-        // トリックステップが3未満の場合、シャドウエントリとアザーズステップを不活性
-        if( TRST_P < 3 ) {
-            Disable("SDET"); if( SDET_P > 0 ) { SDET_P=0; SDET_F(); }
-            Disable("OTST"); if( OTST_P > 0 ) { OTST_P=0; OTST_F(); }
-        }
-        // トリックステップが3以上の場合、シャドウエントリを活性
-        if( TRST_P >= 3 ) {
-            Visible("SDET");
-        }
-        // トリックステップが3以上かつファストステップが3以上の場合、アザーズステップを活性
-        if( TRST_P >= 3 && FSST_P >= 3 ) {
-            Visible("OTST");
-        }
-        // AGIブーストが1未満かつトリックステップが0より大きい場合
-        if( AGBS_P < 1 && TRST_P > 0 ) {
-            // AGIブーストを１にする
-            AGBS_P=1;
-            Visible("TRST");
-            AGBS_F();
-        }
-    }
-    // ファストステップ
-    function FSST_F() {
-        Point(FSST_P, 10, "FSST_IN");
-        // ファストステップが3未満の場合、逃走準備、アザーズステップを不活性
-        if( FSST_P < 3 ) {
-            Disable("RNPR"); if( RNPR_P > 0 ) { RNPR_P=0; RNPR_F(); }
-            Disable("OTST"); if( OTST_P > 0 ) { OTST_P=0; OTST_F(); }
-        }
-        // ファストステップが3以上の場合、逃走準備を活性
-        if( FSST_P >= 3 ) {
-            Visible("RNPR");
-        }
-        // ファストステップが3以上かつトリックステップが3以上の場合、アザーズステップを活性
-        if( FSST_P >= 3 && TRST_P >= 3 ) {
-            Visible("OTST");
-        }
-        // AGIブーストが1未満かつファストステップが0より大きい場合
-        if( AGBS_P < 1 && FSST_P > 0 ) {
-            // AGIブーストを1にする
-            AGBS_P=1;
-            Visible("FSST");
-            AGBS_F();
-        }
-    }
-    // シャドウエントリ
-    function SDET_F() {
-        Point(SDET_P, 10, "SDET_IN");
-        // トリックステップが3未満かつシャドウエントリが0より大きい場合
-        if( TRST_P < 3 && SDET_P > 0 ) {
-            // トリックステップを3にする
-            TRST_P=3;
-            Visible("SDET");
-            TRST_F();
-        }
-    }
-    // アクトファースト
-    function ACFS_F() {
-        Point(ACFS_P, 10, "ACFS_IN");
-        // AGIブーストが5未満かつアクトファーストが0より大きい場合
-        if( AGBS_P < 5 && ACFS_P > 0 ) {
-            // AGIブーストを5にする
-            AGBS_P=5;
-            Visible("ACFS");
-            AGBS_F();
-        }
-        // アザーズステップが3未満かつアクトファーストが0より大きい場合
-        if( OTST_P < 3 && ACFS_P > 0 ) {
-            // アザーズステップを3にする
-            OTST_P=3;
-            Visible("ACFS");
-            OTST_F();
-        }
-    }
-    // アザーズステップ
-    function OTST_F() {
-        Point(OTST_P, 10, "OTST_IN");
-        // アザーズステップが3未満の場合、アクトファーストを不活性
-        if( OTST_P < 3 ) {
-            Disable("ACFS"); if( ACFS_P > 0 ) { ACFS_P=0; ACFS_F(); }
-        }
-        // アザーズステップが3以上かつAGIブーストが5以上の場合、アクトファーストを活性
-        if( OTST_P >= 3 && AGBS_P >= 5 ) {
-            Visible("ACFS");
-        }
-        // トリックステップが3未満かつアザーズステップが0より大きい場合
-        if( TRST_P < 3 && OTST_P > 0 ) {
-            // トリックステップを3にする
-            TRST_P=3;
-            Visible("OTST");
-            TRST_F();
-        }
-        // ファストステップが3未満かつアザーズステップが0より大きい場合
-        if( FSST_P < 3 && OTST_P > 0 ) {
-            // ファストステップを3にする
-            FSST_P=3;
-            Visible("OTST");
-            FSST_F();
-        }
-    }
-    // 先制ブースト
-    function SPBS_F() {
-        Point(SPBS_P, 10, "SPBS_IN");
-        // 先制ブーストが1未満の場合、オウルアイを不活性
-        if(SPBS_P<1){
-            Disable("OWLE"); if( OWLE_P > 0 ) { OWLE_P=0; OWLE_F(); }
-        }
-        // 先制ブーストが1以上の場合、オウルアイを活性
-        if( SPBS_P >= 1 ) {
-            Visible("OWLE");
-        }
-        // 先制ブーストが2未満の場合、先制ブロックを不活性
-        if( SPBS_P < 2 ) {
-            Disable("SPBL"); if( SPBL_P > 0 ) { SPBL_P=0; SPBL_F(); }
-        }
-        // 先制ブーストが2以上の場合、先制ブロックを活性
-        if( SPBS_P >= 2 ) {
-            Visible("SPBL");
-        }
-        // 先制ブーストが3未満の場合、警戒歩行を不活性
-        if( SPBS_P < 3 ) {
-            Disable("CTWK"); if( CTWK_P > 0 ) { CTWK_P=0; CTWK_F(); }
-        }
-        // 先制ブーストが3以上の場合、警戒歩行を活性
-        if( SPBS_P >= 3 ) {
-            Visible("CTWK");
-        }
-        // AGIブーストが3未満かつ先制ブーストが0より大きい場合
-        if( AGBS_P < 3 && SPBS_P > 0 ) {
-            // AGIブーストを3にする
-            AGBS_P=3;
-            Visible("SPBS");
-            AGBS_F();
-        }
-    }
-    // 先制ブロック
-    function SPBL_F() {
-        Point(SPBL_P, 10, "SPBL_IN");
-        // 先制ブーストが2未満かつ先制ブロックが0より大きい場合
-        if( SPBS_P < 2 && SPBL_P > 0 ) {
-            // 先制ブーストを2にする
-            SPBS_P=2;
-            Visible("SPBL");
-            SPBS_F();
-        }
-    }
-    // 逃走準備
-    function RNPR_F() {
-        Point(RNPR_P, 10, "RNPR_IN");
-        // ファストステップが3未満かつ逃走準備が0より大きい場合
-        if( FSST_P < 3 && RNPR_P > 0 ) {
-            // ファストステップを3にする
-            FSST_P=3;
-            Visible("RNPR");
-            FSST_F();
-        }
-    }
-    // パワーショット
-    function PWST_F() {
-        Point(PWST_P, 10, "PWST_IN");
-        // 弓マスタリーが1未満かつパワーショットが0より大きい場合
-        if( BWMS_P < 1 && PWST_P > 0 ) {
-            // 弓マスタリーを1にする
-            BWMS_P=1;
-            Visible("PWST");
-            BWMS_F();
-        }
-    }
-    // ダブルショット
-    function WSHT_F() {
-        Point(WSHT_P, 10, "WSHT_IN");
-        // 弓マスタリーが5未満かつダブルショットが0より大きい場合
-        if( BWMS_P < 5 && WSHT_P > 0 ) {
-            // 弓マスタリーを5にする
-            BWMS_P=5;
-            Visible("WSHT");
-            BWMS_F();
-        }
-    }
-    // エイミングフット
-    function AMFT_F() {
-        Point(AMFT_P, 10, "AMFT_IN");
-        // 弓マスタリーが3未満かつエイミングフットが0より大きい場合
-        if( BWMS_P < 3 && AMFT_P > 0 ) {
-            // 弓マスタリーを3にする
-            BWMS_P=3;
-            Visible("AMFT");
-            BWMS_F();
-        }
-    }
-    // サジタリウスの矢
-    function SGTR_F() {
-        Point(SGTR_P, 10, "SGTR_IN");
-        // 弓マスタリーが10未満かつサジタリウスの矢が0より大きい場合
-        if( BWMS_P < 10 && SGTR_P > 0 ) {
-            // 弓マスタリーを10にする
-            BWMS_P=10;
-            Visible("SGTR");
-            BWMS_F();
-        }
-    }
-    // オウルアイ
-    function OWLE_F() {
-        Point(OWLE_P, 10, "OWLE_IN");
-        // 先制ブーストが1未満かつオウルアイが0より大きい場合
-        if( SPBS_P < 1 && OWLE_P > 0 ) {
-            // 先制ブーストを1にする
-            SPBS_P=1;
-            Visible("OWLE");
-            SPBS_F();
-        }
-    }
-    // 警戒歩行
-    function CTWK_F() {
-        Point(CTWK_P, 10, "CTWK_IN");
-        // 先制ブーストが3未満かつ警戒歩行が0より大きい場合
-        if( SPBS_P < 3 && CTWK_P > 0 ) {
-            // 先制ブーストを3にする
-            SPBS_P=3;
-            Visible("CTWK");
-            SPBS_F();
-        }
-    }
-    // 伐採
-    function FLLN_F() {
-        Point(FLLN_P, 10, "FLLN_IN");
-    }
-    // 採掘
-    function DIGG_F() {
-        Point(DIGG_P, 10, "DIGG_IN");
-    }
-    // 採取
-    function PICK_F() {
-        Point(PICK_P, 10, "PICK_IN");
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // イベント
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*[]----------------------------------------------[]*/
+    /*| パワーショット                                 |*/
+    /*[]----------------------------------------------[]*/
+    function PWSHT_F(bar) {
+console.log("PWSHT_F() PWSHT_P=[" + PWSHT_P +"] BWMST_P=[" + BWMST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("PWSHT",PWSHT_P);
+        if( BWMST_P < 1 && PWSHT_P > 0 ) {
+            BWMST_P = 1;
+            Visible("PWSHT");
+            BWMST_F(bar);
+        }
+    }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // スキルポイント設定
-    //   引数：parts スキル名
-    //         point 設定するポイント
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function setPoint(parts,point) {
-        if(parts == "HPBS") { if( point >= 0 && point <= 10) HPBS_P=point; HPBS_F(); }    // HPブースト
-        if(parts == "TPBS") { if( point >= 0 && point <= 10) TPBS_P=point; TPBS_F(); }    // TPブースト
-        if(parts == "AGBS") { if( point >= 0 && point <= 10) AGBS_P=point; AGBS_F(); }    // AGIブースト
-        if(parts == "BWMS") { if( point >= 0 && point <= 10) BWMS_P=point; BWMS_F(); }    // 弓マスタリー
-        if(parts == "TRST") { if( point >= 0 && point <= 10) TRST_P=point; TRST_F(); }    // トリックステップ
-        if(parts == "FSST") { if( point >= 0 && point <= 10) FSST_P=point; FSST_F(); }    // ファストステップ
-        if(parts == "SDET") { if( point >= 0 && point <= 10) SDET_P=point; SDET_F(); }    // シャドウエントリ
-        if(parts == "ACFS") { if( point >= 0 && point <= 10) ACFS_P=point; ACFS_F(); }    // アクトファースト
-        if(parts == "OTST") { if( point >= 0 && point <= 10) OTST_P=point; OTST_F(); }    // アザーズステップ
-        if(parts == "SPBS") { if( point >= 0 && point <= 10) SPBS_P=point; SPBS_F(); }    // 先制ブースト
-        if(parts == "SPBL") { if( point >= 0 && point <= 10) SPBL_P=point; SPBL_F(); }    // 先制ブロック
-        if(parts == "RNPR") { if( point >= 0 && point <= 10) RNPR_P=point; RNPR_F(); }    // 逃走準備
-        if(parts == "PWST") { if( point >= 0 && point <= 10) PWST_P=point; PWST_F(); }    // パワーショット
-        if(parts == "WSHT") { if( point >= 0 && point <= 10) WSHT_P=point; WSHT_F(); }    // ダブルショット
-        if(parts == "AMFT") { if( point >= 0 && point <= 10) AMFT_P=point; AMFT_F(); }    // エイミングフット
-        if(parts == "SGTR") { if( point >= 0 && point <= 10) SGTR_P=point; SGTR_F(); }    // サジタリウスの矢
-        if(parts == "OWLE") { if( point >= 0 && point <= 10) OWLE_P=point; OWLE_F(); }    // オウルアイ
-        if(parts == "CTWK") { if( point >= 0 && point <= 10) CTWK_P=point; CTWK_F(); }    // 警戒歩行
-        if(parts == "FLLN") { if( point >= 0 && point <= 10) FLLN_P=point; FLLN_F(); }    // 伐採
-        if(parts == "DIGG") { if( point >= 0 && point <= 10) DIGG_P=point; DIGG_F(); }    // 採掘
-        if(parts == "PICK") { if( point >= 0 && point <= 10) PICK_P=point; PICK_F(); }    // 採取
+    /*[]----------------------------------------------[]*/
+    /*| エイミングフット                               |*/
+    /*[]----------------------------------------------[]*/
+    function AMGFT_F(bar) {
+console.log("AMGFT_F() AMGFT_P=[" + AMGFT_P +"] BWMST_P=[" + BWMST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("AMGFT",AMGFT_P);
+        if( BWMST_P < 3 && AMGFT_P > 0 ) {
+            BWMST_P = 3;
+            Visible("AMGFT");
+            BWMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ダブルショット                                 |*/
+    /*[]----------------------------------------------[]*/
+    function DBSHT_F(bar) {
+console.log("DBSHT_F() DBSHT_P=[" + DBSHT_P +"] BWMST_P=[" + BWMST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("DBSHT",DBSHT_P);
+        if( BWMST_P < 5 && DBSHT_P > 0 ) {
+            BWMST_P = 5;
+            Visible("DBSHT");
+            BWMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| サジタリウスの矢                               |*/
+    /*[]----------------------------------------------[]*/
+    function SGARW_F(bar) {
+console.log("SGARW_F() SGARW_P=[" + SGARW_P +"] BWMST_P=[" + BWMST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("SGARW",SGARW_P);
+        if( BWMST_P < 10 && SGARW_P > 0 ) {
+            BWMST_P = 10;
+            Visible("SGARW");
+            BWMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| AGIブースト                                    |*/
+    /*[]----------------------------------------------[]*/
+    function AGBST_F(bar) {
+console.log("AGBST_F() AGBST_P=[" + AGBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("AGBST",AGBST_P);
+        if( AGBST_P < 1 ) {
+            Disable("TRKST");
+            if( TRKST_P > 0 ) { TRKST_P=0; statusValues.set(bar, 0); TRKST_F(bar); }
+            Disable("FSTST");
+            if( FSTST_P > 0 ) { FSTST_P=0; statusValues.set(bar, 0); FSTST_F(bar); }
+        }
+        if( AGBST_P >= 1 ) {
+            Visible("TRKST");
+            Visible("FSTST");
+        }
+        if( AGBST_P < 3 ) {
+            Disable("FSTBS");
+            if( FSTBS_P > 0 ) { FSTBS_P=0; statusValues.set(bar, 0); FSTBS_F(); }
+        }
+        if( AGBST_P >= 3 ) {
+            Visible("FSTBS");
+        }
+        if( AGBST_P < 5 ) {
+            Disable("ACTFS");
+            if( ACTFS_P > 0 ) { ACTFS_P=0; statusValues.set(bar, 0); ACTFS_F(bar); }
+        }
+        if( AGBST_P >= 5 && OTHST_P >= 3 ) {
+            Visible("ACTFS");
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| アクトファースト                               |*/
+    /*[]----------------------------------------------[]*/
+    function ACTFS_F(bar) {
+console.log("ACTFS_F() ACTFS_P=[" + ACTFS_P +"] AGBST_P=[" + AGBST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("ACTFS",ACTFS_P);
+        if( AGBST_P < 5 && ACTFS_P > 0 ) {
+            AGBST_P = 5;
+            Visible("ACTFS");
+            AGBST_F(bar);
+        }
+        if( OTHST_P < 3 && ACTFS_P > 0 ) {
+            OTHST_P = 3;
+            Visible("ACTFS");
+            OTHST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| シャドウエントリ                               |*/
+    /*[]----------------------------------------------[]*/
+    function SHDNT_F(bar) {
+console.log("SHDNT_F() SHDNT_P=[" + SHDNT_P +"] TRKST_P=[" + TRKST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("SHDNT",SHDNT_P);
+        if( TRKST_P < 3 && SHDNT_P > 0 ) {
+            TRKST_P = 3;
+            Visible("SHDNT");
+            TRKST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| トリックステップ                               |*/
+    /*[]----------------------------------------------[]*/
+    function TRKST_F(bar) {
+console.log("TRKST_F() TRKST_P=[" + TRKST_P +"] AGBST_P=[" + AGBST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("TRKST",TRKST_P);
+        if( TRKST_P < 3 ) {
+            Disable("SHDNT");
+            if( SHDNT_P > 0 ) { SHDNT_P = 0; statusValues.set(bar, 0); SHDNT_F(bar); }
+            Disable("OTHST");
+            if( OTHST_P > 0 ) { OTHST_P = 0; statusValues.set(bar, 0); OTHST_F(bar); }
+        }
+        if( TRKST_P >= 3 ) {
+            Visible("SHDNT");
+        }
+        if( TRKST_P >= 3 && FSTST_P >= 3 ) {
+            Visible("OTHST");
+        }
+        if( AGBST_P < 1 && TRKST_P > 0 ) {
+            AGBST_P = 1;
+            Visible("TRKST");
+            AGBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ファストステップ                               |*/
+    /*[]----------------------------------------------[]*/
+    function FSTST_F(bar) {
+console.log("FSTST_F() FSTST_P=[" + FSTST_P +"] AGBST_P=[" + AGBST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("FSTST",FSTST_P);
+        if( FSTST_P < 3 ) {
+            Disable("ESCPT");
+            if( ESCPT_P > 0 ) { ESCPT_P = 0; statusValues.set(bar, 0); ESCPT_F(bar); }
+            Disable("OTHST");
+            if( OTHST_P > 0 ) { OTHST_P = 0; statusValues.set(bar, 0); OTHST_F(); }
+        }
+        if( FSTST_P >= 3 ) {
+            Visible("ESCPT");
+        }
+        if( FSTST_P >= 3 && TRKST_P >= 3 ) {
+            Visible("OTHST");
+        }
+        if( AGBST_P < 1 && FSTST_P > 0 ) {
+            AGBST_P = 1;
+            Visible("FSTST");
+            AGBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| アザーズステップ                               |*/
+    /*[]----------------------------------------------[]*/
+    function OTHST_F(bar) {
+console.log("OTHST_F() OTHST_P=[" + OTHST_P +"] FSTST_P=[" + FSTST_P + "] TRKST_P=[" + TRKST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("OTHST",OTHST_P);
+        if( OTHST_P < 3 ) {
+            Disable("ACTFS");
+            if( ACTFS_P > 0 ) { ACTFS_P=0; statusValues.set(bar, 0); ACTFS_F(bar); }
+        }
+        if( OTHST_P >= 3 && AGBST_P >= 5 ) {
+            Visible("ACTFS");
+        }
+        if( TRKST_P < 3 && OTHST_P > 0 ) {
+            TRKST_P = 3;
+            Visible("OTHST");
+            TRKST_F(bar);
+        }
+        if( FSTST_P < 3 && OTHST_P > 0 ) {
+            FSTST_P=3;
+            Visible("OTHST");
+            FSTST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 逃走準備                                       |*/
+    /*[]----------------------------------------------[]*/
+    function ESCPT_F(bar) {
+console.log("ESCPT_F() ESCPT_P=[" + ESCPT_P +"] FSTST_P=[" + FSTST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("ESCPT",ESCPT_P);
+        if( FSTST_P < 3 && ESCPT_P > 0 ) {
+            FSTST_P = 3;
+            Visible("ESCPT");
+            FSTST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| HPブースト                                     |*/
+    /*[]----------------------------------------------[]*/
+    function HPBST_F(bar) {
+console.log("HPBST_F() HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("HPBST",HPBST_P);
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| TPブースト                                     |*/
+    /*[]----------------------------------------------[]*/
+    function TPBST_F(bar) {
+console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("TPBST",TPBST_P);
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 先制ブースト                                   |*/
+    /*[]----------------------------------------------[]*/
+    function FSTBS_F(bar) {
+console.log("FSTBS_F() FSTBS_P=[" + FSTBS_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("FSTBS",FSTBS_P);
+        if( FSTBS_P < 1 ) {
+            Disable("OWLEY");
+            if( OWLEY_P > 0 ) { OWLEY_P=0; statusValues.set(bar, 0); OWLEY_F(bar); }
+        }
+        if( FSTBS_P >= 1 ) {
+            Visible("OWLEY");
+        }
+        if( FSTBS_P < 2 ) {
+            Disable("FSTBL");
+            if( FSTBL_P > 0 ) { FSTBL_P=0; statusValues.set(bar, 0); FSTBL_F(bar); }
+        }
+        if( FSTBS_P >= 2 ) {
+            Visible("FSTBL");
+        }
+        if( FSTBS_P < 3 ) {
+            Disable("ALTWK");
+            if( ALTWK_P > 0 ) { ALTWK_P=0; statusValues.set(bar, 0); ALTWK_F(bar); }
+        }
+        if( FSTBS_P >= 3 ) {
+            Visible("ALTWK");
+        }
+        if( AGBST_P < 3 && FSTBS_P > 0 ) {
+            AGBST_P = 3;
+            Visible("FSTBS");
+            AGBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| オウルアイ                                     |*/
+    /*[]----------------------------------------------[]*/
+    function OWLEY_F(bar) {
+console.log("OWLEY_F() OWLEY_P=[" + OWLEY_P +"] FSTBS_P=[" + FSTBS_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("OWLEY",OWLEY_P);
+        if( FSTBS_P < 1 && OWLEY_P > 0 ) {
+            FSTBS_P = 1;
+            Visible("OWLEY");
+            FSTBS_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 先制ブロック                                   |*/
+    /*[]----------------------------------------------[]*/
+    function FSTBL_F(bar) {
+console.log("FSTBL_F() FSTBL_P=[" + FSTBL_P +"] FSTBS_P=[" + FSTBS_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("FSTBL",FSTBL_P);
+        if( FSTBS_P < 2 && FSTBL_P > 0 ) {
+            FSTBS_P = 2;
+            Visible("FSTBL");
+            FSTBS_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 警戒歩行                                       |*/
+    /*[]----------------------------------------------[]*/
+    function ALTWK_F(bar) {
+console.log("ALTWK_F() ALTWK_P=[" + ALTWK_P +"] FSTBS_P=[" + FSTBS_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("ALTWK",ALTWK_P);
+        if( FSTBS_P < 3 && ALTWK_P > 0 ) {
+            FSTBS_P = 3;
+            Visible("ALTWK");
+            FSTBS_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 伐採                                           |*/
+    /*[]----------------------------------------------[]*/
+    function FLLNG_F(bar) {
+console.log("FLLNG_F() FLLNG_P=[" + FLLNG_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("FLLNG",FLLNG_P);
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 採掘                                           |*/
+    /*[]----------------------------------------------[]*/
+    function MNING_F(bar) {
+console.log("MNING_F() MNING_P=[" + MNING_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("MNING",MNING_P);
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 採取                                           |*/
+    /*[]----------------------------------------------[]*/
+    function GATHR_F(bar) {
+console.log("GATHR_F() GATHR_P=[" + GATHR_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("GATHR",GATHR_P);
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| スキル値初期化                                 |*/
+    /*[]----------------------------------------------[]*/
+    function setPointInit(bar,parts) {
+console.log("setPointInit() parts=[" + parts + "]");
+        if( parts == "BWMST" ) { const barBWMST = skillValuess.get("BWMST"); BWMST_F(barBWMST); }    // 弓マスタリー
+        if( parts == "PWSHT" ) { const barPWSHT = skillValuess.get("PWSHT"); PWSHT_F(barPWSHT); }    // パワーショット
+        if( parts == "AMGFT" ) { const barAMGFT = skillValuess.get("AMGFT"); AMGFT_F(barAMGFT); }    // エイミングフット
+        if( parts == "DBSHT" ) { const barDBSHT = skillValuess.get("DBSHT"); DBSHT_F(barDBSHT); }    // ダブルショット
+        if( parts == "SGARW" ) { const barSGARW = skillValuess.get("SGARW"); SGARW_F(barSGARW); }    // サジタリウスの矢
+        if( parts == "AGBST" ) { const barAGBST = skillValuess.get("AGBST"); AGBST_F(barAGBST); }    // AGIブースト
+        if( parts == "ACTFS" ) { const barACTFS = skillValuess.get("ACTFS"); ACTFS_F(barACTFS); }    // アクトファースト
+        if( parts == "SHDNT" ) { const barSHDNT = skillValuess.get("SHDNT"); SHDNT_F(barSHDNT); }    // シャドウエントリ
+        if( parts == "TRKST" ) { const barTRKST = skillValuess.get("TRKST"); TRKST_F(barTRKST); }    // トリックステップ
+        if( parts == "FSTST" ) { const barFSTST = skillValuess.get("FSTST"); FSTST_F(barFSTST); }    // ファストステップ
+        if( parts == "OTHST" ) { const barOTHST = skillValuess.get("OTHST"); OTHST_F(barOTHST); }    // アザーズステップ
+        if( parts == "ESCPT" ) { const barESCPT = skillValuess.get("ESCPT"); ESCPT_F(barESCPT); }    // 逃走準備
+        if( parts == "HPBST" ) { const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST); }    // HPブースト
+        if( parts == "TPBST" ) { const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST); }    // TPブースト
+        if( parts == "FSTBS" ) { const barFSTBS = skillValuess.get("FSTBS"); FSTBS_F(barFSTBS); }    // 先制ブースト
+        if( parts == "OWLEY" ) { const barOWLEY = skillValuess.get("OWLEY"); OWLEY_F(barOWLEY); }    // オウルアイ
+        if( parts == "FSTBL" ) { const barFSTBL = skillValuess.get("FSTBL"); FSTBL_F(barFSTBL); }    // 先制ブロック
+        if( parts == "ALTWK" ) { const barALTWK = skillValuess.get("ALTWK"); ALTWK_F(barALTWK); }    // 警戒歩行
+        if( parts == "FLLNG" ) { const barFLLNG = skillValuess.get("FLLNG"); FLLNG_F(barFLLNG); }    // 伐採
+        if( parts == "MNING" ) { const barMNING = skillValuess.get("MNING"); MNING_F(barMNING); }    // 採掘
+        if( parts == "GATHR" ) { const barGATHR = skillValuess.get("GATHR"); GATHR_F(barGATHR); }    // 採取
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| スキル表示                                     |*/
+    /*[]----------------------------------------------[]*/
+    function setPoint(parts, point, bar) {
+console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
+        if( parts == "BWMST" ) { if( point >= 0 && point <= 10 ) BWMST_P = point; BWMST_F(bar); }    // 弓マスタリー
+        if( parts == "PWSHT" ) { if( point >= 0 && point <= 10 ) PWSHT_P = point; PWSHT_F(bar); }    // パワーショット
+        if( parts == "AMGFT" ) { if( point >= 0 && point <= 10 ) AMGFT_P = point; AMGFT_F(bar); }    // エイミングフット
+        if( parts == "DBSHT" ) { if( point >= 0 && point <= 10 ) DBSHT_P = point; DBSHT_F(bar); }    // ダブルショット
+        if( parts == "SGARW" ) { if( point >= 0 && point <= 10 ) SGARW_P = point; SGARW_F(bar); }    // サジタリウスの矢
+        if( parts == "AGBST" ) { if( point >= 0 && point <= 10 ) AGBST_P = point; AGBST_F(bar); }    // AGIブースト
+        if( parts == "ACTFS" ) { if( point >= 0 && point <= 10 ) ACTFS_P = point; ACTFS_F(bar); }    // アクトファースト
+        if( parts == "SHDNT" ) { if( point >= 0 && point <= 10 ) SHDNT_P = point; SHDNT_F(bar); }    // シャドウエントリ
+        if( parts == "TRKST" ) { if( point >= 0 && point <= 10 ) TRKST_P = point; TRKST_F(bar); }    // トリックステップ
+        if( parts == "FSTST" ) { if( point >= 0 && point <= 10 ) FSTST_P = point; FSTST_F(bar); }    // ファストステップ
+        if( parts == "OTHST" ) { if( point >= 0 && point <= 10 ) OTHST_P = point; OTHST_F(bar); }    // アザーズステップ
+        if( parts == "ESCPT" ) { if( point >= 0 && point <= 10 ) ESCPT_P = point; ESCPT_F(bar); }    // 逃走準備
+        if( parts == "HPBST" ) { if( point >= 0 && point <= 10 ) HPBST_P = point; HPBST_F(bar); }    // HPブースト
+        if( parts == "TPBST" ) { if( point >= 0 && point <= 10 ) TPBST_P = point; TPBST_F(bar); }    // TPブースト
+        if( parts == "FSTBS" ) { if( point >= 0 && point <= 10 ) FSTBS_P = point; FSTBS_F(bar); }    // 先制ブースト
+        if( parts == "OWLEY" ) { if( point >= 0 && point <= 10 ) OWLEY_P = point; OWLEY_F(bar); }    // オウルアイ
+        if( parts == "FSTBL" ) { if( point >= 0 && point <= 10 ) FSTBL_P = point; FSTBL_F(bar); }    // 先制ブロック
+        if( parts == "ALTWK" ) { if( point >= 0 && point <= 10 ) ALTWK_P = point; ALTWK_F(bar); }    // 警戒歩行
+        if( parts == "FLLNG" ) { if( point >= 0 && point <= 10 ) FLLNG_P = point; FLLNG_F(bar); }    // 伐採
+        if( parts == "MNING" ) { if( point >= 0 && point <= 10 ) MNING_P = point; MNING_F(bar); }    // 採掘
+        if( parts == "GATHR" ) { if( point >= 0 && point <= 10 ) GATHR_P = point; GATHR_F(bar); }    // 採取
+
         // ポイント表示
         ShowPoint();
     }
@@ -399,133 +452,158 @@
     // ポイント表示
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     function ShowPoint() {
-        SKLL_P = HPBS_P + TPBS_P + AGBS_P + BWMS_P
-               + TRST_P + FSST_P + SDET_P + ACFS_P
-               + OTST_P + SPBS_P + SPBL_P + RNPR_P
-               + PWST_P + WSHT_P + AMFT_P + SGTR_P
-               + OWLE_P + CTWK_P + FLLN_P + DIGG_P
-               + PICK_P;
+        SKILL_P = BWMST_P + PWSHT_P + AMGFT_P + DBSHT_P
+                + SGARW_P + AGBST_P + ACTFS_P + SHDNT_P
+                + TRKST_P + FSTST_P + OTHST_P + ESCPT_P
+                + HPBST_P + TPBST_P + FSTBS_P + OWLEY_P
+                + FSTBL_P + ALTWK_P + FLLNG_P + MNING_P
+                + GATHR_P;
+        // Lv、使用、残表示
         showMsg();
     }
+    /*[]-----------------------------------------------------------------------------------[]*/
+    /*| メニューコマンド処理                                                                |*/
+    /*[]-----------------------------------------------------------------------------------[]*/
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //コントロール関連
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // clear
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*[]----------------------------------------------[]*/
+    /*| クリア処理                                     |*/
+    /*[]----------------------------------------------[]*/
     function Clear() {
         // スキルポイントを0に初期化
-        HPBS_P = TPBS_P = AGBS_P = BWMS_P= TRST_P 
-               = FSST_P = SDET_P = ACFS_P= OTST_P 
-               = SPBS_P = SPBL_P = RNPR_P= PWST_P 
-               = WSHT_P = AMFT_P = SGTR_P= OWLE_P 
-               = CTWK_P = FLLN_P = DIGG_P= PICK_P
-               = 0;
+        BWMST_P = PWSHT_P = AMGFT_P= DBSHT_P = SGARW_P
+                = AGBST_P = ACTFS_P= SHDNT_P = TRKST_P
+                = FSTST_P = OTHST_P= ESCPT_P = HPBST_P
+                = TPBST_P = FSTBS_P= OWLEY_P = FSTBL_P
+                = ALTWK_P = FLLNG_P= MNING_P = GATHR_P
+                = 0;
         // 引退ボーナス、スキルポイント合計を初期化
-        RTRE_P = SKLL_P = 0;
+        RTIRE_P = SKILL_P = 0;
         // 各スキル再計算
-        HPBS_F(); TPBS_F(); AGBS_F(); BWMS_F();
-        TRST_F(); FSST_F(); SDET_F(); ACFS_F();
-        OTST_F(); SPBS_F(); SPBL_F(); RNPR_F();
-        PWST_F(); WSHT_F(); AMFT_F(); SGTR_F();
-        OWLE_F(); CTWK_F(); FLLN_F(); DIGG_F();
-        PICK_F();
+        const barBWMST = skillValuess.get("BWMST"); BWMST_F(barBWMST);     // 弓マスタリー
+        const barPWSHT = skillValuess.get("PWSHT"); PWSHT_F(barPWSHT);     // パワーショット
+        const barAMGFT = skillValuess.get("AMGFT"); AMGFT_F(barAMGFT);     // エイミングフット
+        const barDBSHT = skillValuess.get("DBSHT"); DBSHT_F(barDBSHT);     // ダブルショット
+        const barSGARW = skillValuess.get("SGARW"); SGARW_F(barSGARW);     // サジタリウスの矢
+        const barAGBST = skillValuess.get("AGBST"); AGBST_F(barAGBST);     // AGIブースト
+        const barACTFS = skillValuess.get("ACTFS"); ACTFS_F(barACTFS);     // アクトファースト
+        const barSHDNT = skillValuess.get("SHDNT"); SHDNT_F(barSHDNT);     // シャドウエントリ
+        const barTRKST = skillValuess.get("TRKST"); TRKST_F(barTRKST);     // トリックステップ
+        const barFSTST = skillValuess.get("FSTST"); FSTST_F(barFSTST);     // ファストステップ
+        const barOTHST = skillValuess.get("OTHST"); OTHST_F(barOTHST);     // アザーズステップ
+        const barESCPT = skillValuess.get("ESCPT"); ESCPT_F(barESCPT);     // 逃走準備
+        const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST);     // HPブースト
+        const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST);     // TPブースト
+        const barFSTBS = skillValuess.get("FSTBS"); FSTBS_F(barFSTBS);     // 先制ブースト
+        const barOWLEY = skillValuess.get("OWLEY"); OWLEY_F(barOWLEY);     // オウルアイ
+        const barFSTBL = skillValuess.get("FSTBL"); FSTBL_F(barFSTBL);     // 先制ブロック
+        const barALTWK = skillValuess.get("ALTWK"); ALTWK_F(barALTWK);     // 警戒歩行
+        const barFLLNG = skillValuess.get("FLLNG"); FLLNG_F(barFLLNG);     // 伐採
+        const barMNING = skillValuess.get("MNING"); MNING_F(barMNING);     // 採掘
+        const barGATHR = skillValuess.get("GATHR"); GATHR_F(barGATHR);     // 採取
         // 名前と引退ボーナス初期化
         document.Msg.chrName.value = "";
         document.Msg.Retire.value = 0;
-        // ポイント表示
+        // スキルポイント表示
         ShowPoint();
-        setAlertLayer("全てのポイントをクリアしました。",1);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 保存
-    //   引数：mode クッキーのモード
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function Save(mode) {
+    /*[]----------------------------------------------[]*/
+    /*| Load処理                                       |*/
+    /*[]----------------------------------------------[]*/
+    function Load() {
+        // cookieからロード
+        saveData = LoadCookie();
+        if( saveData != null ){
+            BWMST_P = saveData[0] ;    // 弓マスタリー
+            PWSHT_P = saveData[1] ;    // パワーショット
+            AMGFT_P = saveData[2] ;    // エイミングフット
+            DBSHT_P = saveData[3] ;    // ダブルショット
+            SGARW_P = saveData[4] ;    // サジタリウスの矢
+            AGBST_P = saveData[5] ;    // AGIブースト
+            ACTFS_P = saveData[6] ;    // アクトファースト
+            SHDNT_P = saveData[7] ;    // シャドウエントリ
+            TRKST_P = saveData[8] ;    // トリックステップ
+            FSTST_P = saveData[9] ;    // ファストステップ
+            OTHST_P = saveData[10];    // アザーズステップ
+            ESCPT_P = saveData[11];    // 逃走準備
+            HPBST_P = saveData[12];    // HPブースト
+            TPBST_P = saveData[13];    // TPブースト
+            FSTBS_P = saveData[14];    // 先制ブースト
+            OWLEY_P = saveData[15];    // オウルアイ
+            FSTBL_P = saveData[16];    // 先制ブロック
+            ALTWK_P = saveData[17];    // 警戒歩行
+            FLLNG_P = saveData[18];    // 伐採
+            MNING_P = saveData[19];    // 採掘
+            GATHR_P = saveData[20];    // 採取
+            RTIRE_P = saveData[21];    // 引退ポイント
+            CHAR_NM = saveData[22];    // 名前
+
+            // 引退ポイントを反映
+            document.Msg.Retire.value = RTIRE_P;
+            // 名前を反映
+            document.Msg.chrName.value = CHAR_NM;
+
+            // 各スキル再計算
+            const barBWMST = skillValuess.get("BWMST"); BWMST_F(barBWMST);     // 弓マスタリー
+            const barPWSHT = skillValuess.get("PWSHT"); PWSHT_F(barPWSHT);     // パワーショット
+            const barAMGFT = skillValuess.get("AMGFT"); AMGFT_F(barAMGFT);     // エイミングフット
+            const barDBSHT = skillValuess.get("DBSHT"); DBSHT_F(barDBSHT);     // ダブルショット
+            const barSGARW = skillValuess.get("SGARW"); SGARW_F(barSGARW);     // サジタリウスの矢
+            const barAGBST = skillValuess.get("AGBST"); AGBST_F(barAGBST);     // AGIブースト
+            const barACTFS = skillValuess.get("ACTFS"); ACTFS_F(barACTFS);     // アクトファースト
+            const barSHDNT = skillValuess.get("SHDNT"); SHDNT_F(barSHDNT);     // シャドウエントリ
+            const barTRKST = skillValuess.get("TRKST"); TRKST_F(barTRKST);     // トリックステップ
+            const barFSTST = skillValuess.get("FSTST"); FSTST_F(barFSTST);     // ファストステップ
+            const barOTHST = skillValuess.get("OTHST"); OTHST_F(barOTHST);     // アザーズステップ
+            const barESCPT = skillValuess.get("ESCPT"); ESCPT_F(barESCPT);     // 逃走準備
+            const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST);     // HPブースト
+            const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST);     // TPブースト
+            const barFSTBS = skillValuess.get("FSTBS"); FSTBS_F(barFSTBS);     // 先制ブースト
+            const barOWLEY = skillValuess.get("OWLEY"); OWLEY_F(barOWLEY);     // オウルアイ
+            const barFSTBL = skillValuess.get("FSTBL"); FSTBL_F(barFSTBL);     // 先制ブロック
+            const barALTWK = skillValuess.get("ALTWK"); ALTWK_F(barALTWK);     // 警戒歩行
+            const barFLLNG = skillValuess.get("FLLNG"); FLLNG_F(barFLLNG);     // 伐採
+            const barMNING = skillValuess.get("MNING"); MNING_F(barMNING);     // 採掘
+            const barGATHR = skillValuess.get("GATHR"); GATHR_F(barGATHR);     // 採取
+
+            // スキルポイント表示
+            showPoint();
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| Save処理                                       |*/
+    /*[]----------------------------------------------[]*/
+    function Save() {
         // 保持内容
-        var tdata = new Array(24);
-        tdata[0]  = HPBS_P;    // HPブースト
-        tdata[1]  = TPBS_P;    // TPブースト
-        tdata[2]  = AGBS_P;    // AGIブースト
-        tdata[3]  = BWMS_P;    // 弓マスタリー
-        tdata[4]  = TRST_P;    // トリックステップ
-        tdata[5]  = FSST_P;    // ファストステップ
-        tdata[6]  = SDET_P;    // シャドウエントリ
-        tdata[7]  = ACFS_P;    // アクトファースト
-        tdata[8]  = OTST_P;    // アザーズステップ
-        tdata[9]  = SPBS_P;    // 先制ブースト
-        tdata[10] = SPBL_P;    // 先制ブロック
-        tdata[11] = RNPR_P;    // 逃走準備
-        tdata[12] = PWST_P;    // パワーショット
-        tdata[13] = WSHT_P;    // ダブルショット
-        tdata[14] = AMFT_P;    // エイミングフット
-        tdata[15] = SGTR_P;    // サジタリウスの矢
-        tdata[16] = OWLE_P;    // オウルアイ
-        tdata[17] = CTWK_P;    // 警戒歩行
-        tdata[18] = FLLN_P;    // 伐採
-        tdata[19] = DIGG_P;    // 採掘
-        tdata[20] = PICK_P;    // 採取
-        tdata[21] = RETR_P;    // 引退ボーナス
-        tdata[22] = CHAR_N;    // 名前
-        tdata[23] = 11;
+        CHAR_NM = document.Msg.chrName.value;
+        var saveData = new Array(23);
+        saveData[0]  = BWMST_P;    // 弓マスタリー
+        saveData[1]  = PWSHT_P;    // パワーショット
+        saveData[2]  = AMGFT_P;    // エイミングフット
+        saveData[3]  = DBSHT_P;    // ダブルショット
+        saveData[4]  = SGARW_P;    // サジタリウスの矢
+        saveData[5]  = AGBST_P;    // AGIブースト
+        saveData[6]  = ACTFS_P;    // アクトファースト
+        saveData[7]  = SHDNT_P;    // シャドウエントリ
+        saveData[8]  = TRKST_P;    // トリックステップ
+        saveData[9]  = FSTST_P;    // ファストステップ
+        saveData[10] = OTHST_P;    // アザーズステップ
+        saveData[11] = ESCPT_P;    // 逃走準備
+        saveData[12] = HPBST_P;    // HPブースト
+        saveData[13] = TPBST_P;    // TPブースト
+        saveData[14] = FSTBS_P;    // 先制ブースト
+        saveData[15] = OWLEY_P;    // オウルアイ
+        saveData[16] = FSTBL_P;    // 先制ブロック
+        saveData[17] = ALTWK_P;    // 警戒歩行
+        saveData[18] = FLLNG_P;    // 伐採
+        saveData[19] = MNING_P;    // 採掘
+        saveData[20] = GATHR_P;    // 採取
+        saveData[21] = RTIRE_P;    // 引退ポイント
+        saveData[22] = CHAR_NM;    // 名前
 
-        code = encode(tdata,ver);
-
-        if( mode == "scode" ) {
-            return code;
-        }
-        if( mode == "cookie" ){
-            SaveCookie(code);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Load
-    //   引数：mode クッキーのモード
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function Load(mode) {
-        // クッキーからロードする
-        code = loadType(mode);
-        if( code ) {
-            tdata = decode(code,ver);
-
-            HPBS_P = tdata[0] ;    // HPブースト
-            TPBS_P = tdata[1] ;    // TPブースト
-            AGBS_P = tdata[2] ;    // AGIブースト
-            BWMS_P = tdata[3] ;    // 弓マスタリー
-            TRST_P = tdata[4] ;    // トリックステップ
-            FSST_P = tdata[5] ;    // ファストステップ
-            SDET_P = tdata[6] ;    // シャドウエントリ
-            ACFS_P = tdata[7] ;    // アクトファースト
-            OTST_P = tdata[8] ;    // アザーズステップ
-            SPBS_P = tdata[9] ;    // 先制ブースト
-            SPBL_P = tdata[10];    // 先制ブロック
-            RNPR_P = tdata[11];    // 逃走準備
-            PWST_P = tdata[12];    // パワーショット
-            WSHT_P = tdata[13];    // ダブルショット
-            AMFT_P = tdata[14];    // エイミングフット
-            SGTR_P = tdata[15];    // サジタリウスの矢
-            OWLE_P = tdata[16];    // オウルアイ
-            CTWK_P = tdata[17];    // 警戒歩行
-            FLLN_P = tdata[18];    // 伐採
-            DIGG_P = tdata[19];    // 採掘
-            PICK_P = tdata[20];    // 採取
-            RETR_P = tdata[21];    // 引退ボーナス
-        }
-        document.Msg.Retire.value = RETR_P;
-
-        HPBS_F(); TPBS_F(); AGBS_F(); BWMS_F();
-        TRST_F(); FSST_F(); SDET_F(); ACFS_F();
-        OTST_F(); SPBS_F(); SPBL_F(); RNPR_F();
-        PWST_F(); WSHT_F(); AMFT_F(); SGTR_F();
-        OWLE_F(); CTWK_F(); FLLN_F(); DIGG_F();
-        PICK_F();
-
-        // ポイント表示
-        ShowPoint();
+        // クッキーに保存
+        SaveCookie(saveData);
     }
     // -->
   </script>
@@ -536,341 +614,548 @@
 
 <div id="skill"style="position:absolute; z-index:1;"></div>
 
-<div style="position:absolute; top:10px; left:24px; width:760px; line-height:22px;">
+<div class="table">
   <form name="Msg">
-    <nobr>
-      ポイント <input type="text" name="expMsg" id="expMsgID" size=20 value=" Loading..." readonly>　
-      名前 <input type="text" name="chrName" size=10 value="" maxlength=10 title="セーブスロットに名前がつきます">　
-      引退ボーナス 
-      <select name="Retire" onChange="ShowPoint();">
+
+    <div class="pair">
+      <div class="label">Lv</div>
+      <div class="value2" id="LV">1</div>
+
+      <div class="label">使用</div>
+      <div class="value2" id="USE">0</div>
+
+      <div class="label">残</div>
+      <div class="value2" id="RES">72</div>
+    </div>
+
+    <div class="pair">
+      <div class="label">引退ボーナス</div>
+      <select name="Retire" onChange="showPoint();">
         <option value="0" selected>0 (引退無し)
         <option value="2">+2 (Lv30-39)
         <option value="3">+3 (Lv40-49)
         <option value="4">+4 (Lv50-59)
         <option value="5">+5 (Lv60-69)
         <option value="6">+6 (Lv70)
-      </select>　
-      セーブ 
+      </select>
+    </div>
+
+    <div class="pair">
+      <div class="label">名前</div>
+      <input type="text" name="chrName" size="10" maxlength="10">
+    </div>
+
+    <div class="pair">
+      <div class="label">セーブ</div>
       <select name="Slot">
         <option value="1" selected>Slot1 : no Save Data
         <option value="2">Slot2 : no Save Data
         <option value="3">Slot3 : no Save Data
         <option value="4">Slot4 : no Save Data
         <option value="5">Slot5 : no Save Data
+        <option value="6">Slot6 : no Save Data
+        <option value="7">Slot7 : no Save Data
+        <option value="8">Slot8 : no Save Data
+        <option value="9">Slot9 : no Save Data
+        <option value="10">Slot10 : no Save Data
       </select>
-    </nobr>
-    <input type="hidden" name="scode" value="">
-    <div align=right>
-      <span style="color:#000066;"><u>
-        <a class="con" href="JavaScript:Save('cookie');" title="Cookieに今の状態をセーブ">Save</a>　
-        <a class="con" href="JavaScript:Load('cookie');" title="Cookieからロード">Load</a>　
-        <a class="con" href="JavaScript:Clear();" title="スキルポイントをリセット">Clear</a>　
-        <a class="con" href="JavaScript:DeleteCookie();" title="セーブスロットを消去">DeleteSlot</a>
-      </span>
     </div>
   </form>
 </div>
 
-
-<!-- Ranger -->
+<div class="table"  style="position:absolute; top:40px; left:543px;">
+  <div class="pair">
+    <a href="Javascript:Load();" class="glass-btn">Load</a>
+    <a href="Javascript:Save();" class="glass-btn">Save</a>
+    <a href="JavaScript:Clear();" class="glass-btn">Clear</a>
+    <a href="Javascript:Delete();" class="glass-btn">Delete</a>
+  </div>
+</div>
 
 <!-- 弓マスタリー -->
-<table class="job" cellspacing=0 cellpadding=0 id="BWMS" style="position:absolute; top:55px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[3]')" onmouseout="offLayer()">弓マスタリー</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="BWMS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- AGIブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="AGBS" style="position:absolute; top:175px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'RgrSkill[2]')" onmouseout="offLayer()">AGIブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="AGBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- HPブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="HPBS" style="position:absolute; top:265px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'RgrSkill[0]')" onmouseout="offLayer()">HPブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="HPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- TPブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="TPBS" style="position:absolute; top:295px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'RgrSkill[1]')" onmouseout="offLayer()">TPブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="TPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 伐採 -->
-<table class="job" cellspacing=0 cellpadding=0 id="FLLN" style="position:absolute; top:385px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[18]')" onmouseout="offLayer()">伐採</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="FLLN_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 採掘 -->
-<table class="job" cellspacing=0 cellpadding=0 id="DIGG" style="position:absolute; top:415px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[19]')" onmouseout="offLayer()">採掘</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="DIGG_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 採取 -->
-<table class="job" cellspacing=0 cellpadding=0 id="PICK" style="position:absolute; top:445px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[20]')" onmouseout="offLayer()">採取</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="PICK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="BWMST_SKILL" class="skill" style="position:absolute; top:55px; left:20px;">
+  <div class="skill-title">弓マスタリー</div>
+  <div id="BWMST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="BWMST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- パワーショット -->
-<table class="job" cellspacing=0 cellpadding=0 id="PWST" style="position:absolute; top:55px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'RgrSkill[12]',PWST_P)" onmouseout="offLayer()">パワーショット</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="PWST_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="PWSHT_SKILL" class="skill" style="position:absolute; top:55px; left:200px;">
+  <div class="skill-title">パワークラッシュ</div>
+  <div id="PWSHT" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="PWSHT" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- エイミングフット -->
-<table class="job" cellspacing=0 cellpadding=0 id="AMFT" style="position:absolute; top:85px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[14]',AMFT_P)" onmouseout="offLayer()">エイミングフット</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="AMFT_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="AMGFT_SKILL" class="skill" style="position:absolute; top:90px; left:200px;">
+  <div class="skill-title">エイミングフット</div>
+  <div id="AMGFT" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="AMGFT" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- ダブルショット -->
-<table class="job" cellspacing=0 cellpadding=0 id="WSHT" style="position:absolute; top:115px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,135,'RgrSkill[13]',WSHT_P)" onmouseout="offLayer()">ダブルショット</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="WSHT_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="DBSHT_SKILL" class="skill" style="position:absolute; top:125px; left:200px;">
+  <div class="skill-title">ダブルショット</div>
+  <div id="DBSHT" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="DBSHT" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- サジタリウスの矢 -->
-<table class="job" cellspacing=0 cellpadding=0 id="SGTR" style="position:absolute; top:145px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'RgrSkill[15]',SGTR_P)" onmouseout="offLayer()">サジタリウスの矢</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="SGTR_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="SGARW_SKILL" class="skill" style="position:absolute; top:160px; left:200px;">
+  <div class="skill-title">サジタリウスの矢</div>
+  <div id="SGARW" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="SGARW" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
-<!-- トリックステップ -->
-<table class="job" cellspacing=0 cellpadding=0 id="TRST" style="position:absolute; top:235px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[4]',TRST_P)" onmouseout="offLayer()">トリックステップ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="TRST_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- ファストステップ -->
-<table class="job" cellspacing=0 cellpadding=0 id="FSST" style="position:absolute; top:265px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'RgrSkill[5]',FSST_P)" onmouseout="offLayer()">ファストステップ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="FSST_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 先制ブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="SPBS" style="position:absolute; top:325px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'RgrSkill[9]')" onmouseout="offLayer()">先制ブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="SPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<!-- AGIブースト -->
+<div id="AGBST_SKILL" class="skill" style="position:absolute; top:195px; left:20px;">
+  <div class="skill-title">AGIブースト</div>
+  <div id="AGBST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="AGBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- アクトファースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="ACFS" style="position:absolute; top:175px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[7]')" onmouseout="offLayer()">アクトファースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="ACFS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="ACTFS_SKILL" class="skill" style="position:absolute; top:195px; left:380px;">
+  <div class="skill-title">アクトファースト</div>
+  <div id="ACTFS" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="ACTFS" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- シャドウエントリ -->
-<table class="job" cellspacing=0 cellpadding=0 id="SDET" style="position:absolute; top:205px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[6]',SDET_P)" onmouseout="offLayer()">シャドウエントリ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="SDET_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="SHDNT_SKILL" class="skill" style="position:absolute; top:230px; left:380px;">
+  <div class="skill-title">シャドウエントリ</div>
+  <div id="SHDNT" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="SHDNT" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- トリックステップ -->
+<div id="TRKST_SKILL" class="skill" style="position:absolute; top:265px; left:200px;">
+  <div class="skill-title">トリックステップ</div>
+  <div id="TRKST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="TRKST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- ファストステップ -->
+<div id="FSTST_SKILL" class="skill" style="position:absolute; top:300px; left:200px;">
+  <div class="skill-title">ファストステップ</div>
+  <div id="FSTST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="FSTST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- アザーズステップ -->
-<table class="job" cellspacing=0 cellpadding=0 id="OTST" style="position:absolute; top:265px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,135,'RgrSkill[8]',OTST_P)" onmouseout="offLayer()">アザーズステップ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="OTST_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="OTHST_SKILL" class="skill" style="position:absolute; top:300px; left:380px;">
+  <div class="skill-title">アザーズステップ</div>
+  <div id="OTHST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="OTHST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- 逃走準備 -->
-<table class="job" cellspacing=0 cellpadding=0 id="RNPR" style="position:absolute; top:295px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'RgrSkill[11]',RNPR_P)" onmouseout="offLayer()">逃走準備</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="RNPR_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="ESCPT_SKILL" class="skill" style="position:absolute; top:335px; left:380px;">
+  <div class="skill-title">逃走準備</div>
+  <div id="ESCPT" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="ESCPT" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- HPブースト -->
+<div id="HPBST_SKILL" class="skill" style="position:absolute; top:300px; left:20px;">
+  <div class="skill-title">HPブースト</div>
+  <div id="HPBST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- TPブースト -->
+<div id="TPBST_SKILL" class="skill" style="position:absolute; top:335px; left:20px;">
+  <div class="skill-title">TPブースト</div>
+  <div id="TPBST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 先制ブースト -->
+<div id="FSTBS_SKILL" class="skill" style="position:absolute; top:370px; left:200px;">
+  <div class="skill-title">先制ブースト</div>
+  <div id="FSTBS" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="FSTBS" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- オウルアイ -->
-<table class="job" cellspacing=0 cellpadding=0 id="OWLE" style="position:absolute; top:325px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,240,'RgrSkill[16]',OWLE_P)" onmouseout="offLayer()">オウルアイ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="OWLE_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="OWLEY_SKILL" class="skill" style="position:absolute; top:370px; left:380px;">
+  <div class="skill-title">オウルアイ</div>
+  <div id="OWLEY" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="OWLEY" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- 先制ブロック -->
-<table class="job" cellspacing=0 cellpadding=0 id="SPBL" style="position:absolute; top:355px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'RgrSkill[10]')" onmouseout="offLayer()">先制ブロック</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="SPBL_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="FSTBL_SKILL" class="skill" style="position:absolute; top:405px; left:380px;">
+  <div class="skill-title">先制ブロック</div>
+  <div id="FSTBL" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="FSTBL" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- 警戒歩行 -->
-<table class="job" cellspacing=0 cellpadding=0 id="CTWK" style="position:absolute; top:385px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,240,'RgrSkill[17]',CTWK_P)" onmouseout="offLayer()">警戒歩行</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="CTWK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="ALTWK_SKILL" class="skill" style="position:absolute; top:440px; left:380px;">
+  <div class="skill-title">警戒歩行</div>
+  <div id="ALTWK" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="ALTWK" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
-<div id="option1" style="position:absolute; top:0px; left:0px; width:0px; height:0px; background-image:url(../../data/other/alpha.png);" onclick="JavaScript:offOptionLayer();"></div>
-<div id="option2" style="position:absolute; top:0px; left:0px; width:0px; height:0px;"></div>
-<div id="dummy" style="position:absolute; top:0px; left:0px; width:800px; height:600px; z-index:-1;"></div>
+<!-- 伐採 -->
+<div id="FLLNG_SKILL" class="skill" style="position:absolute; top:440px; left:20px;">
+  <div class="skill-title">伐採</div>
+  <div id="FLLNG" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="FLLNG" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 採掘 -->
+<div id="MNING_SKILL" class="skill" style="position:absolute; top:475px; left:20px;">
+  <div class="skill-title">採掘</div>
+  <div id="MNING" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 採取 -->
+<div id="GATHR_SKILL" class="skill" style="position:absolute; top:510px; left:20px;">
+  <div class="skill-title">採取</div>
+  <div id="GATHR" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="GATHR" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 罫線 -->
+<!-- 弓マスタリー → パワーショット -->
+<div class="line_hor" style="position:absolute; top: 70px; left:150px; width : 50px"></div>
+<!-- 弓マスタリー → エイミングフット -->
+<div class="line_hor" style="position:absolute; top:105px; left:175px; width : 25px"></div>
+<!-- 弓マスタリー → ダブルショット -->
+<div class="line_hor" style="position:absolute; top:140px; left:175px; width : 25px"></div>
+<!-- 弓マスタリー → サジタリウスの矢 -->
+<div class="line_ver" style="position:absolute; top: 70px; left:175px; height:105px"></div>
+<div class="line_hor" style="position:absolute; top:175px; left:175px; width : 25px"></div>
+
+<!-- AGIブースト → アクトファースト -->
+<div class="line_hor" style="position:absolute; top:210px; left:150px; width :230px"></div>
+<!-- AGIブースト → トリックステップ -->
+<div class="line_hor" style="position:absolute; top:280px; left:175px; width : 25px"></div>
+<!-- AGIブースト → ファストステップ -->
+<div class="line_hor" style="position:absolute; top:315px; left:175px; width : 25px"></div>
+<!-- AGIブースト → 先制ブースト -->
+<div class="line_hor" style="position:absolute; top:385px; left:175px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:210px; left:175px; height:175px"></div>
+
+<!-- トリックステップ → シャドウエントリ -->
+<div class="line_hor" style="position:absolute; top:280px; left:330px; width :115px"></div>
+<div class="line_ver" style="position:absolute; top:260px; left:445px; height: 40px"></div>
+<!-- ファストステップ → アザーズステップ -->
+<div class="line_hor" style="position:absolute; top:315px; left:330px; width : 50px"></div>
+<!-- アザーズステップ → アクトファースト -->
+<div class="line_hor" style="position:absolute; top:315px; left:510px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:210px; left:535px; height:107px"></div>
+<div class="line_hor" style="position:absolute; top:210px; left:510px; width : 25px"></div>
+
+<!-- ファストステップ → 逃走準備 -->
+<div class="line_hor" style="position:absolute; top:350px; left:355px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:315px; left:355px; height: 35px"></div>
+
+<!-- 先制ブースト → オウルアイ -->
+<div class="line_hor" style="position:absolute; top:385px; left:330px; width : 50px"></div>
+<!-- 先制ブースト → 先制ブロック -->
+<div class="line_hor" style="position:absolute; top:420px; left:355px; width : 25px"></div>
+<!-- 先制ブースト → 警戒歩行 -->
+<div class="line_hor" style="position:absolute; top:455px; left:355px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:385px; left:355px; height: 70px"></div>
 
 </body>
 </html>
