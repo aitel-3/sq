@@ -4,600 +4,666 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <link id="csslink" rel=stylesheet href="../../data/css/skill.css" type="text/css">
   <title>Paladin Skill Tree</title>
-  <style>
-    <!--
-    body    { font-size         : 9pt;
-              background-image  : url(../../data/other/back_chi.png);
-              background-repeat : no-repeat;
-            }
-    // -->
-  </style>
   <script language="JavaScript" src="../../data/js/skill.js"></script>
-  <script language="JavaScript" src="../../data/js/skilllist.js"></script>
   <script language="JavaScript">
     <!--
-    var HPBS_P            // HPブースト
-      = TPBS_P            // TPブースト
-      = DFBS_P            // DEFブースト
-      = SHMS_P            // 盾マスタリー
-      = CUR1_P            // キュア
-      = CUR2_P            // キュアⅡ
-      = PRVK_P            // 挑発
-      = RSLT_P            // 決死の覚悟
-      = FTGD_P            // フロントガード
-      = BKGD_P            // バックガード
-      = PRRY_P            // パリング
-      = ATGD_P            // オートガード
-      = MXDF_P            // 渾身ディフェンス
-      = DFFM_P            // 防御陣形
-      = FRGD_P            // ファイアガード
-      = FZGD_P            // フリーズガード
-      = SKGD_P            // ショックガード
-      = SDSM_P            // シールドスマイト
-      = RNWY_P            // 猛進逃走
-      = CTWK_P            // 警戒歩行
-      = DIGG_P            // 採掘
+    var SHMST_P            // 盾マスタリー
+      = FRTGD_P            // フロントガード
+      = BCKGD_P            // バックガード
+      = DFRMT_P            // 防御陣形
+      = FIRGD_P            // ファイアガード
+      = FRZGD_P            // フリーズガード
+      = SHKGD_P            // ショックガード
+      = TPBST_P            // TPブースト
+      = SHDSM_P            // シールドスマイト
+      = DFBST_P            // DEFブースト
+      = FLLDF_P            // 渾身ディフェンス
+      = AUTGD_P            // オートガード
+      = TAUNT_P            // 挑発
+      = PARRY_P            // パリング
+      = CHRES_P            // 猛進逃走
+      = ALRKW_P            // 警戒歩行
+      = DSRSL_P            // 決死の覚悟
+      = HPBST_P            // HPブースト
+      = CURE1_P            // キュア
+      = CURE2_P            // キュアⅡ
+      = MNING_P            // 採掘
       = 0;
-    var RETR_P            // 引退ボーナス
-      = SKLL_P            // スキルポイント
-      = CHAR_N            // 名前
+    var RTIRE_P            // 引退ボーナス
+      = SKILL_P            // スキルポイント
+      = CHAR_NM            // 名前
       = 0;
-    var ver = "20";       // コードVer
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 各スキルの条件
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // HPブースト
-    function HPBS_F() {
-        Point(HPBS_P, 10, "HPBS_IN");
-        // HPブーストが3未満の場合、キュアを不活性
-        if( HPBS_P < 3 ) {
-            Disable("CUR1"); if( CUR1_P > 0 ) { CUR1_P=0; CUR1_F(); }
+    /*[]----------------------------------------------[]*/
+    /*| 盾マスタリー                                   |*/
+    /*[]----------------------------------------------[]*/
+    function SHMST_F(bar) {
+console.log("SHMST_F() SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("SHMST",SHMST_P);
+        if( SHMST_P < 1 ) {
+            Disable("FRTGD");
+            if( FRTGD_P > 0 ) { FRTGD_P = 0; statusValues.set(bar, 0); FRTGD_F(bar); }
+            Disable("BCKGD");
+            if( BCKGD_P > 0 ) { BCKGD_P = 0; statusValues.set(bar, 0); BCKGD_F(bar); }
         }
-        // HPブーストが3以上の場合、キュアを活性
-        if( HPBS_P >= 3 ) {
-            Visible("CUR1");
+        if( SHMST_P >= 1 ) {
+            Visible("FRTGD");
+            Visible("BCKGD");
         }
-        // HPブーストが5未満の場合、キュアⅡを不活性
-        if( HPBS_P < 5 ) {
-            Disable("CUR2"); if( CUR2_P > 0 ) { CUR2_P=0; CUR2_F(); }
+        if( SHMST_P < 3 ) {
+            Disable("FLLDF");
+            if( FLLDF_P > 0 ) { FLLDF_P = 0; statusValues.set(bar, 0); FLLDF_F(bar); }
         }
-        // HPブーストが5以上の場合、キュアⅡを活性
-        if( HPBS_P >= 5 ) {
-            Visible("CUR2");
+        if( SHMST_P >= 3 && DFBST_P >= 3 ) {
+            Visible("FLLDF");
         }
-    }
-    // TPブースト
-    function TPBS_F() {
-        Point(TPBS_P, 10, "TPBS_IN");
-        // TPブーストが3未満の場合、3色ガードを不活性
-        if( TPBS_P < 3 ) {
-            Disable("FRGD"); if( FRGD_P > 0 ) { FRGD_P=0; FRGD_F(); }
-            Disable("FZGD"); if( FZGD_P > 0 ) { FZGD_P=0; FZGD_F(); }
-            Disable("SKGD"); if( SKGD_P > 0 ) { SKGD_P=0; SKGD_F(); }
+        if( SHMST_P < 5 ) {
+            Disable("FIRGD");
+            if( FIRGD_P > 0 ) { FIRGD_P = 0; statusValues.set(bar, 0); FIRGD_F(bar); }
+            Disable("FRZGD");
+            if( FRZGD_P > 0 ) { FRZGD_P = 0; statusValues.set(bar, 0); FRZGD_F(bar); }
+            Disable("SHKGD");
+            if( SHKGD_P > 0 ) { SHKGD_P = 0; statusValues.set(bar, 0); SHKGD_F(bar); }
         }
-        // TPブーストが3以上かつ盾マスタリーが5以上の場合、3色ガードを活性
-        if( TPBS_P >= 3 && SHMS_P >= 5 ) {
-            Visible("FRGD");
-            Visible("FZGD");
-            Visible("SKGD");
+        if( SHMST_P >= 5 && TPBST_P >= 3 ) {
+            Visible("FIRGD");
+            Visible("FRZGD");
+            Visible("SHKGD");
         }
-    }
-    // DEFブースト
-    function DFBS_F() {
-        Point(DFBS_P, 10, "DFBS_IN");
-        // DEFブーストが1未満の場合、挑発を不活性
-        if( DFBS_P < 1 ) {
-            Disable("PRVK"); if( PRVK_P > 0 ) { PRVK_P=0; PRVK_F(); }
+        if( SHMST_P < 7 ) {
+            Disable("AUTGD");
+            if( AUTGD_P > 0 ) { AUTGD_P = 0; statusValues.set(bar, 0); AUTGD_F(bar); }
         }
-        if( DFBS_P >= 1 ) {
-            Visible("PRVK");
+        if( SHMST_P >= 7 && DFBST_P >= 7 ) {
+            Visible("AUTGD");
         }
-        // DEFブーストが3未満の場合、パリング、猛進逃走、渾身ディフェンスを不活性
-        if( DFBS_P < 3 ) {
-            Disable("PRRY"); if( PRRY_P > 0 ) { PRRY_P=0; PRRY_F(); }
-            Disable("RNWY"); if( RNWY_P > 0 ) { RNWY_P=0; RNWY_F(); }
-            Disable("MXDF"); if( MXDF_P > 0 ) { MXDF_P=0; MXDF_F(); }
+        if( SHMST_P < 10 ) { 
+            Disable("SHDSM");
+            if( SHDSM_P > 0 ) { SHDSM_P = 0; statusValues.set(bar, 0); SHDSM_F(bar); }
         }
-        // DEFFブーストが3以上の場合、パリング、猛進逃走を活性
-        if( DFBS_P >= 3 ) {
-            Visible("PRRY");
-            Visible("RNWY");
+        if( SHMST_P >= 10 && FLLDF_P >= 5 ) {
+            Visible("SHDSM");
         }
-        // DEFブーストが3以上かつ盾マスタリーが3以上の場合、渾身ディフェンスを活性
-        if( DFBS_P >= 3 && SHMS_P >= 3 ) {
-            Visible("MXDF");
-        }
-        // DEFブーストが5未満の場合、警戒歩行、決死の覚悟を不活性
-        if( DFBS_P < 5 ) {
-            Disable("CTWK"); if( CTWK_P > 0 ) { CTWK_P=0; CTWK_F(); }
-            Disable("RSLT"); if( RSLT_P > 0 ) { RSLT_P=0; RSLT_F(); }
-        }
-        // DEFブーストが5以上の場合、警戒歩行、決死の覚悟を活性
-        if( DFBS_P >= 5 ) {
-            Visible("CTWK");
-            Visible("RSLT");
-        }
-        // DEFブーストが7未満の場合、オートガードを不活性
-        if( DFBS_P < 7 ) {
-            Disable("ATGD"); if( ATGD_P > 0 ) { ATGD_P=0; ATGD_F(); }
-        }
-        // DEFブーストが7以上かつ盾マスタリーが7以上の場合、オートガードを活性
-        if( DFBS_P >= 7 && SHMS_P >= 7 ) {
-            Visible("ATGD");
-        }
-    }
-    // 盾マスタリー
-    function SHMS_F() {
-        Point(SHMS_P, 10, "SHMS_IN");
-        // 盾マスタリーが1未満の場合、フロントガード、バックガードを不活性
-        if( SHMS_P < 1 ) {
-            Disable("FTGD"); if( FTGD_P > 0 ) { FTGD_P=0; FTGD_F(); }
-            Disable("BKGD"); if( BKGD_P > 0 ) { BKGD_P=0; BKGD_F(); }
-        }
-        // 盾マスタリーが1以上の場合、フロントガード、バックガードを活性
-        if( SHMS_P >= 1 ) {
-            Visible("FTGD");
-            Visible("BKGD");
-        }
-        // 盾マスタリーが3未満の場合、渾身ディフェンスを不活性
-        if( SHMS_P < 3 ) {
-            Disable("MXDF"); if( MXDF_P > 0 ) { MXDF_P=0; MXDF_F(); }
-        }
-        // 盾マスタリーが3以上かつDEFブーストが3以上の場合、渾身ディフェンスを活性
-        if( SHMS_P >= 3 && DFBS_P >= 3 ) {
-            Visible("MXDF");
-        }
-        // 盾マスタリーが5未満の場合、3色ガードを不活性
-        if( SHMS_P < 5 ) {
-            Disable("FRGD"); if( FRGD_P > 0 ) { FRGD_P=0; FRGD_F(); }
-            Disable("FZGD"); if( FZGD_P > 0 ) { FZGD_P=0; FZGD_F(); }
-            Disable("SKGD"); if( SKGD_P > 0 ) { SKGD_P=0; SKGD_F(); }
-        }
-        // 盾マスタリーが5以上かつTPブーストが3以上の場合、3色ガードを活性
-        if( SHMS_P >= 5 && TPBS_P >= 3 ) {
-            Visible("FRGD");
-            Visible("FZGD");
-            Visible("SKGD");
-        }
-        // 盾マスタリーが7未満の場合、オートガードを不活性
-        if( SHMS_P < 7 ) {
-            Disable("ATGD"); if( ATGD_P > 0 ) { ATGD_P=0; ATGD_F(); }
-        }
-        // 盾マスタリーが7以上かつDEFブーストが7以上の場合、オートガードを活性
-        if( SHMS_P >= 7 && DFBS_P >= 7 ) {
-            Visible("ATGD");
-        }
-        // 盾マスタリーが10未満の場合、シールドスマイトを不活性
-        if( SHMS_P < 10 ) { 
-            Disable("SDSM"); if( SDSM_P > 0 ) { SDSM_P=0; SDSM_F(); }
-        }
-        // 盾マスタリーが10以上かつ渾身ディフェンスが5以上の場合、シールドスマイトを活性
-        if( SHMS_P >= 10 && MXDF_P >= 5 ) {
-            Visible("SDSM");
-        }
-    }
-    // キュア
-    function CUR1_F() {
-        Point(CUR1_P, 10, "CUR1_IN");
-        // HPブーストが3未満かつキュアが0より大きい場合
-        if( HPBS_P < 3 && CUR1_P > 0 ) {
-            // HPブーストを3にする
-            HPBS_P=3;
-            Visible("CUR1");
-            HPBS_F();
-        }
-    }
-    // キュアⅡ
-    function CUR2_F() {
-        Point(CUR2_P, 10, "CUR2_IN");
-        // HPブーストが5未満かつキュアⅡが0より大きい場合
-        if( HPBS_P < 5 && CUR2_P > 0 ) {
-            // HPブーストを5にする
-            HPBS_P=5;
-            Visible("CUR2");
-            HPBS_F();
-        }
-    }
-    // 挑発
-    function PRVK_F() {
-        Point(PRVK_P, 10, "PRVK_IN");
-        // DEFブーストが1未満かつ腸活が0より大きい場合
-        if( DFBS_P < 1 && PRVK_P > 0 ) {
-            // DEFブーストを1にする
-            DFBS_P=1;
-            Visible("PRVK");
-            DFBS_F();
-        }
-    }
-    // 決死の覚悟
-    function RSLT_F() {
-        Point(RSLT_P, 10, "RSLT_IN");
-        // DEFブーストが5未満かつ決死の覚悟が0より大きい場合
-        if( DFBS_P < 5 && RSLT_P > 0 ) {
-            // 決死の覚悟を5にする
-            DFBS_P=5;
-            Visible("RSLT");
-            DFBS_F();
-        }
-    }
-    // フロントガード
-    function FTGD_F() {
-        Point(FTGD_P, 10, "FTGD_IN");
-        // フロントガードが3未満の場合、防御陣形を不活性
-        if( FTGD_P < 3 ) {
-            Disable("DFFM"); if( DFFM_P > 0 ) { DFFM_P=0; DFFM_F(); }
-        }
-        // フロントガードが3以上かつバックガードが3以上の場合、防御陣形を活性
-        if( FTGD_P >= 3 && BKGD_P >= 3 ) {
-            Visible("DFFM");
-        }
-        // 盾マスタリーが1未満かつフロントガードが0より大きい場合
-        if( SHMS_P < 1 && FTGD_P > 0 ) {
-            // 盾マスタリーを1にする
-            SHMS_P=1;
-            Visible("FTGD");
-            SHMS_F();
-        }
-    }
-    // バックガード
-    function BKGD_F() {
-        Point(BKGD_P, 10, "BKGD_IN");
-        // バックガードが3未満の場合、防御陣形を不活性
-        if( BKGD_P < 3 ) {
-            Disable("DFFM"); if( DFFM_P > 0 ) { DFFM_P=0; DFFM_F(); }
-        }
-        // バックガードが3以上かつフロントガードが3以上の場合、防御陣形を活性
-        if( BKGD_P >= 3 && FTGD_P >= 3 ) {
-            Visible("DFFM");
-        }
-        // 盾マスタリーが1未満かつバックガードが0より大きい場合
-        if( SHMS_P < 1 && BKGD_P > 0 ) {
-            // 盾マスタリーを1にする
-            SHMS_P=1;
-            Visible("BKGD");
-            SHMS_F();
-        }
-    }
-    // パリング
-    function PRRY_F() {
-        Point(PRRY_P, 10, "PRRY_IN");
-        // DEFブーストが3未満かつパリングが0より大きい場合
-        if( DFBS_P < 3 && PRRY_P > 0 ) {
-            // DEFブーストを3にする
-            DFBS_P=3;
-            Visible("PRRY");
-            DFBS_F();
-        }
-    }
-    // オートガード
-    function ATGD_F() {
-        Point(ATGD_P, 10, "ATGD_IN");
-        // DEFブーストが7未満かつオートガードが0より大きい場合
-        if( DFBS_P < 7 && ATGD_P > 0 ) {
-            // DEFブーストを7にする
-            DFBS_P=7;
-            Visible("ATGD");
-            DFBS_F();
-        }
-        // 盾マスタリーが7未満かつオートガードが0より大きい場合
-        if( SHMS_P < 7 && ATGD_P > 0 ) {
-            // 盾マスタリーを7にする
-            SHMS_P=7;
-            Visible("ATGD");
-            SHMS_F();
-        }
-    }
-    // 渾身ディフェンス
-    function MXDF_F() {
-        Point(MXDF_P, 10, "MXDF_IN");
-        // 渾身ディフェンスが5未満の場合、シールドスマイトを不活性
-        if( MXDF_P < 5 ) {
-            Disable("SDSM"); if( SDSM_P > 0 ) { SDSM_P=0; SDSM_F(); }
-        }
-        // 渾身ディフェンスが5以上かつ盾マスタリーが10以上の場合、シールドスマイトを活性
-        if( MXDF_P >= 5 && SHMS_P >= 10 ) {
-            Visible("SDSM");
-        }
-        // DEFブーストが3未満かつ渾身ディフェンスが0より大きい場合
-        if( DFBS_P < 3 && MXDF_P > 0 ) {
-            // DEFブーストを3にする
-            DFBS_P=3;
-            Visible("MXDF");
-            DFBS_F();
-        }
-        // 盾マスタリーが3未満かつ渾身ディフェンスが0より大きい場合
-        if( SHMS_P < 3 && MXDF_P > 0 ) {
-            // 盾マスタリーを3にする
-            SHMS_P=3;
-            Visible("MXDF");
-            SHMS_F();
-        }
-    }
-    // 防御陣形
-    function DFFM_F() {
-        Point(DFFM_P, 10, "DFFM_IN");
-        // フロントガードが3未満かつ防御陣形が0より大きい場合
-        if( FTGD_P < 3 && DFFM_P > 0 ) {
-            // フロントガードを3にする
-            FTGD_P=3;
-            Visible("DFFM");
-            FTGD_F();
-        }
-        // バックガードが3未満かつ防御陣形が0より大きい場合
-        if( BKGD_P < 3 && DFFM_P > 0 ) {
-            // バックガードを3にする
-            BKGD_P=3;
-            Visible("DFFM");
-            BKGD_F();
-        }
-    }
-    // ファイアガード
-    function FRGD_F() {
-        Point(FRGD_P, 10, "FRGD_IN");
-        // TPブーストが3未満かつフロントガードが0より大きい場合
-        if( TPBS_P < 3 && FRGD_P > 0 ) {
-            // TPブーストを3にする
-            TPBS_P=3;
-            Visible("FRGD");
-            TPBS_F();
-        }
-        // 盾マスタリーが5未満かつフロントガードが0より大きい場合
-        if( SHMS_P < 5 && FRGD_P > 0 ) {
-            // 盾マスタリーを5にする
-            SHMS_P=5;
-            Visible("FRGD");
-            SHMS_F();
-        }
-    }
-    // フリーズガード
-    function FZGD_F() {
-        Point(FZGD_P, 10, "FZGD_IN");
-        // TPブーストが3未満かつフリーズガードが0より大きい場合
-        if( TPBS_P < 3 && FZGD_P > 0 ) {
-            // TPブーストを3にする
-            TPBS_P=3;
-            Visible("FZGD");
-            TPBS_F();
-        }
-        // 盾マスタリーが5未満かつフリーズガードが0より大きい場合
-        if( SHMS_P < 5 && FZGD_P > 0 ) {
-            // 盾マスタリーを5にする
-            SHMS_P=5;
-            Visible("FZGD");
-            SHMS_F();
-        }
-    }
-    // ショックガード
-    function SKGD_F() {
-        Point(SKGD_P, 10, "SKGD_IN");
-        // TPブーストが3未満かつショックガードが0より大きい場合
-        if( TPBS_P < 3 && SKGD_P > 0 ) {
-            // TPブーストを3にする
-            TPBS_P=3;
-            Visible("SKGD");
-            TPBS_F();
-        }
-        // 盾マスタリーが5未満かつショックガードが0より大きい場合
-        if( SHMS_P < 5 && SKGD_P > 0 ) {
-            // 盾マスタリーを5にする
-            SHMS_P=5;
-            Visible("SKGD");
-            SHMS_F();
-        }
-    }
-    // シールドスマイト
-    function SDSM_F() {
-        Point(SDSM_P, 10, "SDSM_IN");
-        // 盾マスタリーが10未満かつシールドスマイトが0より大きい場合
-        if( SHMS_P < 10 && SDSM_P > 0 ) {
-            // 盾マスタリーを10にする
-            SHMS_P=10;
-            Visible("SDSM");
-            SHMS_F();
-        }
-        // 渾身ディフェンスが5未満かつシールドスマイトが0より大きい場合
-        if( MXDF_P < 5 && SDSM_P > 0 ) {
-            // 渾身ディフェンスを5にする
-            MXDF_P=5;
-            Visible("SDSM");
-            MXDF_F();
-        }
-    }
-    // 猛進逃走
-    function RNWY_F() {
-        Point(RNWY_P, 10, "RNWY_IN");
-        // DEFブーストが3未満かつ猛進逃走が0より大きい場合
-        if( DFBS_P < 3 && RNWY_P > 0 ) {
-            // DEFブーストを3にする
-            DFBS_P=3;
-            Visible("RNWY");
-            DFBS_F();
-        }
-    }
-    // 警戒歩行
-    function CTWK_F() {
-        Point(CTWK_P, 10, "CTWK_IN");
-        // DEFブーストが5未満かつ警戒歩行が0より大きい場合
-        if( DFBS_P < 5 && CTWK_P > 0 ) {
-            // DEFブーストを5にする
-            DFBS_P=5;
-            Visible("CTWK");
-            DFBS_F();
-        }
-    }
-    // 採掘
-    function DIGG_F() {
-        Point(DIGG_P, 10, "DIGG_IN");
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // イベント
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*[]----------------------------------------------[]*/
+    /*| フロントガード                                   |*/
+    /*[]----------------------------------------------[]*/
+    function FRTGD_F(bar) {
+console.log("FRTGD_F() FRTGD_P=[" + FRTGD_P + "]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("FRTGD",FRTGD_P);
+        if( FRTGD_P < 3 ) {
+            Disable("DFRMT");
+            if( DFRMT_P > 0 ) { DFRMT_P = 0; statusValues.set(bar, 0); DFRMT_F(bar); }
+        }
+        if( FRTGD_P >= 3 && BCKGD_P >= 3 ) {
+            Visible("DFRMT");
+        }
+        if( SHMST_P < 1 && FRTGD_P > 0 ) {
+            SHMST_P = 1;
+            Visible("FRTGD");
+            SHMST_F(bar);
+        }
+    }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // スキルポイント設定
-    //   引数：parts スキル名
-    //         point 設定するポイント
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function setPoint(parts,point){
-        if( parts == "HPBS" ) { if( point >= 0 && point <= 10) HPBS_P=point; HPBS_F(); }    // HPブースト
-        if( parts == "TPBS" ) { if( point >= 0 && point <= 10) TPBS_P=point; TPBS_F(); }    // TPブースト
-        if( parts == "DFBS" ) { if( point >= 0 && point <= 10) DFBS_P=point; DFBS_F(); }    // DEFブースト
-        if( parts == "SHMS" ) { if( point >= 0 && point <= 10) SHMS_P=point; SHMS_F(); }    // 盾マスタリー
-        if( parts == "CUR1" ) { if( point >= 0 && point <= 10) CUR1_P=point; CUR1_F(); }    // キュア
-        if( parts == "CUR2" ) { if( point >= 0 && point <= 10) CUR2_P=point; CUR2_F(); }    // キュアⅡ
-        if( parts == "PRVK" ) { if( point >= 0 && point <= 10) PRVK_P=point; PRVK_F(); }    // 挑発
-        if( parts == "RSLT" ) { if( point >= 0 && point <= 10) RSLT_P=point; RSLT_F(); }    // 決死の覚悟
-        if( parts == "FTGD" ) { if( point >= 0 && point <= 10) FTGD_P=point; FTGD_F(); }    // フロントガード
-        if( parts == "BKGD" ) { if( point >= 0 && point <= 10) BKGD_P=point; BKGD_F(); }    // バックガード
-        if( parts == "PRRY" ) { if( point >= 0 && point <= 10) PRRY_P=point; PRRY_F(); }    // パリング
-        if( parts == "ATGD" ) { if( point >= 0 && point <= 10) ATGD_P=point; ATGD_F(); }    // オートガード
-        if( parts == "MXDF" ) { if( point >= 0 && point <= 10) MXDF_P=point; MXDF_F(); }    // 渾身ディフェンス
-        if( parts == "DFFM" ) { if( point >= 0 && point <= 10) DFFM_P=point; DFFM_F(); }    // 防御陣形
-        if( parts == "FRGD" ) { if( point >= 0 && point <= 10) FRGD_P=point; FRGD_F(); }    // ファイアガード
-        if( parts == "FZGD" ) { if( point >= 0 && point <= 10) FZGD_P=point; FZGD_F(); }    // フリーズガード
-        if( parts == "SKGD" ) { if( point >= 0 && point <= 10) SKGD_P=point; SKGD_F(); }    // ショックガード
-        if( parts == "SDSM" ) { if( point >= 0 && point <= 10) SDSM_P=point; SDSM_F(); }    // シールドスマイト
-        if( parts == "RNWY" ) { if( point >= 0 && point <= 10) RNWY_P=point; RNWY_F(); }    // 猛進逃走
-        if( parts == "CTWK" ) { if( point >= 0 && point <= 10) CTWK_P=point; CTWK_F(); }    // 警戒歩行
-        if( parts == "DIGG" ) { if (point >= 0 && point <= 10) DIGG_P=point; DIGG_F(); }    // 採掘
+    /*[]----------------------------------------------[]*/
+    /*| バックガード                                   |*/
+    /*[]----------------------------------------------[]*/
+    function BCKGD_F(bar) {
+console.log("BCKGD_F() BCKGD_P=[" + BCKGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("BCKGD",BCKGD_P);
+        if( BCKGD_P < 3 ) {
+            Disable("DFRMT");
+            if( DFRMT_P > 0 ) { DFRMT_P = 0; statusValues.set(bar, 0); DFRMT_F(bar); }
+        }
+        if( BCKGD_P >= 3 && FRTGD_P >= 3 ) {
+            Visible("DFRMT");
+        }
+        if( SHMST_P < 1 && BCKGD_P > 0 ) {
+            SHMST_P = 1;
+            Visible("BCKGD");
+            SHMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 防御陣形                                       |*/
+    /*[]----------------------------------------------[]*/
+    function DFRMT_F(bar) {
+console.log("DFRMT_F() DFRMT_P=[" + DFRMT_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("DFRMT",DFRMT_P);
+        if( FRTGD_P < 3 && DFRMT_P > 0 ) {
+            FRTGD_P = 3;
+            Visible("DFRMT");
+            FRTGD_F(bar);
+        }
+        if( BCKGD_P < 3 && DFRMT_P > 0 ) {
+            BCKGD_P=3;
+            Visible("DFRMT");
+            BCKGD_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ファイアガード                                 |*/
+    /*[]----------------------------------------------[]*/
+    function FIRGD_F(bar) {
+console.log("FIRGD_F() FIRGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("FIRGD",FIRGD_P);
+        if( TPBST_P < 3 && FIRGD_P > 0 ) {
+            TPBST_P = 3;
+            Visible("FIRGD");
+            TPBST_F(bar);
+        }
+        if( SHMST_P < 5 && FIRGD_P > 0 ) {
+            SHMST_P = 5;
+            Visible("FIRGD");
+            SHMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| フリーズガード                                 |*/
+    /*[]----------------------------------------------[]*/
+    function FRZGD_F(bar) {
+console.log("FRZGD_F() FRZGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("FRZGD",FRZGD_P);
+        if( TPBST_P < 3 && FRZGD_P > 0 ) {
+            TPBS_P = 3;
+            Visible("FRZGD");
+            TPBST_F(bar);
+        }
+        if( SHMST_P < 5 && FRZGD_P > 0 ) {
+            SHMST_P = 5;
+            Visible("FRZGD");
+            SHMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| ショックガード                                 |*/
+    /*[]----------------------------------------------[]*/
+    function SHKGD_F(bar) {
+console.log("SHKGD_F() SHKGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("SHKGD",SHKGD_P);
+        if( TPBST_P < 3 && SHKGD_P > 0 ) {
+            TPBST_P = 3;
+            Visible("SHKGD");
+            TPBST_F(bar);
+        }
+        if( SHMST_P < 5 && SHKGD_P > 0 ) {
+            SHMST_P = 5;
+            Visible("SHKGD");
+            SHMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| シールドスマイト                               |*/
+    /*[]----------------------------------------------[]*/
+    function SHDSM_F(bar) {
+console.log("SHDSM_F() SHDSM_P=[" + SHDSM_P +"] SHMST_P=[" + SHMST_P + "] SHMST_P=[" + SHMST_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("SHDSM",SHDSM_P);
+        if( SHMST_P < 10 && SHDSM_P > 0 ) {
+            SHMST_P = 10;
+            Visible("SHDSM");
+            SHMST_F(bar);
+        }
+        if( FLLDF_P < 5 && SHDSM_P > 0 ) {
+            FLLDF_P = 5;
+            Visible("SHDSM");
+            FLLDF_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| TPブースト                                     |*/
+    /*[]----------------------------------------------[]*/
+    function TPBST_F(bar) {
+console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("TPBST",TPBST_P);
+        if( TPBST_P < 3 ) {
+            Disable("FIRGD");
+            if( FIRGD_P > 0 ) { FIRGD_P = 0; statusValues.set(bar, 0); FIRGD_F(bar); }
+            Disable("FRZGD");
+            if( FRZGD_P > 0 ) { FRZGD_P = 0; statusValues.set(bar, 0); FRZGD_F(bar); }
+            Disable("SHKGD");
+            if( SHKGD_P > 0 ) { SHKGD_P = 0; statusValues.set(bar, 0); SHKGD_F(bar); }
+        }
+        if( TPBST_P >= 3 && SHMST_P >= 5 ) {
+            Visible("FIRGD");
+            Visible("FRZGD");
+            Visible("SHKGD");
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| DEFブースト                                    |*/
+    /*[]----------------------------------------------[]*/
+    function DFBST_F(bar) {
+console.log("DFBST_F() DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("DFBST",DFBST_P);
+        if( DFBST_P < 1 ) {
+            Disable("TAUNT");
+            if( TAUNT_P > 0 ) { TAUNT_P = 0; statusValues.set(bar, 0); TAUNT_F(bar); }
+        }
+        if( DFBST_P >= 1 ) {
+            Visible("TAUNT");
+        }
+        if( DFBST_P < 3 ) {
+            Disable("PARRY");
+            if( PARRY_P > 0 ) { PARRY_P = 0; statusValues.set(bar, 0); PARRY_F(bar); }
+            Disable("CHRES");
+            if( CHRES_P > 0 ) { CHRES_P = 0; statusValues.set(bar, 0); CHRES_F(bar); }
+            Disable("FLLDF");
+            if( FLLDF_P > 0 ) { FLLDF_P = 0; statusValues.set(bar, 0); FLLDF_F(bar); }
+        }
+        if( DFBST_P >= 3 ) {
+            Visible("PARRY");
+            Visible("CHRES");
+        }
+        if( DFBST_P >= 3 && SHMST_P >= 3 ) {
+            Visible("FLLDF");
+        }
+        if( DFBST_P < 5 ) {
+            Disable("ALRKW");
+            if( ALRKW_P > 0 ) { ALRKW_P = 0; statusValues.set(bar, 0); ALRKW_F(bar); }
+            Disable("DSRSL");
+            if( DSRSL_P > 0 ) { DSRSL_P = 0; statusValues.set(bar, 0); DSRSL_F(bar); }
+        }
+        if( DFBST_P >= 5 ) {
+            Visible("ALRKW");
+            Visible("DSRSL");
+        }
+        if( DFBST_P < 7 ) {
+            Disable("AUTGD");
+            if( AUTGD_P > 0 ) { AUTGD_P = 0; statusValues.set(bar, 0); AUTGD_F(bar); }
+        }
+        if( DFBST_P >= 7 && SHMST_P >= 7 ) {
+            Visible("AUTGD");
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 渾身ディフェンス                               |*/
+    /*[]----------------------------------------------[]*/
+    function FLLDF_F(bar) {
+console.log("FLLDF_F() FLLDF_P=[" + FLLDF_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("FLLDF",FLLDF_P);
+        if( FLLDF_P < 5 ) {
+            Disable("SHDSM");
+            if( SHDSM_P > 0 ) { SHDSM_P = 0; statusValues.set(bar, 0); SHDSM_F(bar); }
+        }
+        if( FLLDF_P >= 5 && SHMST_P >= 10 ) {
+            Visible("SHDSM");
+        }
+        if( DFBST_P < 3 && FLLDF_P > 0 ) {
+            DFBST_P = 3;
+            Visible("FLLDF");
+            DFBST_F(bar);
+        }
+        if( SHMST_P < 3 && FLLDF_P > 0 ) {
+            SHMST_P = 3;
+            Visible("FLLDF");
+            SHMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| オートガード                                   |*/
+    /*[]----------------------------------------------[]*/
+    function AUTGD_F(bar) {
+console.log("AUTGD_F() AUTGD_P=[" + AUTGD_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("AUTGD",AUTGD_P);
+        if( DFBST_P < 7 && AUTGD_P > 0 ) {
+            DFBST_P = 7;
+            Visible("AUTGD");
+            DFBST_F(bar);
+        }
+        if( SHMST_P < 7 && AUTGD_P > 0 ) {
+            SHMST_P = 7;
+            Visible("AUTGD");
+            SHMST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 挑発                                           |*/
+    /*[]----------------------------------------------[]*/
+    function TAUNT_F(bar) {
+console.log("TAUNT_F() TAUNT_P=[" + TAUNT_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("TAUNT",TAUNT_P);
+        if( DFBST_P < 1 && TAUNT_P > 0 ) {
+            DFBST_P = 1;
+            Visible("TAUNT");
+            DFBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| パリング                                       |*/
+    /*[]----------------------------------------------[]*/
+    function PARRY_F(bar) {
+console.log("PARRY_F() PARRY_P=[" + PARRY_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("PARRY",PARRY_P);
+        if( DFBST_P < 3 && PARRY_P > 0 ) {
+            DFBST_P = 3;
+            Visible("PARRY");
+            DFBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 猛進逃走                                       |*/
+    /*[]----------------------------------------------[]*/
+    function CHRES_F(bar) {
+console.log("CHRES_F() CHRES_P=[" + CHRES_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("CHRES",CHRES_P);
+        if( DFBST_P < 3 && CHRES_P > 0 ) {
+            DFBST_P = 3;
+            Visible("CHRES");
+            DFBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 警戒歩行                                       |*/
+    /*[]----------------------------------------------[]*/
+    function ALRKW_F(bar) {
+console.log("ALRKW_F() ALRKW_P=[" + ALRKW_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("ALRKW",ALRKW_P);
+        if( DFBST_P < 5 && ALRKW_P > 0 ) {
+            DFBST_P = 5;
+            Visible("ALRKW");
+            DFBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 決死の覚悟                                     |*/
+    /*[]----------------------------------------------[]*/
+    function DSRSL_F(bar) {
+console.log("DSRSL_F() DSRSL_P=[" + DSRSL_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("DSRSL",DSRSL_P);
+        if( DFBST_P < 5 && DSRSL_P > 0 ) {
+            DFBST_P = 5;
+            Visible("DSRSL");
+            DFBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| HPブースト                                     |*/
+    /*[]----------------------------------------------[]*/
+    function HPBST_F(bar) {
+console.log("HPBST_F() HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("HPBST",HPBST_P);
+        if( HPBST_P < 3 ) {
+            Disable("CURE1");
+            if( CURE1_P > 0 ) { CURE1_P = 0; statusValues.set(bar, 0); CURE1_F(bar); }
+        }
+        if( HPBST_P >= 3 ) {
+            Visible("CURE1");
+        }
+        if( HPBST_P < 5 ) {
+            Disable("CURE2");
+            if( CURE2_P > 0 ) { CURE2_P = 0; statusValues.set(bar, 0); CURE2_F(bar); }
+        }
+        if( HPBST_P >= 5 ) {
+            Visible("CURE2");
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| キュア                                         |*/
+    /*[]----------------------------------------------[]*/
+    function CURE1_F(bar) {
+console.log("CURE1_F() CURE1_P=[" + CURE1_P + "] HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("CURE1",CURE1_P);
+        if( HPBST_P < 3 && CURE1_P > 0 ) {
+            HPBST_P = 3;
+            Visible("CURE1");
+            HPBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| キュアⅡ                                       |*/
+    /*[]----------------------------------------------[]*/
+    function CURE2_F(bar) {
+console.log("CURE2_F() CURE2_P=[" + CURE2_P + "] HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        DispPoint("CURE2",CURE2_P);
+        if( HPBST_P < 5 && CURE2_P > 0 ) {
+            HPBST_P = 5;
+            Visible("CURE2");
+            HPBST_F(bar);
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| 採掘                                           |*/
+    /*[]----------------------------------------------[]*/
+    function MNING_F(bar) {
+console.log("MNING_F() MNING_P=[" + MNING_P + "] bar.id=[" + bar.id + "]");
+        DispPoint("MNING",MNING_P);
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| スキル値初期化                                 |*/
+    /*[]----------------------------------------------[]*/
+    function setPointInit(bar,parts) {
+console.log("setPointInit() parts=[" + parts + "]");
+        if( parts == "SHMST" ) { const barSHMST = skillValuess.get("SHMST"); SHMST_F(barSHMST); }    // 盾マスタリー
+        if( parts == "FRTGD" ) { const barFRTGD = skillValuess.get("FRTGD"); FRTGD_F(barFRTGD); }    // フロントガード
+        if( parts == "BCKGD" ) { const barBCKGD = skillValuess.get("BCKGD"); BCKGD_F(barBCKGD); }    // バックガード
+        if( parts == "DFRMT" ) { const barDFRMT = skillValuess.get("DFRMT"); DFRMT_F(barDFRMT); }    // 防御陣形
+        if( parts == "FIRGD" ) { const barFIRGD = skillValuess.get("FIRGD"); FIRGD_F(barFIRGD); }    // ファイアガード
+        if( parts == "FRZGD" ) { const barFRZGD = skillValuess.get("FRZGD"); FRZGD_F(barFRZGD); }    // フリーズガード
+        if( parts == "SHKGD" ) { const barSHKGD = skillValuess.get("SHKGD"); SHKGD_F(barSHKGD); }    // ショックガード
+        if( parts == "TPBST" ) { const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST); }    // TPブースト
+        if( parts == "SHDSM" ) { const barSHDSM = skillValuess.get("SHDSM"); SHDSM_F(barSHDSM); }    // シールドスマイト
+        if( parts == "DFBST" ) { const barDFBST = skillValuess.get("DFBST"); DFBST_F(barDFBST); }    // DEFブースト
+        if( parts == "FLLDF" ) { const barFLLDF = skillValuess.get("FLLDF"); FLLDF_F(barFLLDF); }    // 渾身ディフェンス
+        if( parts == "AUTGD" ) { const barAUTGD = skillValuess.get("AUTGD"); AUTGD_F(barAUTGD); }    // オートガード
+        if( parts == "TAUNT" ) { const barTAUNT = skillValuess.get("TAUNT"); TAUNT_F(barTAUNT); }    // 挑発
+        if( parts == "PARRY" ) { const barPARRY = skillValuess.get("PARRY"); PARRY_F(barPARRY); }    // パリング
+        if( parts == "CHRES" ) { const barCHRES = skillValuess.get("CHRES"); CHRES_F(barCHRES); }    // 猛進逃走
+        if( parts == "ALRKW" ) { const barALRKW = skillValuess.get("ALRKW"); ALRKW_F(barALRKW); }    // 警戒歩行
+        if( parts == "DSRSL" ) { const barDSRSL = skillValuess.get("DSRSL"); DSRSL_F(barDSRSL); }    // 決死の覚悟
+        if( parts == "HPBST" ) { const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST); }    // HPブースト
+        if( parts == "CURE1" ) { const barCURE1 = skillValuess.get("CURE1"); CURE1_F(barCURE1); }    // キュア
+        if( parts == "CURE2" ) { const barCURE2 = skillValuess.get("CURE2"); CURE2_F(barCURE2); }    // キュアⅡ
+        if( parts == "MNING" ) { const barMNING = skillValuess.get("MNING"); MNING_F(barMNING); }    // 採掘
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| スキル表示                                     |*/
+    /*[]----------------------------------------------[]*/
+    function setPoint(parts, point, bar) {
+console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
+        if( parts == "SHMST" ) { if( point >= 0 && point <= 10) SHMST_P = point; SHMST_F(bar); }    // 盾マスタリー
+        if( parts == "FRTGD" ) { if( point >= 0 && point <= 10) FRTGD_P = point; FRTGD_F(bar); }    // フロントガード
+        if( parts == "BCKGD" ) { if( point >= 0 && point <= 10) BCKGD_P = point; BCKGD_F(bar); }    // バックガード
+        if( parts == "DFRMT" ) { if( point >= 0 && point <= 10) DFRMT_P = point; DFRMT_F(bar); }    // 防御陣形
+        if( parts == "FIRGD" ) { if( point >= 0 && point <= 10) FIRGD_P = point; FIRGD_F(bar); }    // ファイアガード
+        if( parts == "FRZGD" ) { if( point >= 0 && point <= 10) FRZGD_P = point; FRZGD_F(bar); }    // フリーズガード
+        if( parts == "SHKGD" ) { if( point >= 0 && point <= 10) SHKGD_P = point; SHKGD_F(bar); }    // ショックガード
+        if( parts == "TPBST" ) { if( point >= 0 && point <= 10) TPBST_P = point; TPBST_F(bar); }    // TPブースト
+        if( parts == "SHDSM" ) { if( point >= 0 && point <= 10) SHDSM_P = point; SHDSM_F(bar); }    // シールドスマイト
+        if( parts == "DFBST" ) { if( point >= 0 && point <= 10) DFBST_P = point; DFBST_F(bar); }    // DEFブースト
+        if( parts == "FLLDF" ) { if( point >= 0 && point <= 10) FLLDF_P = point; FLLDF_F(bar); }    // 渾身ディフェンス
+        if( parts == "AUTGD" ) { if( point >= 0 && point <= 10) AUTGD_P = point; AUTGD_F(bar); }    // オートガード
+        if( parts == "TAUNT" ) { if( point >= 0 && point <= 10) TAUNT_P = point; TAUNT_F(bar); }    // 挑発
+        if( parts == "PARRY" ) { if( point >= 0 && point <= 10) PARRY_P = point; PARRY_F(bar); }    // パリング
+        if( parts == "CHRES" ) { if( point >= 0 && point <= 10) CHRES_P = point; CHRES_F(bar); }    // 猛進逃走
+        if( parts == "ALRKW" ) { if( point >= 0 && point <= 10) ALRKW_P = point; ALRKW_F(bar); }    // 警戒歩行
+        if( parts == "DSRSL" ) { if( point >= 0 && point <= 10) DSRSL_P = point; DSRSL_F(bar); }    // 決死の覚悟
+        if( parts == "HPBST" ) { if( point >= 0 && point <= 10) HPBST_P = point; HPBST_F(bar); }    // HPブースト
+        if( parts == "CURE1" ) { if( point >= 0 && point <= 10) CURE1_P = point; CURE1_F(bar); }    // キュア
+        if( parts == "CURE2" ) { if( point >= 0 && point <= 10) CURE2_P = point; CURE2_F(bar); }    // キュアⅡ
+        if( parts == "MNING" ) { if (point >= 0 && point <= 10) MNING_P = point; MNING_F(bar); }    // 採掘
+
         // ポイント表示
         ShowPoint();
 }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ポイント表示
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*[]----------------------------------------------[]*/
+    /*| スキルポイント表示                             |*/
+    /*[]----------------------------------------------[]*/
     function ShowPoint(){
-        SKLL_P = HPBS_P + TPBS_P + DFBS_P + SHMS_P
-               + CUR1_P + CUR2_P + PRVK_P + RSLT_P
-               + FTGD_P + BKGD_P + PRRY_P + ATGD_P
-               + MXDF_P + DFFM_P + FRGD_P + FZGD_P
-               + SKGD_P + SDSM_P + RNWY_P + CTWK_P
-               + DIGG_P;
+        SKILL_P = SHMST_P + FRTGD_P + BCKGD_P + DFRMT_P
+                + FIRGD_P + FRZGD_P + SHKGD_P + TPBST_P
+                + SHDSM_P + DFBST_P + FLLDF_P + AUTGD_P
+                + TAUNT_P + PARRY_P + CHRES_P + ALRKW_P
+                + DSRSL_P + HPBST_P + CURE1_P + CURE2_P
+                + MNING_P;
+        // Lv、使用、残表示
         showMsg();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-     //コントロール関連
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*[]-----------------------------------------------------------------------------------[]*/
+    /*| メニューコマンド処理                                                                |*/
+    /*[]-----------------------------------------------------------------------------------[]*/
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // clear
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function Clear(){
+    /*[]----------------------------------------------[]*/
+    /*| クリア処理                                     |*/
+    /*[]----------------------------------------------[]*/
+    function Clear() {
         // スキルポイントを0に初期化
-        HPBS_P = TPBS_P = DFBS_P = SHMS_P = CUR1_P 
-               = CUR2_P = PRVK_P = RSLT_P = FTGD_P 
-               = BKGD_P = PRRY_P = ATGD_P = MXDF_P 
-               = DFFM_P = FRGD_P = FZGD_P = SKGD_P 
-               = SDSM_P = RNWY_P = CTWK_P = DIGG_P
-               = 0;
+        SHMST_P = FRTGD_P = BCKGD_P = DFRMT_P = FIRGD_P
+                = FRZGD_P = SHKGD_P = TPBST_P = SHDSM_P
+                = DFBST_P = FLLDF_P = AUTGD_P = TAUNT_P
+                = PARRY_P = CHRES_P = ALRKW_P = DSRSL_P
+                = HPBST_P = CURE1_P = CURE2_P = MNING_P
+                = 0;
         // 引退ボーナス、スキルポイント合計を初期化
-        RTRE_P = SKLL_P = 0;
+        RTIRE_P = SKILL_P = 0;
         // 各スキル再計算
-        HPBS_F(); TPBS_F(); DFBS_F(); SHMS_F(); 
-        CUR1_F(); CUR2_F(); PRVK_F(); RSLT_F(); 
-        FTGD_F(); BKGD_F(); PRRY_F(); ATGD_F(); 
-        MXDF_F(); DFFM_F(); FRGD_F(); FZGD_F(); 
-        SKGD_F(); SDSM_F(); RNWY_F(); CTWK_F(); 
-        DIGG_F();
+        const barSHMST = skillValuess.get("SHMST"); SHMST_F(barSHMST);     // 盾マスタリー
+        const barFRTGD = skillValuess.get("FRTGD"); FRTGD_F(barFRTGD);     // フロントガード
+        const barBCKGD = skillValuess.get("BCKGD"); BCKGD_F(barBCKGD);     // バックガード
+        const barDFRMT = skillValuess.get("DFRMT"); DFRMT_F(barDFRMT);     // 防御陣形
+        const barFIRGD = skillValuess.get("FIRGD"); FIRGD_F(barFIRGD);     // ファイアガード
+        const barFRZGD = skillValuess.get("FRZGD"); FRZGD_F(barFRZGD);     // フリーズガード
+        const barSHKGD = skillValuess.get("SHKGD"); SHKGD_F(barSHKGD);     // ショックガード
+        const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST);     // TPブースト
+        const barSHDSM = skillValuess.get("SHDSM"); SHDSM_F(barSHDSM);     // シールドスマイト
+        const barDFBST = skillValuess.get("DFBST"); DFBST_F(barDFBST);     // DEFブースト
+        const barFLLDF = skillValuess.get("FLLDF"); FLLDF_F(barFLLDF);     // 渾身ディフェンス
+        const barAUTGD = skillValuess.get("AUTGD"); AUTGD_F(barAUTGD);     // オートガード
+        const barTAUNT = skillValuess.get("TAUNT"); TAUNT_F(barTAUNT);     // 挑発
+        const barPARRY = skillValuess.get("PARRY"); PARRY_F(barPARRY);     // パリング
+        const barCHRES = skillValuess.get("CHRES"); CHRES_F(barCHRES);     // 猛進逃走
+        const barALRKW = skillValuess.get("ALRKW"); ALRKW_F(barALRKW);     // 警戒歩行
+        const barDSRSL = skillValuess.get("DSRSL"); DSRSL_F(barDSRSL);     // 決死の覚悟
+        const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST);     // HPブースト
+        const barCURE1 = skillValuess.get("CURE1"); CURE1_F(barCURE1);     // キュア
+        const barCURE2 = skillValuess.get("CURE2"); CURE2_F(barCURE2);     // キュアⅡ
+        const barMNING = skillValuess.get("MNING"); MNING_F(barMNING);     // 採掘
         // 名前と引退ボーナス初期化
         document.Msg.chrName.value = "";
         document.Msg.Retire.value = 0;
-        // ポイント表示
+        // スキルポイント表示
         ShowPoint();
-        setAlertLayer("全てのポイントをクリアしました。",1);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 保存
-    //   引数：mode クッキーのモード
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function Save(mode){
+    /*[]----------------------------------------------[]*/
+    /*| Load処理                                       |*/
+    /*[]----------------------------------------------[]*/
+    function Load() {
+        // cookieからロード
+        saveData = LoadCookie();
+        if( saveData != null ){
+            SHMST_P = saveData[0] ;    // 盾マスタリー
+            FRTGD_P = saveData[1] ;    // フロントガード
+            BCKGD_P = saveData[2] ;    // バックガード
+            DFRMT_P = saveData[3] ;    // 防御陣形
+            FIRGD_P = saveData[4] ;    // ファイアガード
+            FRZGD_P = saveData[5] ;    // フリーズガード
+            SHKGD_P = saveData[6] ;    // ショックガード
+            TPBST_P = saveData[7] ;    // TPブースト
+            SHDSM_P = saveData[8] ;    // シールドスマイト
+            DFBST_P = saveData[9] ;    // DEFブースト
+            FLLDF_P = saveData[10];    // 渾身ディフェンス
+            AUTGD_P = saveData[11];    // オートガード
+            TAUNT_P = saveData[12];    // 挑発
+            PARRY_P = saveData[13];    // パリング
+            CHRES_P = saveData[14];    // 猛進逃走
+            ALRKW_P = saveData[15];    // 警戒歩行
+            DSRSL_P = saveData[16];    // 決死の覚悟
+            HPBST_P = saveData[17];    // HPブースト
+            CURE1_P = saveData[18];    // キュア
+            CURE2_P = saveData[19];    // キュアⅡ
+            MNING_P = saveData[20];    // 採掘
+            RTIRE_P = saveData[21];    // 引退ポイント
+            CHAR_NM = saveData[22];    // 名前
+
+            // 引退ポイントを反映
+            document.Msg.Retire.value = RTIRE_P;
+            // 名前を反映
+            document.Msg.chrName.value = CHAR_NM;
+
+            // 各スキル再計算
+            const barSHMST = skillValuess.get("SHMST"); SHMST_F(barSHMST);     // 盾マスタリー
+            const barFRTGD = skillValuess.get("FRTGD"); FRTGD_F(barFRTGD);     // フロントガード
+            const barBCKGD = skillValuess.get("BCKGD"); BCKGD_F(barBCKGD);     // バックガード
+            const barDFRMT = skillValuess.get("DFRMT"); DFRMT_F(barDFRMT);     // 防御陣形
+            const barFIRGD = skillValuess.get("FIRGD"); FIRGD_F(barFIRGD);     // ファイアガード
+            const barFRZGD = skillValuess.get("FRZGD"); FRZGD_F(barFRZGD);     // フリーズガード
+            const barSHKGD = skillValuess.get("SHKGD"); SHKGD_F(barSHKGD);     // ショックガード
+            const barTPBST = skillValuess.get("TPBST"); TPBST_F(barTPBST);     // TPブースト
+            const barSHDSM = skillValuess.get("SHDSM"); SHDSM_F(barSHDSM);     // シールドスマイト
+            const barDFBST = skillValuess.get("DFBST"); DFBST_F(barDFBST);     // DEFブースト
+            const barFLLDF = skillValuess.get("FLLDF"); FLLDF_F(barFLLDF);     // 渾身ディフェンス
+            const barAUTGD = skillValuess.get("AUTGD"); AUTGD_F(barAUTGD);     // オートガード
+            const barTAUNT = skillValuess.get("TAUNT"); TAUNT_F(barTAUNT);     // 挑発
+            const barPARRY = skillValuess.get("PARRY"); PARRY_F(barPARRY);     // パリング
+            const barCHRES = skillValuess.get("CHRES"); CHRES_F(barCHRES);     // 猛進逃走
+            const barALRKW = skillValuess.get("ALRKW"); ALRKW_F(barALRKW);     // 警戒歩行
+            const barDSRSL = skillValuess.get("DSRSL"); DSRSL_F(barDSRSL);     // 決死の覚悟
+            const barHPBST = skillValuess.get("HPBST"); HPBST_F(barHPBST);     // HPブースト
+            const barCURE1 = skillValuess.get("CURE1"); CURE1_F(barCURE1);     // キュア
+            const barCURE2 = skillValuess.get("CURE2"); CURE2_F(barCURE2);     // キュアⅡ
+            const barMNING = skillValuess.get("MNING"); MNING_F(barMNING);     // 採掘
+
+            // スキルポイント表示
+            ShowPoint();
+        }
+    }
+
+    /*[]----------------------------------------------[]*/
+    /*| Save処理                                       |*/
+    /*[]----------------------------------------------[]*/
+    function Save() {
         // 保持内容
-        var tdata = new Array(24);
-        tdata[0]  = HPBS_P;    // HPブースト
-        tdata[1]  = TPBS_P;    // TPブースト
-        tdata[2]  = DFBS_P;    // DEFブースト
-        tdata[3]  = SHMS_P;    // 盾マスタリー
-        tdata[4]  = CUR1_P;    // キュア
-        tdata[5]  = CUR2_P;    // キュアⅡ
-        tdata[6]  = PRVK_P;    // 挑発
-        tdata[7]  = RSLT_P;    // 決死の覚悟
-        tdata[8]  = FTGD_P;    // フロントガード
-        tdata[9]  = BKGD_P;    // バックガード
-        tdata[10] = PRRY_P;    // パリング
-        tdata[11] = ATGD_P;    // オートガード
-        tdata[12] = MXDF_P;    // 渾身ディフェンス
-        tdata[13] = DFFM_P;    // 防御陣形
-        tdata[14] = FRGD_P;    // ファイアガード
-        tdata[15] = FZGD_P;    // フリーズガード
-        tdata[16] = SKGD_P;    // ショックガード
-        tdata[17] = SDSM_P;    // シールドスマイト
-        tdata[18] = RNWY_P;    // 猛進逃走
-        tdata[19] = CTWK_P;    // 警戒歩行
-        tdata[20] = DIGG_P;    // 採掘
-        tdata[21] = RETR_P;    // 引退ボーナス
-        tdata[22] = CHAR_N;    // 名前
-        tdata[23] = 11;
+        CHAR_NM = document.Msg.chrName.value;
+        var saveData = new Array(23);
+        saveData[0]  = SHMST_P;    // 盾マスタリー
+        saveData[1]  = FRTGD_P;    // フロントガード
+        saveData[2]  = BCKGD_P;    // バックガード
+        saveData[3]  = DFRMT_P;    // 防御陣形
+        saveData[4]  = FIRGD_P;    // ファイアガード
+        saveData[5]  = FRZGD_P;    // フリーズガード
+        saveData[6]  = SHKGD_P;    // ショックガード
+        saveData[7]  = TPBST_P;    // TPブースト
+        saveData[8]  = SHDSM_P;    // シールドスマイト
+        saveData[9]  = DFBST_P;    // DEFブースト
+        saveData[10] = FLLDF_P;    // 渾身ディフェンス
+        saveData[11] = AUTGD_P;    // オートガード
+        saveData[12] = TAUNT_P;    // 挑発
+        saveData[13] = PARRY_P;    // パリング
+        saveData[14] = CHRES_P;    // 猛進逃走
+        saveData[15] = ALRKW_P;    // 警戒歩行
+        saveData[16] = DSRSL_P;    // 決死の覚悟
+        saveData[17] = HPBST_P;    // HPブースト
+        saveData[18] = CURE1_P;    // キュア
+        saveData[19] = CURE2_P;    // キュアⅡ
+        saveData[20] = MNING_P;    // 採掘
+        saveData[21] = RTIRE_P;    // 引退ポイント
+        saveData[22] = CHAR_NM;    // 名前
 
-        code = encode(tdata,ver);
-
-        if( mode == "scode" ) {
-            return code;
-        }
-        if( mode == "cookie" ) {
-            SaveCookie(code);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Load
-    //   引数：mode クッキーのモード
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    function Load(mode){
-        // クッキーからロードする
-        code = loadType(mode);
-        if( code ) {
-            // デコードする
-            tdata = decode(code,ver);
-
-            HPBS_P = tdata[0] ;    // HPブースト
-            TPBS_P = tdata[1] ;    // TPブースト
-            DFBS_P = tdata[2] ;    // DEFブースト
-            SHMS_P = tdata[3] ;    // 盾マスタリー
-            CUR1_P = tdata[4] ;    // キュア
-            CUR2_P = tdata[5] ;    // キュアⅡ
-            PRVK_P = tdata[6] ;    // 挑発
-            RSLT_P = tdata[7] ;    // 決死の覚悟
-            FTGD_P = tdata[8] ;    // フロントガード
-            BKGD_P = tdata[9] ;    // バックガード
-            PRRY_P = tdata[10];    // パリング
-            ATGD_P = tdata[11];    // オートガード
-            MXDF_P = tdata[12];    // 渾身ディフェンス
-            DFFM_P = tdata[13];    // 防御陣形
-            FRGD_P = tdata[14];    // ファイアガード
-            FZGD_P = tdata[15];    // フリーズガード
-            SKGD_P = tdata[16];    // ショックガード
-            SDSM_P = tdata[17];    // シールドスマイト
-            RNWY_P = tdata[18];    // 猛進逃走
-            CTWK_P = tdata[19];    // 警戒歩行
-            DIGG_P = tdata[20];    // 採掘
-            RETR_P = tdata[21];    // 引退ボーナス
-        }
-        document.Msg.Retire.value = RETR_P;
-
-        HPBS_F(); TPBS_F(); DFBS_F(); SHMS_F(); 
-        CUR1_F(); CUR2_F(); PRVK_F(); RSLT_F(); 
-        FTGD_F(); BKGD_F(); PRRY_F(); ATGD_F(); 
-        MXDF_F(); DFFM_F(); FRGD_F(); FZGD_F(); 
-        SKGD_F(); SDSM_F(); RNWY_F(); CTWK_F(); 
-        DIGG_F();
-
-        // ポイント表示
-        ShowPoint();
+        // クッキーに保存
+        SaveCookie(saveData);
     }
     // -->
   </script>
@@ -608,341 +674,585 @@
 
 <div id="skill"style="position:absolute; z-index:1;"></div>
 
-<div style="position:absolute; top:10px; left:24px; width:760px; line-height:22px;">
+<div class="table">
   <form name="Msg">
-    <nobr>
-      ポイント <input type="text" name="expMsg" id="expMsgID" size=20 value=" Loading..." readonly>　
-      名前 <input type="text" name="chrName" size=10 value="" maxlength=10 title="セーブスロットに名前がつきます">　
-      引退ボーナス 
-      <select name="Retire" onChange="ShowPoint();">
+
+    <div class="pair">
+      <div class="label">Lv</div>
+      <div class="value2" id="LV">1</div>
+
+      <div class="label">使用</div>
+      <div class="value2" id="USE">0</div>
+
+      <div class="label">残</div>
+      <div class="value2" id="RES">72</div>
+    </div>
+
+    <div class="pair">
+      <div class="label">引退ボーナス</div>
+      <select name="Retire" onChange="showPoint();">
         <option value="0" selected>0 (引退無し)
         <option value="2">+2 (Lv30-39)
         <option value="3">+3 (Lv40-49)
         <option value="4">+4 (Lv50-59)
         <option value="5">+5 (Lv60-69)
         <option value="6">+6 (Lv70)
-      </select>　
-      セーブ 
+      </select>
+    </div>
+
+    <div class="pair">
+      <div class="label">名前</div>
+      <input type="text" name="chrName" size="10" maxlength="10">
+    </div>
+
+    <div class="pair">
+      <div class="label">セーブ</div>
       <select name="Slot">
         <option value="1" selected>Slot1 : no Save Data
         <option value="2">Slot2 : no Save Data
         <option value="3">Slot3 : no Save Data
         <option value="4">Slot4 : no Save Data
         <option value="5">Slot5 : no Save Data
+        <option value="6">Slot6 : no Save Data
+        <option value="7">Slot7 : no Save Data
+        <option value="8">Slot8 : no Save Data
+        <option value="9">Slot9 : no Save Data
+        <option value="10">Slot10 : no Save Data
       </select>
-    </nobr>
-    <input type="hidden" name="scode" value="">
-    <div align=right>
-      <span style="color:#000066;"><u>
-        <a class="con" href="JavaScript:Save('cookie');" title="Cookieに今の状態をセーブ">Save</a>　
-        <a class="con" href="JavaScript:Load('cookie');" title="Cookieからロード">Load</a>　
-        <a class="con" href="JavaScript:Clear();" title="スキルポイントをリセット">Clear</a>　
-        <a class="con" href="JavaScript:DeleteCookie();" title="セーブスロットを消去">DeleteSlot</a>
-      </span>
     </div>
   </form>
 </div>
 
-
-<!-- Paladin -->
+<div class="table"  style="position:absolute; top:40px; left:543px;">
+  <div class="pair">
+    <a href="Javascript:Load();" class="glass-btn">Load</a>
+    <a href="Javascript:Save();" class="glass-btn">Save</a>
+    <a href="JavaScript:Clear();" class="glass-btn">Clear</a>
+    <a href="Javascript:Delete();" class="glass-btn">Delete</a>
+  </div>
+</div>
 
 <!-- 盾マスタリー -->
-<table class="job" cellspacing=0 cellpadding=0 id="SHMS" style="position:absolute; top:55px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[3]')" onmouseout="offLayer()">盾マスタリー</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="SHMS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- TPブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="TPBS" style="position:absolute; top:235px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'PldSkill[1]')" onmouseout="offLayer()">TPブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="TPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr><
-/table>
-
-<!-- DEFブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="DFBS" style="position:absolute; top:295px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'PldSkill[2]')" onmouseout="offLayer()">DEFブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="DFBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr><
-/table>
-
-<!-- HPブースト -->
-<table class="job" cellspacing=0 cellpadding=0 id="HPBS" style="position:absolute; top:505px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,225,'PldSkill[0]')" onmouseout="offLayer()">HPブースト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="HPBS_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 採掘 -->
-<table class="job" cellspacing=0 cellpadding=0 id="DIGG" style="position:absolute; top:565px; left:23px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[20]')" onmouseout="offLayer()">採掘</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="DIGG_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="SHMST_SKILL" class="skill" style="position:absolute; top:55px; left:20px;">
+  <div class="skill-title">盾マスタリー</div>
+  <div id="SHMST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="SHMST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- フロントガード -->
-<table class="job" cellspacing=0 cellpadding=0 id="FTGD" style="position:absolute; top:85px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,135,'PldSkill[8]',FTGD_P)" onmouseout="offLayer()">フロントガード</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="FTGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="FRTGD_SKILL" class="skill" style="position:absolute; top:90px; left:200px;">
+  <div class="skill-title">フロントガード</div>
+  <div id="FRTGD" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="FRTGD" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- バックガード -->
-<table class="job" cellspacing=0 cellpadding=0 id="BKGD" style="position:absolute; top:115px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,135,'PldSkill[9]',BKGD_P)" onmouseout="offLayer()">バックガード</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="BKGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- ファイアガード -->
-<table class="job" cellspacing=0 cellpadding=0 id="FRGD" style="position:absolute; top:145px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'PldSkill[14]',FRGD_P)" onmouseout="offLayer()">ファイアガード</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="FRGD_IN" src="../../data/other/bar/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- フリーズガード -->
-<table class="job" cellspacing=0 cellpadding=0 id="FZGD" style="position:absolute; top:175px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'PldSkill[15]',FZGD_P)" onmouseout="offLayer()">フリーズガード</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="FZGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- ショックガード -->
-<table class="job" cellspacing=0 cellpadding=0 id="SKGD" style="position:absolute; top:205px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,150,'PldSkill[16]',SKGD_P)" onmouseout="offLayer()">ショックガード</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="SKGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 渾身ディフェンス -->
-<table class="job" cellspacing=0 cellpadding=0 id="MXDF" style="position:absolute; top:295px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'PldSkill[12]',MXDF_P)" onmouseout="offLayer()">渾身ディフェンス</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="MXDF_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- オートガード -->
-<table class="job" cellspacing=0 cellpadding=0 id="ATGD" style="position:absolute; top:325px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[11]')" onmouseout="offLayer()">オートガード</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="ATGD_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 挑発 -->
-<table class="job" cellspacing=0 cellpadding=0 id="PRVK" style="position:absolute; top:355px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,180,'PldSkill[6]',PRVK_P)" onmouseout="offLayer()">挑発</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="PRVK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- パリング -->
-<table class="job" cellspacing=0 cellpadding=0 id="PRRY" style="position:absolute; top:385px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,165,'PldSkill[10]',PRRY_P)" onmouseout="offLayer()">パリング</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="PRRY_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 猛進逃走 -->
-<table class="job" cellspacing=0 cellpadding=0 id="RNWY" style="position:absolute; top:415px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,165,'PldSkill[18]',RNWY_P)" onmouseout="offLayer()">猛進逃走</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="RNWY_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 警戒歩行 -->
-<table class="job" cellspacing=0 cellpadding=0 id="CTWK" style="position:absolute; top:445px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,240,'PldSkill[19]',CTWK_P)" onmouseout="offLayer()">警戒歩行</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="CTWK_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- 決死の覚悟 -->
-<table class="job" cellspacing=0 cellpadding=0 id="RSLT" style="position:absolute; top:475px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[7]',RSLT_P)" onmouseout="offLayer()">決死の覚悟</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="RSLT_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- キュア -->
-<table class="job" cellspacing=0 cellpadding=0 id="CUR1" style="position:absolute; top:505px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,240,'PldSkill[4]',CUR1_P)" onmouseout="offLayer()">キュア</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="CUR1_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
-
-<!-- キュアⅡ -->
-<table class="job" cellspacing=0 cellpadding=0 id="CUR2" style="position:absolute; top:535px; left:223px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,240,'PldSkill[5]',CUR2_P)" onmouseout="offLayer()">キュアⅡ</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="CUR2_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="BCKGD_SKILL" class="skill" style="position:absolute; top:125px; left:200px;">
+  <div class="skill-title">バックガード</div>
+  <div id="BCKGD" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="BCKGD" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- 防御陣形 -->
-<table class="job" cellspacing=0 cellpadding=0 id="DFFM" style="position:absolute; top:85px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,120,'PldSkill[13]',DFFM_P)" onmouseout="offLayer()">防御陣形</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="DFFM_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="DFRMT_SKILL" class="skill" style="position:absolute; top:105px; left:380px;">
+  <div class="skill-title">防御陣形</div>
+  <div id="DFRMT" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="DFRMT" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- ファイアガード -->
+<div id="FIRGD_SKILL" class="skill" style="position:absolute; top:160px; left:200px;">
+  <div class="skill-title">ファイアガード</div>
+  <div id="FIRGD" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="FIRGD" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- フリーズガード -->
+<div id="FRZGD_SKILL" class="skill" style="position:absolute; top:195px; left:200px;">
+  <div class="skill-title">フリーズガード</div>
+  <div id="FRZGD" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="FRZGD" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- ショックガード -->
+<div id="SHKGD_SKILL" class="skill" style="position:absolute; top:230px; left:200px;">
+  <div class="skill-title">ショックガード</div>
+  <div id="SHKGD" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="SHKGD" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
 <!-- シールドスマイト -->
-<table class="job" cellspacing=0 cellpadding=0 id="SDSM" style="position:absolute; top:205px; left:423px;" onmousewheel="return false;">
-  <tr>
-    <td height=16 background="../../data/other/box1.png">
-      <div class="help" onmouseover="setLayer(event.clientX,event.clientY,300,105,'PldSkill[17]',SDSM_P)" onmouseout="offLayer()">シールドスマイト</div>
-    </td>
-  </tr>
-  <tr>
-    <td height=14 background="../../data/other/box2.png" valign=bottom>
-      <img class="bar" id="SDSM_IN" src="../../data/other/10-0.png" onclick="prp(this.id,event.clientX,1)" oncontextmenu="prp(this.id,event.clientX,0); return false;" onmousewheel="und(this.id,2);">
-    </td>
-  </tr>
-</table>
+<div id="SHDSM_SKILL" class="skill" style="position:absolute; top:230px; left:380px;">
+  <div class="skill-title">シールドスマイト</div>
+  <div id="SHDSM" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="SHDSM" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
 
-<div id="option1" style="position:absolute; top:0px; left:0px; width:0px; height:0px; background-image:url(../../data/alpha.png);" onclick="JavaScript:offOptionLayer();"></div>
-<div id="option2" style="position:absolute; top:0px; left:0px; width:0px; height:0px;"></div>
-<div id="dummy" style="position:absolute; top:0px; left:0px; width:800px; height:600px; z-index:-1;"></div>
+<!-- TPブースト -->
+<div id="TPBST_SKILL" class="skill" style="position:absolute; top:255px; left:20px;">
+  <div class="skill-title">TPブースト</div>
+  <div id="TPBST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="TPBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- DEFブースト -->
+<div id="DFBST_SKILL" class="skill" style="position:absolute; top:300px; left:20px;">
+  <div class="skill-title">DEFブースト</div>
+  <div id="DFBST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="DFBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 渾身ディフェンス -->
+<div id="FLLDF_SKILL" class="skill" style="position:absolute; top:300px; left:200px;">
+  <div class="skill-title">渾身ディフェンス</div>
+  <div id="FLLDF" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="FLLDF" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- オートガード -->
+<div id="AUTGD_SKILL" class="skill" style="position:absolute; top:335px; left:200px;">
+  <div class="skill-title">オートガード</div>
+  <div id="AUTGD" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="AUTGD" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 挑発 -->
+<div id="TAUNT_SKILL" class="skill" style="position:absolute; top:370px; left:200px;">
+  <div class="skill-title">挑発</div>
+  <div id="TAUNT" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="TAUNT" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- パリング -->
+<div id="PARRY_SKILL" class="skill" style="position:absolute; top:405px; left:200px;">
+  <div class="skill-title">パリング</div>
+  <div id="PARRY" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="PARRY" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 猛進逃走 -->
+<div id="CHRES_SKILL" class="skill" style="position:absolute; top:440px; left:200px;">
+  <div class="skill-title">猛進逃走</div>
+  <div id="CHRES" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="CHRES" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 警戒歩行 -->
+<div id="ALRKW_SKILL" class="skill" style="position:absolute; top:475px; left:200px;">
+  <div class="skill-title">警戒歩行</div>
+  <div id="ALRKW" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="ALRKW" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 決死の覚悟 -->
+<div id="DSRSL_SKILL" class="skill" style="position:absolute; top:510px; left:200px;">
+  <div class="skill-title">決死の覚悟</div>
+  <div id="DSRSL" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="DSRSL" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- HPブースト -->
+<div id="HPBST_SKILL" class="skill" style="position:absolute; top:545px; left:20px;">
+  <div class="skill-title">HPブースト</div>
+  <div id="HPBST" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="HPBST" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- キュア -->
+<div id="CURE1_SKILL" class="skill" style="position:absolute; top:545px; left:200px;">
+  <div class="skill-title">キュア</div>
+  <div id="CURE1" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="CURE1" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- キュアⅡ -->
+<div id="CURE2_SKILL" class="skill" style="position:absolute; top:580px; left:200px;">
+  <div class="skill-title">キュアⅡ</div>
+  <div id="CURE2" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="CURE2" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 採掘 -->
+<div id="MNING_SKILL" class="skill" style="position:absolute; top:615px; left:20px;">
+  <div class="skill-title">採掘</div>
+  <div id="MNING" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+    <div class="boxes">
+      <!-- 10個の箱 -->
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
+      <div id="MNING" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+    </div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+  </div>
+</div>
+
+<!-- 罫線 -->
+<!-- 盾マスタリー → シールドスマイト -->
+<div class="line_hor" style="position:absolute; top: 70px; left:150px; width :385px"></div>
+<div class="line_ver" style="position:absolute; top: 70px; left:535px; height:262px"></div>
+<div class="line_hor" style="position:absolute; top:245px; left:510px; width : 25px"></div>
+<!-- 盾マスタリー → 渾身ディフェンス -->
+<div class="line_hor" style="position:absolute; top:315px; left:330px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:315px; left:355px; height: 37px"></div>
+<div class="line_hor" style="position:absolute; top:330px; left:355px; width :180px"></div>
+<!-- 盾マスタリー → オートガード -->
+<div class="line_hor" style="position:absolute; top:350px; left:330px; width : 25px"></div>
+
+<!-- 盾マスタリー → フロントガード -->
+<div class="line_hor" style="position:absolute; top:105px; left:175px; width : 25px"></div>
+<!-- 盾マスタリー → バックガード -->
+<div class="line_hor" style="position:absolute; top:140px; left:175px; width : 25px"></div>
+<!-- フロントガード → 防御陣形 -->
+<div class="line_hor" style="position:absolute; top:105px; left:330px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:105px; left:355px; height: 37px"></div>
+<div class="line_hor" style="position:absolute; top:120px; left:355px; width : 25px"></div>
+<!-- バックガード → 防御陣形 -->
+<div class="line_hor" style="position:absolute; top:140px; left:330px; width : 25px"></div>
+<!-- 盾マスタリー → ファイアガード -->
+<div class="line_hor" style="position:absolute; top:175px; left:175px; width : 25px"></div>
+<!-- 盾マスタリー → フリーズガード -->
+<div class="line_hor" style="position:absolute; top:210px; left:175px; width : 25px"></div>
+<!-- 盾マスタリー → ショックガード -->
+<div class="line_hor" style="position:absolute; top:245px; left:175px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top: 70px; left:175px; height:175px"></div>
+
+<!-- TPブースト → ファイアガード -->
+<div class="line_hor" style="position:absolute; top:270px; left:150px; width :205px"></div>
+<div class="line_ver" style="position:absolute; top:175px; left:355px; height: 97px"></div>
+<div class="line_hor" style="position:absolute; top:175px; left:330px; width : 25px"></div>
+<!-- TPブースト → フリーズガード -->
+<div class="line_hor" style="position:absolute; top:210px; left:330px; width : 25px"></div>
+<!-- TPブースト → ショックガード -->
+<div class="line_hor" style="position:absolute; top:245px; left:330px; width : 25px"></div>
+
+<!-- DEFブースト → 渾身ディフェンス -->
+<div class="line_hor" style="position:absolute; top:315px; left:150px; width : 50px"></div>
+<!-- 渾身ディフェンス → シールドスマイト -->
+<div class="line_ver" style="position:absolute; top:285px; left:265px; height: 15px"></div>
+<div class="line_hor" style="position:absolute; top:285px; left:265px; width :180px"></div>
+<div class="line_ver" style="position:absolute; top:260px; left:445px; height: 27px"></div>
+
+<!-- DEFブースト → オートガード -->
+<div class="line_hor" style="position:absolute; top:350px; left:175px; width : 25px"></div>
+<!-- DEFブースト → 挑発 -->
+<div class="line_hor" style="position:absolute; top:385px; left:175px; width : 25px"></div>
+<!-- DEFブースト → 挑発 -->
+<div class="line_hor" style="position:absolute; top:420px; left:175px; width : 25px"></div>
+<!-- DEFブースト → 猛進逃走 -->
+<div class="line_hor" style="position:absolute; top:455px; left:175px; width : 25px"></div>
+<!-- DEFブースト → 猛進逃走 -->
+<div class="line_hor" style="position:absolute; top:490px; left:175px; width : 25px"></div>
+<!-- DEFブースト → 決死の覚悟 -->
+<div class="line_hor" style="position:absolute; top:525px; left:175px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:315px; left:175px; height:210px"></div>
+
+<!-- HPブースト → キュア -->
+<div class="line_hor" style="position:absolute; top:560px; left:150px; width : 50px"></div>
+<!-- HPブースト → キュアⅡ -->
+<div class="line_hor" style="position:absolute; top:595px; left:175px; width : 25px"></div>
+<div class="line_ver" style="position:absolute; top:560px; left:175px; height: 35px"></div>
+
 
 </body>
 </html>
