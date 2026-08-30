@@ -20,179 +20,177 @@ body {
 /*| スキル - タイトル部                            |*/
 /*[]----------------------------------------------[]*/
 .skill-title {
-  font-size: 10px;
-  font-weight: bold;
-  color: #00faff;
-  width: 130px;
-  text-align: center;
-  font-family: "Segoe UI", sans-serif;
+  font-size                  : 10px;
+  font-weight                : bold;
+  color                      : #00faff;
+  width                      : 130px;
+  text-align                 : center;
+  font-family                : "Segoe UI", sans-serif;
 }
 
 /*[]----------------------------------------------[]*/
 /*| スキル - バー部                                |*/
 /*[]----------------------------------------------[]*/
 .status-bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 1px 0;
-  user-select: none;
-  pointer-events: auto;
-  position:relative;
-  left:6px;
-  z-index: 1;
+  display                    : flex;
+  align-items                : center;
+  gap                        : 6px;
+  margin                     : 1px 0;
+  user-select                : none;
+  pointer-events             : auto;
+  position                   : relative;
+  left                       : 6px;
+  z-index                    : 1;
 }
 
 /*[]----------------------------------------------[]*/
 /*| スキル - 箱部                                  |*/
 /*[]----------------------------------------------[]*/
 .boxes {
-  display: flex;
-  gap: 1px;
-  pointer-events: auto;
-  position:relative;
-  z-index: 1;
+  display                    : flex;
+  gap                        : 1px;
+  pointer-events             : auto;
+  position                   : relative;
+  z-index                    : 1;
 }
 
 .box {
-  width: 5px;
-  height: 5px;
-  border: 1px solid #999;
-  background: #fff;
-  transition: background 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-  display: inline-block;
+  width                      : 5px;
+  height                     : 5px;
+  border                     : 1px solid #999;
+  background                 : #fff;
+  transition                 : background 0.2s, box-shadow 0.2s;
+  cursor                     : pointer;
+  display                    : inline-block;
 }
 
 .box.active {
-  background: #00faff;
-  box-shadow: 0 0 8px #00faff;
+  background                 : #00faff;
+  box-shadow                 : 0 0 8px #00faff;
 }
 
 .box.zero {
-  background: #222222;
-  box-shadow: 0 0 8px #00faff;
+  background                 : #222222;
+  box-shadow                 : 0 0 8px #00faff;
 }
 
 /*[]----------------------------------------------[]*/
 /*| スキル - Lv表示部                              |*/
 /*[]----------------------------------------------[]*/
 .level-display {
-  font-size: 10px;
-  width: 30px;
+  font-size                  : 10px;
+  width                      : 30px;
 }
 .diag-box {
-  position: relative;
-  display: flex;
-  width: 30px;
-  font-size: 9px;
-  font-family: "Segoe UI", sans-serif;
-  border-radius: 3px;       /* 角を丸める */
-  overflow: hidden;         /* 斜め線がはみ出さないように */
-  color: #000;
-/*  border: 1px solid #999;*/
+  position                   : relative;
+  display                    : flex;
+  width                      : 30px;
+  font-size                  : 9px;
+  font-family                : "Segoe UI", sans-serif;
+  border-radius              : 3px;            /* 角を丸める */
+  overflow                   : hidden;         /* 斜め線がはみ出さないように */
+  color                      : #000;
 }
 
 /* 左右のエリア */
 .level-left {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #97cef4;
+  flex                       : 1;
+  display                    : flex;
+  justify-content            : center;
+  align-items                : center;
+  background                 : #97cef4;
 }
 .level-right {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #5b9ed2;
+  flex                       : 1;
+  display                    : flex;
+  justify-content            : center;
+  align-items                : center;
+  background                 : #5b9ed2;
 }
 
 /* 横方向の斜め区切り線 */
 .diag-box::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 45%;
-  width: 2px;
-  background: #00faff;
-  transform: skewX(-20deg);     /* 横方向に斜め */
-  transform-origin: center;
-  box-shadow: 0 0 8px #00faff;  /* 発光（未来UI） */
+  content                    : "";
+  position                   : absolute;
+  top                        : 0;
+  bottom                     : 0;
+  left                       : 45%;
+  width                      : 2px;
+  background                 : #00faff;
+  transform                  : skewX(-20deg);     /* 横方向に斜め */
+  transform-origin           : center;
+  box-shadow                 : 0 0 8px #00faff;  /* 発光 */
 }
 
 /*[]----------------------------------------------[]*/
 /*| メニュー部                                     |*/
 /*[]----------------------------------------------[]*/
 .table {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display                    : flex;
+  flex-wrap                  : wrap;
+  gap                        : 6px;
 }
 
 .table form {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display                    : inline-flex;
+  flex-wrap                  : wrap;
+  gap                        : 6px;
 }
 
 .table:first-of-type {
-  justify-content: flex-start;
+  justify-content            : flex-start;
 }
 .table:last-of-type {
-  justify-content: flex-end;
+  justify-content            : flex-end;
 }
 
 /*[]----------------------------------------------[]*/
 /*| メニュー部 - グループ化                        |*/
 /*[]----------------------------------------------[]*/
 .pair {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 2px 3px;
-  border: 1px solid #c400ff55;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.05);
+  display                    : flex;
+  align-items                : center;
+  gap                        : 3px;
+  padding                    : 2px 3px;
+  border                     : 1px solid #c400ff55;
+  border-radius              : 8px;
+  background                 : rgba(255,255,255,0.05);
 }
 
 /*[]----------------------------------------------[]*/
 /*| メニュー部 - ラベル                            |*/
 /*[]----------------------------------------------[]*/
 .label {
-//  background: #c400ff22;        /* ラベル：蛍光ブルー系 */
-  background: #7f5bff;
-  border: 1px solid #c400ff;    /* ラベルの枠線 */
-  padding: 2px 3px;
-  border-radius: 3px;
-  color: #fff;
-  font-weight: 600;
-  font-size: 10px;
-  vertical-align: middle;
+  background                 : #7f5bff;
+  border                     : 1px solid #c400ff;    /* ラベルの枠線 */
+  padding                    : 2px 3px;
+  border-radius              : 3px;
+  color                      : #fff;
+  font-weight                : 600;
+  font-size                  : 10px;
+  vertical-align             : middle;
 }
 
 /*[]----------------------------------------------[]*/
 /*| メニュー部 - 値                                |*/
 /*[]----------------------------------------------[]*/
 .value {
-  background: rgba(0, 0, 0, 0.45);   /* 暗めの黒ガラス */
-  border: 1px solid rgba(255,255,255,0.25);
-  padding: 2px 3px;
-  border-radius: 3px;
-  color: #fff;
-  font-size: 10px;
+  background                 : rgba(0, 0, 0, 0.45);   /* 暗めの黒ガラス */
+  border                     : 1px solid rgba(255,255,255,0.25);
+  padding                    : 2px 3px;
+  border-radius              : 3px;
+  color                      : #fff;
+  font-size                  : 10px;
 }
 .value2 {
-  background: rgba(0, 0, 0, 0.45);   /* 暗めの黒ガラス */
-  border: 1px solid rgba(255,255,255,0.25);
-  padding: 2px 3px;
-  border-radius: 3px;
-  color: #fff;
-  width: 20px;
-  font-size: 10px;
-  text-align: right;
+  background                 : rgba(0, 0, 0, 0.45);   /* 暗めの黒ガラス */
+  border                     : 1px solid rgba(255,255,255,0.25);
+  padding                    : 2px 3px;
+  border-radius              : 3px;
+  color                      : #fff;
+  width                      : 20px;
+  font-size                  : 10px;
+  text-align                 : right;
 }
 
 /*[]----------------------------------------------[]*/
@@ -200,70 +198,86 @@ body {
 /*[]----------------------------------------------[]*/
 /* ガラスボタン */
 .glass-btn {
-  display: inline-block;
-  padding: 2px 5px;
-  font-size: 10px;
-  color: #ffffff;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 8px;
-  position: relative;
+  display                    : inline-block;
+  padding                    : 2px 5px;
+  font-size                  : 10px;
+  color                      : #ffffff;
+  font-weight                : bold;
+  text-decoration            : none;
+  border-radius              : 8px;
+  position                   : relative;
 
   /* 紫ガラスの本体（透明感を保つ） */
-  background: rgba(150, 60, 200, 0.15); /* ← 紫ガラス色 */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background                 : rgba(150, 60, 200, 0.15); /* ← 紫ガラス色 */
+  backdrop-filter            : blur(10px);
+  -webkit-backdrop-filter    : blur(10px);
 
   /* ガラスの縁も紫寄りに */
-  border: 2px solid rgba(200, 120, 255, 0.4);
+  border                     : 2px solid rgba(200, 120, 255, 0.4);
 
   /* ネオンなし */
-  box-shadow: none;
+  box-shadow                 : none;
 
-  transition: 0.25s ease;
+  transition                 : 0.25s ease;
 }
 /* ガラスの反射（透明感のハイライト） */
 .glass-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 45%;
-  border-radius: inherit;
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,0.45),
-    rgba(255,255,255,0)
-  );
-  pointer-events: none;
+  content                    : "";
+  position                   : absolute;
+  top                        : 0;
+  left                       : 0;
+  width                      : 100%;
+  height                     : 45%;
+  border-radius              : inherit;
+  background                 : linear-gradient( 180deg,
+                                                rgba(255,255,255,0.45),
+                                                rgba(255,255,255,0)
+                                              );
+  pointer-events             : none;
 }
 /* 内側の発光なし（完全ガラス） */
 .glass-btn::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: none;
-  pointer-events: none;
+  content                    : "";
+  position                   : absolute;
+  inset                      : 0;
+  border-radius              : inherit;
+  box-shadow                 : none;
+  pointer-events             : none;
 }
 /* 押した時の沈み込み */
-.glass-btn:active {
-  transform: translateY(3px);
+.glass-btn                   : active {
+  transform                  : translateY(3px);
 }
 
 /*[]----------------------------------------------[]*/
 /*| 罫線 - 横                                      |*/
 /*[]----------------------------------------------[]*/
 .line_hor {
-  height: 2px;
-  background: #000000;
+  height                     : 2px;
+  background                 : #000000;
 }
 
 /*[]----------------------------------------------[]*/
 /*| 罫線 - 縦                                      |*/
 /*[]----------------------------------------------[]*/
 .line_ver {
-  width: 2px;
-  background: #000000;
+  width                      : 2px;
+  background                 : #000000;
+}
+
+/*[]----------------------------------------------[]*/
+/*| 縁取り（黒フチ）                               |*/
+/*[]----------------------------------------------[]*/
+.stroke-text {
+  color                      : #eadf9d;
+  font-size                  : 8px;
+  font-weight                : 700;
+  text-shadow                :  0 0 3px #00faff,
+                                0 0 6px #00faff,
+                                0 0 12px #00faff,
+                                0 0 24px #00faff,
+                                2px 0 0 #003b46,
+                                -2px 0 0 #003b46,
+                                0 2px 0 #003b46,
+                                0 -2px 0 #003b46;
 }
