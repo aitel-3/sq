@@ -39,24 +39,40 @@
     /*[]----------------------------------------------[]*/
     function SHMST_F(bar) {
 console.log("SHMST_F() SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("SHMST",SHMST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが1未満の場合、フロントガード、バックガードを不活性                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 1 ) {
             Disable("FRTGD");
             if( FRTGD_P > 0 ) { FRTGD_P = 0; statusValues.set(bar, 0); FRTGD_F(bar); }
             Disable("BCKGD");
             if( BCKGD_P > 0 ) { BCKGD_P = 0; statusValues.set(bar, 0); BCKGD_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが1以上の場合、フロントガード、バックガードを活性                       |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P >= 1 ) {
             Visible("FRTGD");
             Visible("BCKGD");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが3未満の場合、渾身ディフェンスを不活性                                 |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 3 ) {
             Disable("FLLDF");
             if( FLLDF_P > 0 ) { FLLDF_P = 0; statusValues.set(bar, 0); FLLDF_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが3以上かつDEFブーストが3以上の場合、渾身ディフェンスを活性             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P >= 3 && DFBST_P >= 3 ) {
             Visible("FLLDF");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが5未満の場合、3色ガードを不活性                                        |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 5 ) {
             Disable("FIRGD");
             if( FIRGD_P > 0 ) { FIRGD_P = 0; statusValues.set(bar, 0); FIRGD_F(bar); }
@@ -65,22 +81,37 @@ console.log("SHMST_F() SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
             Disable("SHKGD");
             if( SHKGD_P > 0 ) { SHKGD_P = 0; statusValues.set(bar, 0); SHKGD_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが5以上かつTPブーストが3以上の場合、3色ガードを活性                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P >= 5 && TPBST_P >= 3 ) {
             Visible("FIRGD");
             Visible("FRZGD");
             Visible("SHKGD");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが7未満の場合、オートガードを不活性                                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 7 ) {
             Disable("AUTGD");
             if( AUTGD_P > 0 ) { AUTGD_P = 0; statusValues.set(bar, 0); AUTGD_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが7以上かつDEFブーストが7以上の場合、オートガードを活性                 |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P >= 7 && DFBST_P >= 7 ) {
             Visible("AUTGD");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが10未満の場合、シールドスマイトを不活性                                |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 10 ) { 
             Disable("SHDSM");
             if( SHDSM_P > 0 ) { SHDSM_P = 0; statusValues.set(bar, 0); SHDSM_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが10以上かつ渾身ディフェンスが5以上の場合、シールドスマイトを活性       |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P >= 10 && FLLDF_P >= 5 ) {
             Visible("SHDSM");
         }
@@ -91,14 +122,25 @@ console.log("SHMST_F() SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     function FRTGD_F(bar) {
 console.log("FRTGD_F() FRTGD_P=[" + FRTGD_P + "]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("FRTGD",FRTGD_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  フロントガードが3未満の場合、防御陣形を不活性                                       |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( FRTGD_P < 3 ) {
             Disable("DFRMT");
             if( DFRMT_P > 0 ) { DFRMT_P = 0; statusValues.set(bar, 0); DFRMT_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  フロントガードが3以上かつバックガードが3以上の場合、防御陣形を活性                  |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( FRTGD_P >= 3 && BCKGD_P >= 3 ) {
             Visible("DFRMT");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが1未満かつフロントガードが0より大きい場合                              |*/
+        /*|  盾マスタリーを1にしてフロントガードを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 1 && FRTGD_P > 0 ) {
             SHMST_P = 1;
             Visible("FRTGD");
@@ -111,14 +153,25 @@ console.log("FRTGD_F() FRTGD_P=[" + FRTGD_P + "]  SHMST_P=[" + SHMST_P +"] bar.i
     /*[]----------------------------------------------[]*/
     function BCKGD_F(bar) {
 console.log("BCKGD_F() BCKGD_P=[" + BCKGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("BCKGD",BCKGD_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  バックガードが3未満の場合、防御陣形を不活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( BCKGD_P < 3 ) {
             Disable("DFRMT");
             if( DFRMT_P > 0 ) { DFRMT_P = 0; statusValues.set(bar, 0); DFRMT_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  バックガードが3以上かつフロントガードが3以上の場合、防御陣形を活性                  |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( BCKGD_P >= 3 && FRTGD_P >= 3 ) {
             Visible("DFRMT");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが1未満かつバックガードが0より大きい場合                                |*/
+        /*|  盾マスタリーを1にしてバックガードを活性                                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 1 && BCKGD_P > 0 ) {
             SHMST_P = 1;
             Visible("BCKGD");
@@ -131,12 +184,21 @@ console.log("BCKGD_F() BCKGD_P=[" + BCKGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id
     /*[]----------------------------------------------[]*/
     function DFRMT_F(bar) {
 console.log("DFRMT_F() DFRMT_P=[" + DFRMT_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("DFRMT",DFRMT_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  フロントガードが3未満かつ防御陣形が0より大きい場合                                  |*/
+        /*|  フロントガードを3にして防御陣形を活性                                               |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( FRTGD_P < 3 && DFRMT_P > 0 ) {
             FRTGD_P = 3;
             Visible("DFRMT");
             FRTGD_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  バックガードが3未満かつ防御陣形が0より大きい場合                                    |*/
+        /*|  バックガードを3にして防御陣形を活性                                                 |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( BCKGD_P < 3 && DFRMT_P > 0 ) {
             BCKGD_P=3;
             Visible("DFRMT");
@@ -149,12 +211,21 @@ console.log("DFRMT_F() DFRMT_P=[" + DFRMT_P +"]  SHMST_P=[" + SHMST_P +"] bar.id
     /*[]----------------------------------------------[]*/
     function FIRGD_F(bar) {
 console.log("FIRGD_F() FIRGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("FIRGD",FIRGD_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3未満かつフロントガードが0より大きい場合                                |*/
+        /*|  TPブーストを3にしてフロントガードを活性                                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P < 3 && FIRGD_P > 0 ) {
             TPBST_P = 3;
             Visible("FIRGD");
             TPBST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが5未満かつフロントガードが0より大きい場合                              |*/
+        /*|  盾マスタリーを5にしてフロントガードを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 5 && FIRGD_P > 0 ) {
             SHMST_P = 5;
             Visible("FIRGD");
@@ -167,12 +238,21 @@ console.log("FIRGD_F() FIRGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id
     /*[]----------------------------------------------[]*/
     function FRZGD_F(bar) {
 console.log("FRZGD_F() FRZGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("FRZGD",FRZGD_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3未満かつフリーズガードが0より大きい場合                                |*/
+        /*|  TPブーストを3にしてフリーズガードを活性                                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P < 3 && FRZGD_P > 0 ) {
             TPBS_P = 3;
             Visible("FRZGD");
             TPBST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが5未満かつフリーズガードが0より大きい場合                              |*/
+        /*|  盾マスタリーを5にしてフリーズガードを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 5 && FRZGD_P > 0 ) {
             SHMST_P = 5;
             Visible("FRZGD");
@@ -185,12 +265,21 @@ console.log("FRZGD_F() FRZGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id
     /*[]----------------------------------------------[]*/
     function SHKGD_F(bar) {
 console.log("SHKGD_F() SHKGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("SHKGD",SHKGD_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3未満かつショックガードが0より大きい場合                                |*/
+        /*|  TPブーストを3にしてショックガードを活性                                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P < 3 && SHKGD_P > 0 ) {
             TPBST_P = 3;
             Visible("SHKGD");
             TPBST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが5未満かつショックガードが0より大きい場合                              |*/
+        /*|  盾マスタリーを5にしてショックガードを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 5 && SHKGD_P > 0 ) {
             SHMST_P = 5;
             Visible("SHKGD");
@@ -203,12 +292,21 @@ console.log("SHKGD_F() SHKGD_P=[" + FIRGD_P +"]  SHMST_P=[" + SHMST_P +"] bar.id
     /*[]----------------------------------------------[]*/
     function SHDSM_F(bar) {
 console.log("SHDSM_F() SHDSM_P=[" + SHDSM_P +"] SHMST_P=[" + SHMST_P + "] SHMST_P=[" + SHMST_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("SHDSM",SHDSM_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが10未満かつシールドスマイトが0より大きい場合                           |*/
+        /*|  盾マスタリーを10にしてシールドスマイトを活性                                        |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 10 && SHDSM_P > 0 ) {
             SHMST_P = 10;
             Visible("SHDSM");
             SHMST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  渾身ディフェンスが5未満かつシールドスマイトが0より大きい場合                        |*/
+        /*|  渾身ディフェンスを5にしてシールドスマイトを活性                                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( FLLDF_P < 5 && SHDSM_P > 0 ) {
             FLLDF_P = 5;
             Visible("SHDSM");
@@ -221,7 +319,11 @@ console.log("SHDSM_F() SHDSM_P=[" + SHDSM_P +"] SHMST_P=[" + SHMST_P + "] SHMST_
     /*[]----------------------------------------------[]*/
     function TPBST_F(bar) {
 console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("TPBST",TPBST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3未満の場合、3色ガードを不活性                                          |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P < 3 ) {
             Disable("FIRGD");
             if( FIRGD_P > 0 ) { FIRGD_P = 0; statusValues.set(bar, 0); FIRGD_F(bar); }
@@ -230,6 +332,9 @@ console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] bar.id=[" + bar.id + "]");
             Disable("SHKGD");
             if( SHKGD_P > 0 ) { SHKGD_P = 0; statusValues.set(bar, 0); SHKGD_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3以上かつ盾マスタリーが5以上の場合、3色ガードを活性                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P >= 3 && SHMST_P >= 5 ) {
             Visible("FIRGD");
             Visible("FRZGD");
@@ -242,14 +347,24 @@ console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     function DFBST_F(bar) {
 console.log("DFBST_F() DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("DFBST",DFBST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが1未満の場合、挑発を不活性                                              |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 1 ) {
             Disable("TAUNT");
             if( TAUNT_P > 0 ) { TAUNT_P = 0; statusValues.set(bar, 0); TAUNT_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが1以上の場合、挑発を活性                                                |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P >= 1 ) {
             Visible("TAUNT");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが3未満の場合、パリング、猛進逃走、渾身ディフェンスを不活性              |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 3 ) {
             Disable("PARRY");
             if( PARRY_P > 0 ) { PARRY_P = 0; statusValues.set(bar, 0); PARRY_F(bar); }
@@ -258,27 +373,45 @@ console.log("DFBST_F() DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
             Disable("FLLDF");
             if( FLLDF_P > 0 ) { FLLDF_P = 0; statusValues.set(bar, 0); FLLDF_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFFブーストが3以上の場合、パリング、猛進逃走を活性                                 |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P >= 3 ) {
             Visible("PARRY");
             Visible("CHRES");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが3以上かつ盾マスタリーが3以上の場合、渾身ディフェンスを活性             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P >= 3 && SHMST_P >= 3 ) {
             Visible("FLLDF");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが5未満の場合、警戒歩行、決死の覚悟を不活性                              |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 5 ) {
             Disable("ALRKW");
             if( ALRKW_P > 0 ) { ALRKW_P = 0; statusValues.set(bar, 0); ALRKW_F(bar); }
             Disable("DSRSL");
             if( DSRSL_P > 0 ) { DSRSL_P = 0; statusValues.set(bar, 0); DSRSL_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが5以上の場合、警戒歩行、決死の覚悟を活性                                |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P >= 5 ) {
             Visible("ALRKW");
             Visible("DSRSL");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが7未満の場合、オートガードを不活性                                      |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 7 ) {
             Disable("AUTGD");
             if( AUTGD_P > 0 ) { AUTGD_P = 0; statusValues.set(bar, 0); AUTGD_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが7以上かつ盾マスタリーが7以上の場合、オートガードを活性                 |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P >= 7 && SHMST_P >= 7 ) {
             Visible("AUTGD");
         }
@@ -289,19 +422,32 @@ console.log("DFBST_F() DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     function FLLDF_F(bar) {
 console.log("FLLDF_F() FLLDF_P=[" + FLLDF_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("FLLDF",FLLDF_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  渾身ディフェンスが5未満の場合、シールドスマイトを不活性                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( FLLDF_P < 5 ) {
             Disable("SHDSM");
             if( SHDSM_P > 0 ) { SHDSM_P = 0; statusValues.set(bar, 0); SHDSM_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  渾身ディフェンスが5以上かつ盾マスタリーが10以上の場合、シールドスマイトを活性       |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( FLLDF_P >= 5 && SHMST_P >= 10 ) {
             Visible("SHDSM");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが3未満かつ渾身ディフェンスが0より大きい場合                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 3 && FLLDF_P > 0 ) {
             DFBST_P = 3;
             Visible("FLLDF");
             DFBST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが3未満かつ渾身ディフェンスが0より大きい場合                            |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 3 && FLLDF_P > 0 ) {
             SHMST_P = 3;
             Visible("FLLDF");
@@ -314,12 +460,21 @@ console.log("FLLDF_F() FLLDF_P=[" + FLLDF_P +"] DFBST_P=[" + DFBST_P +"] bar.id=
     /*[]----------------------------------------------[]*/
     function AUTGD_F(bar) {
 console.log("AUTGD_F() AUTGD_P=[" + AUTGD_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("AUTGD",AUTGD_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが7未満かつオートガードが0より大きい場合                                 |*/
+        /*|  DEFブーストを7にしてオートガードを活性                                              |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 7 && AUTGD_P > 0 ) {
             DFBST_P = 7;
             Visible("AUTGD");
             DFBST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  盾マスタリーが7未満かつオートガードが0より大きい場合                                |*/
+        /*|  盾マスタリーを7にしてオートガードを活性                                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SHMST_P < 7 && AUTGD_P > 0 ) {
             SHMST_P = 7;
             Visible("AUTGD");
@@ -332,7 +487,12 @@ console.log("AUTGD_F() AUTGD_P=[" + AUTGD_P +"] DFBST_P=[" + DFBST_P +"] bar.id=
     /*[]----------------------------------------------[]*/
     function TAUNT_F(bar) {
 console.log("TAUNT_F() TAUNT_P=[" + TAUNT_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("TAUNT",TAUNT_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが1未満かつ挑発が0より大きい場合                                         |*/
+        /*|  DEFブーストを1にして挑発を活性                                                      |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 1 && TAUNT_P > 0 ) {
             DFBST_P = 1;
             Visible("TAUNT");
@@ -345,7 +505,12 @@ console.log("TAUNT_F() TAUNT_P=[" + TAUNT_P +"] DFBST_P=[" + DFBST_P +"] bar.id=
     /*[]----------------------------------------------[]*/
     function PARRY_F(bar) {
 console.log("PARRY_F() PARRY_P=[" + PARRY_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("PARRY",PARRY_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが3未満かつパリングが0より大きい場合                                     |*/
+        /*|  DEFブーストを3にしてパリングを活性                                                  |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 3 && PARRY_P > 0 ) {
             DFBST_P = 3;
             Visible("PARRY");
@@ -358,7 +523,12 @@ console.log("PARRY_F() PARRY_P=[" + PARRY_P +"] DFBST_P=[" + DFBST_P +"] bar.id=
     /*[]----------------------------------------------[]*/
     function CHRES_F(bar) {
 console.log("CHRES_F() CHRES_P=[" + CHRES_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("CHRES",CHRES_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが3未満かつ猛進逃走が0より大きい場合                                     |*/
+        /*|  DEFブーストを3にして猛進逃走を活性                                                  |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 3 && CHRES_P > 0 ) {
             DFBST_P = 3;
             Visible("CHRES");
@@ -371,7 +541,12 @@ console.log("CHRES_F() CHRES_P=[" + CHRES_P +"] DFBST_P=[" + DFBST_P +"] bar.id=
     /*[]----------------------------------------------[]*/
     function ALRKW_F(bar) {
 console.log("ALRKW_F() ALRKW_P=[" + ALRKW_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("ALRKW",ALRKW_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが5未満かつ警戒歩行が0より大きい場合                                     |*/
+        /*|  DEFブーストを5にして警戒歩行を活性                                                  |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 5 && ALRKW_P > 0 ) {
             DFBST_P = 5;
             Visible("ALRKW");
@@ -384,7 +559,12 @@ console.log("ALRKW_F() ALRKW_P=[" + ALRKW_P +"] DFBST_P=[" + DFBST_P +"] bar.id=
     /*[]----------------------------------------------[]*/
     function DSRSL_F(bar) {
 console.log("DSRSL_F() DSRSL_P=[" + DSRSL_P +"] DFBST_P=[" + DFBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("DSRSL",DSRSL_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが5未満かつ決死の覚悟が0より大きい場合                                   |*/
+        /*|  決死の覚悟を5にして決死の覚悟を活性                                                 |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 5 && DSRSL_P > 0 ) {
             DFBST_P = 5;
             Visible("DSRSL");
@@ -397,18 +577,31 @@ console.log("DSRSL_F() DSRSL_P=[" + DSRSL_P +"] DFBST_P=[" + DFBST_P +"] bar.id=
     /*[]----------------------------------------------[]*/
     function HPBST_F(bar) {
 console.log("HPBST_F() HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("HPBST",HPBST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  HPブーストが3未満の場合、キュアを不活性                                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( HPBST_P < 3 ) {
             Disable("CURE1");
             if( CURE1_P > 0 ) { CURE1_P = 0; statusValues.set(bar, 0); CURE1_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  HPブーストが3以上の場合、キュアを活性                                               |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( HPBST_P >= 3 ) {
             Visible("CURE1");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  HPブーストが5未満の場合、キュアⅡを不活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( HPBST_P < 5 ) {
             Disable("CURE2");
             if( CURE2_P > 0 ) { CURE2_P = 0; statusValues.set(bar, 0); CURE2_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  HPブーストが5以上の場合、キュアⅡを活性                                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( HPBST_P >= 5 ) {
             Visible("CURE2");
         }
@@ -419,7 +612,12 @@ console.log("HPBST_F() HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     function CURE1_F(bar) {
 console.log("CURE1_F() CURE1_P=[" + CURE1_P + "] HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("CURE1",CURE1_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  HPブーストが3未満かつキュアが0より大きい場合                                        |*/
+        /*|  HPブーストを3にしてキュアを活性                                                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( HPBST_P < 3 && CURE1_P > 0 ) {
             HPBST_P = 3;
             Visible("CURE1");
@@ -432,7 +630,12 @@ console.log("CURE1_F() CURE1_P=[" + CURE1_P + "] HPBST_P=[" + HPBST_P +"] bar.id
     /*[]----------------------------------------------[]*/
     function CURE2_F(bar) {
 console.log("CURE2_F() CURE2_P=[" + CURE2_P + "] HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("CURE2",CURE2_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  HPブーストが5未満かつキュアⅡが0より大きい場合                                      |*/
+        /*|  HPブーストを5にしてキュアⅡを活性                                                   |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( HPBST_P < 5 && CURE2_P > 0 ) {
             HPBST_P = 5;
             Visible("CURE2");
@@ -445,6 +648,7 @@ console.log("CURE2_F() CURE2_P=[" + CURE2_P + "] HPBST_P=[" + HPBST_P +"] bar.id
     /*[]----------------------------------------------[]*/
     function MNING_F(bar) {
 console.log("MNING_F() MNING_P=[" + MNING_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("MNING",MNING_P);
     }
 
@@ -1192,66 +1396,89 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
 <div class="line_hor" style="position:absolute; top: 70px; left:150px; width :385px"></div>
 <div class="line_ver" style="position:absolute; top: 70px; left:535px; height:262px"></div>
 <div class="line_hor" style="position:absolute; top:245px; left:510px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:225px; left:515px">Lv10</p>
 <!-- 盾マスタリー → 渾身ディフェンス -->
 <div class="line_hor" style="position:absolute; top:315px; left:330px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top:315px; left:355px; height: 37px"></div>
 <div class="line_hor" style="position:absolute; top:330px; left:355px; width :180px"></div>
+<p class="stroke-text" style="position:absolute; top:295px; left:335px">Lv3</p>
 <!-- 盾マスタリー → オートガード -->
 <div class="line_hor" style="position:absolute; top:350px; left:330px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:330px; left:335px">Lv7</p>
 
 <!-- 盾マスタリー → フロントガード -->
 <div class="line_hor" style="position:absolute; top:105px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top: 85px; left:180px">Lv1</p>
 <!-- 盾マスタリー → バックガード -->
 <div class="line_hor" style="position:absolute; top:140px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:120px; left:180px">Lv1</p>
 <!-- フロントガード → 防御陣形 -->
 <div class="line_hor" style="position:absolute; top:105px; left:330px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top:105px; left:355px; height: 37px"></div>
 <div class="line_hor" style="position:absolute; top:120px; left:355px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top: 85px; left:335px">Lv3</p>
 <!-- バックガード → 防御陣形 -->
 <div class="line_hor" style="position:absolute; top:140px; left:330px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:120px; left:335px">Lv3</p>
 <!-- 盾マスタリー → ファイアガード -->
 <div class="line_hor" style="position:absolute; top:175px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:155px; left:180px">Lv5</p>
 <!-- 盾マスタリー → フリーズガード -->
 <div class="line_hor" style="position:absolute; top:210px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:190px; left:180px">Lv5</p>
 <!-- 盾マスタリー → ショックガード -->
 <div class="line_hor" style="position:absolute; top:245px; left:175px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top: 70px; left:175px; height:175px"></div>
+<p class="stroke-text" style="position:absolute; top:225px; left:180px">Lv5</p>
 
 <!-- TPブースト → ファイアガード -->
 <div class="line_hor" style="position:absolute; top:270px; left:150px; width :205px"></div>
 <div class="line_ver" style="position:absolute; top:175px; left:355px; height: 97px"></div>
 <div class="line_hor" style="position:absolute; top:175px; left:330px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:155px; left:335px">Lv3</p>
 <!-- TPブースト → フリーズガード -->
 <div class="line_hor" style="position:absolute; top:210px; left:330px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:190px; left:335px">Lv3</p>
 <!-- TPブースト → ショックガード -->
 <div class="line_hor" style="position:absolute; top:245px; left:330px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:225px; left:335px">Lv3</p>
 
 <!-- DEFブースト → 渾身ディフェンス -->
 <div class="line_hor" style="position:absolute; top:315px; left:150px; width : 50px"></div>
+<p class="stroke-text" style="position:absolute; top:295px; left:180px">Lv3</p>
 <!-- 渾身ディフェンス → シールドスマイト -->
 <div class="line_ver" style="position:absolute; top:285px; left:265px; height: 15px"></div>
 <div class="line_hor" style="position:absolute; top:285px; left:265px; width :180px"></div>
 <div class="line_ver" style="position:absolute; top:260px; left:445px; height: 27px"></div>
+<p class="stroke-text" style="position:absolute; top:265px; left:425px">Lv3</p>
 
 <!-- DEFブースト → オートガード -->
 <div class="line_hor" style="position:absolute; top:350px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:330px; left:180px">Lv7</p>
 <!-- DEFブースト → 挑発 -->
 <div class="line_hor" style="position:absolute; top:385px; left:175px; width : 25px"></div>
-<!-- DEFブースト → 挑発 -->
+<p class="stroke-text" style="position:absolute; top:365px; left:180px">Lv1</p>
+<!-- DEFブースト → パリング -->
 <div class="line_hor" style="position:absolute; top:420px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:400px; left:180px">Lv3</p>
 <!-- DEFブースト → 猛進逃走 -->
 <div class="line_hor" style="position:absolute; top:455px; left:175px; width : 25px"></div>
-<!-- DEFブースト → 猛進逃走 -->
+<p class="stroke-text" style="position:absolute; top:435px; left:180px">Lv3</p>
+<!-- DEFブースト → 警戒歩行 -->
 <div class="line_hor" style="position:absolute; top:490px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:470px; left:180px">Lv5</p>
 <!-- DEFブースト → 決死の覚悟 -->
 <div class="line_hor" style="position:absolute; top:525px; left:175px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top:315px; left:175px; height:210px"></div>
+<p class="stroke-text" style="position:absolute; top:505px; left:180px">Lv5</p>
 
 <!-- HPブースト → キュア -->
 <div class="line_hor" style="position:absolute; top:560px; left:150px; width : 50px"></div>
+<p class="stroke-text" style="position:absolute; top:540px; left:180px">Lv1</p>
 <!-- HPブースト → キュアⅡ -->
 <div class="line_hor" style="position:absolute; top:595px; left:175px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top:560px; left:175px; height: 35px"></div>
+<p class="stroke-text" style="position:absolute; top:575px; left:180px">Lv1</p>
 
 
 </body>
