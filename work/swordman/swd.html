@@ -42,32 +42,57 @@
     /*[]----------------------------------------------[]*/
     function AXMST_F(bar) {
 console.log("AXMST_F() AXMST_P=[" + AXMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("AXMST",AXMST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが1未満の場合、パワークラッシュを不活性                                 |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P < 1 ) {
             Disable("PWCRS");
             if( PWCRS_P > 0 ) { PWCRS_P = 0; statusValues.set(bar, 0); PWCRS_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが1以上の場合、パワークラッシュを活性                                   |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P >= 1 ) {
             Visible("PWCRS");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが3未満の場合、スタンスマッシュを不活性                                 |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P < 3 ) {
             Disable("STSMA");
             if( STSMA_P > 0 ) { STSMA_P = 0; statusValues.set(bar, 0); STSMA_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが3以上の場合、スタンスマッシュを活性                                   |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P >= 3 ) {
             Visible("STSMA");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが5未満の場合、ダブルアタックを不活性                                   |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P < 5 ) {
             Disable("DBATK");
             if( DBATK_P > 0 ) { DBATK_P = 0; statusValues.set(bar, 0); DBATK_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが5以上かつ剣マスタリーが5以上の場合、ダブルアタックを活性              |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST >= 5 && SDMST >= 5 ) {
             Visible("DBATK");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが7未満の場合、ヘッドバッシュを不活性                                   |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P < 7 ) {
             Disable("HDBAS");
             if( HDBAS_P > 0 ) { HDBAS_P = 0; statusValues.set(bar, 0); HDBAS_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが7以上の場合、ヘッドバッシュを活性                                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P >= 7 ) {
             Visible("HDBAS");
         }
@@ -78,7 +103,12 @@ console.log("AXMST_F() AXMST_P=[" + AXMST_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     function PWCRS_F(bar) {
 console.log("PWCRS_F() AXMST_P=[" + AXMST_P +"] PWCRS_P=[" + PWCRS_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("PWCRS",PWCRS_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが1未満の場合かつパワークラッシュが0より上の場合                        |*/
+        /*|  斧マスタリーを1にしてパワークラッシュを活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P < 1 && PWCRS_P > 0 ) {
             AXMST_P = 1;
             Visible("PWCRS");
@@ -91,7 +121,12 @@ console.log("PWCRS_F() AXMST_P=[" + AXMST_P +"] PWCRS_P=[" + PWCRS_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function STSMA_F(bar) {
 console.log("STSMA_F() AXMST_P=[" + AXMST_P +"] STSMA_P=[" + STSMA_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("STSMA",STSMA_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが3未満の場合かつスタンスマッシュが0より上の場合                        |*/
+        /*|  斧マスタリーを3にしてスタンスマッシュを活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P < 3 && STSMA_P > 0 ) {
             AXMST_P = 3;
             Visible("STSMA");
@@ -104,7 +139,12 @@ console.log("STSMA_F() AXMST_P=[" + AXMST_P +"] STSMA_P=[" + STSMA_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function HDBAS_F(bar) {
 console.log("HDBAS_F() AXMST_P=[" + AXMST_P +"] HDBAS_P=[" + HDBAS_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("HDBAS",HDBAS_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが7未満の場合かつヘッドバッシュが0より上の場合                          |*/
+        /*|  斧マスタリーを7にしてヘッドバッシュを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P < 7 && HDBAS_P > 0 ) {
             AXMST_P = 7;
             Visible("HDBAS");
@@ -117,26 +157,45 @@ console.log("HDBAS_F() AXMST_P=[" + AXMST_P +"] HDBAS_P=[" + HDBAS_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function SDMST_F(bar) {
 console.log("SDMST_F() SDMST_P=[" + SDMST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("SDMST",SDMST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが1未満の場合、レイジングエッジ不活性                                   |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 1 ) {
             Disable("RGEDG");
             if( RGEDG_P > 0 ) { RGEDG_P = 0; statusValues.set(bar, 0); RGEDG_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが1以上の場合、レイジングエッジ活性                                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P >= 1 ) {
             Visible("RGEDG");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが5未満の場合、トルネード、ダブルアタックを不活性                       |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 5 ) {
             Disable("TORND");
             if( TORND_P > 0 ) { TORND_P = 0; statusValues.set(bar, 0); TORND_F(bar); }
             Disable("DBATK");
             if( DBATK_P > 0 ) { DBATK_P = 0; statusValues.set(bar, 0); DBATK_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが5以上の場合、トルネードを活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P >= 5 ) {
             Visible("TORND");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが5以上かつ斧マスタリーが5以上の場合、ダブルアタックを活性              |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P >= 5 && AXMST_P >= 5 ) {
             Visible("DBATK");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが7未満の場合、チェイス系不活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 7 ) {
             Disable("CHSFR");
             if( CHSFR_P > 0 ) { CHSFR_P = 0; statusValues.set(bar, 0); CHSFR_F(bar); }
@@ -145,6 +204,9 @@ console.log("SDMST_F() SDMST_P=[" + SDMST_P +"] bar.id=[" + bar.id + "]");
             Disable("CHSKK");
             if( CHSKK_P > 0 ) { CHSKK_P = 0; statusValues.set(bar, 0); CHSKK_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが7以上かつTPブーストが3以上の場合、チェイス系を活性                    |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P >= 7 && TPBST_P >= 3 ) {
             Visible("CHSFR");
             Visible("CHSFZ");
@@ -157,7 +219,12 @@ console.log("SDMST_F() SDMST_P=[" + SDMST_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     function RGEDG_F(bar) {
 console.log("RGEDG_F() SDMST_P=[" + SDMST_P +"] RGEDG_P=[" + RGEDG_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("RGEDG",RGEDG_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが1未満の場合かつレイジングエッジが0より上の場合                        |*/
+        /*|  剣マスタリーを1にしてレイジングエッジを活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 1 && RGEDG_P > 0 ) {
             SDMST_P = 1;
             Visible("RGEDG");
@@ -170,7 +237,12 @@ console.log("RGEDG_F() SDMST_P=[" + SDMST_P +"] RGEDG_P=[" + RGEDG_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function TORND_F(bar) {
 console.log("TORND_F() SDMST_P=[" + SDMST_P +"] TORND_P=[" + TORND_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("TORND",TORND_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが5未満の場合かつトルネードが0より上の場合                              |*/
+        /*|  剣マスタリーを5にしてトルネードを活性                                               |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 5 && TORND_P > 0 ) {
             SDMST_P = 5;
             Visible("TORND");
@@ -183,19 +255,34 @@ console.log("TORND_F() SDMST_P=[" + SDMST_P +"] TORND_P=[" + TORND_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function DBATK_F(bar) {
 console.log("DBATK_F() SDMST_P=[" + SDMST_P + "] AXMST_P=[" + AXMST_P +"] DBATK_P=[" + DBATK_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("DBATK",DBATK_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ダブルアタックが3未満の場合、ハヤブサ駆けを不活性                                   |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DBATK_P < 3 ) {
             Disable("FALSH");
             if( FALSH_P > 0 ) { FALSH_P = 0; statusValues.set(bar, 0); FALSH_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ダブルアタックが3以上の場合、ハヤブサ駆けを活性                                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DBATK_P >= 3 ) {
             Visible("FALSH");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが5未満の場合かつダブルアタックが0より上の場合                          |*/
+        /*|  剣マスタリーを5にしてダブルアタックを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 5 && DBATK_P > 0 ) {
             SDMST_P = 5;
             Visible("DBATK");
             SDMST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  斧マスタリーが5未満の場合かつダブルアタックが0より上の場合                          |*/
+        /*|  斧マスタリーを5にしてダブルアタックを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( AXMST_P < 5 && DBATK_P > 0 ) {
             AXMST_P = 5;
             Visible("DBATK");
@@ -208,6 +295,7 @@ console.log("DBATK_F() SDMST_P=[" + SDMST_P + "] AXMST_P=[" + AXMST_P +"] DBATK_
     /*[]----------------------------------------------[]*/
     function HPBST_F(bar) {
 console.log("HPBST_F() HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("HPBST",HPBST_P);
     }
 
@@ -216,7 +304,12 @@ console.log("HPBST_F() HPBST_P=[" + HPBST_P +"] bar.id=[" + bar.id + "]");
     /*[]----------------------------------------------[]*/
     function FALSH_F(bar) {
 console.log("FALSH_F() DBATK_P=[" + DBATK_P +"] FALSH_P=[" + FALSH_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("FALSH",FALSH_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ダブルアタックが3未満の場合かつハヤブサ駆けが0より上の場合                          |*/
+        /*|  ダブルアタックを3にしてハヤブサ駆けを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DBATK_P < 3 && FALSH_P > 0 ) {
             DBATK_P = 3;
             Visible("FALSH");
@@ -229,12 +322,21 @@ console.log("FALSH_F() DBATK_P=[" + DBATK_P +"] FALSH_P=[" + FALSH_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function CHSFR_F(bar) {
 console.log("CHSFR_F() SDMST_P=[" + SDMST_P +"] CHSFR_P=[" + CHSFR_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("CHSFR",CHSFR_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが7未満の場合かつチェイスファイアが0より上の場合                        |*/
+        /*|  剣マスタリーを7にしてチェイスファイアを活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 7 && CHSFR_P > 0 ) {
             SDMST_P = 7;
             Visible("CHSFR");
             SDMST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3未満の場合かつチェイスファイアが0より上の場合                          |*/
+        /*|  TPブーストを3にしてチェイスファイアを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P < 3 && CHSFR_P > 0 ) {
             TPBST_P = 3;
             Visible("CHSFR");
@@ -247,12 +349,21 @@ console.log("CHSFR_F() SDMST_P=[" + SDMST_P +"] CHSFR_P=[" + CHSFR_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function CHSFZ_F(bar) {
 console.log("CHSFZ_F() SDMST_P=[" + SDMST_P +"] CHSFZ_P=[" + CHSFZ_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("CHSFZ",CHSFZ_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが7未満の場合かつチェイスフリーズが0より上の場合                        |*/
+        /*|  剣マスタリーを7にしてチェイスフリーズを活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 7 && CHSFZ_P > 0 ) {
             SDMST_P = 7;
             Visible("CHSFZ");
             SDMST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3未満の場合かつチェイスフリーズが0より上の場合                          |*/
+        /*|  TPブーストを3にしてチェイスフリーズを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P < 3 && CHSFZ_P > 0 ) {
             TPBST_P = 3;
             Visible("CHSFZ");
@@ -265,12 +376,21 @@ console.log("CHSFZ_F() SDMST_P=[" + SDMST_P +"] CHSFZ_P=[" + CHSFZ_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function CHSKK_F(bar) {
 console.log("CHSKK_F() SDMST_P=[" + SDMST_P +"] CHSKK_P=[" + CHSKK_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("CHSKK",CHSKK_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  剣マスタリーが7未満の場合かつチェイスショックが0より上の場合                        |*/
+        /*|  剣マスタリーを7にしてチェイスショックを活性                                         |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( SDMST_P < 7 && CHSKK_P > 0 ) {
             SDMST_P = 7;
             Visible("CHSKK");
             SDMST_F(bar);
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3未満の場合かつチェイスショックが0より上の場合                          |*/
+        /*|  TPブーストを3にしてチェイスショックを活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P < 3 && CHSKK_P > 0 ) {
             TPBST_P = 3;
             Visible("CHSKK");
@@ -283,7 +403,11 @@ console.log("CHSKK_F() SDMST_P=[" + SDMST_P +"] CHSKK_P=[" + CHSKK_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function TPBST_F(bar) {
 console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] CHSFR_P=[" + CHSFR_P +"] CHSFZ_P=[" + CHSFZ_P +"] CHSKK_P=[" + CHSKK_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("TPBST",TPBST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3未満の場合、チェイス系不活性                                           |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P < 3 ) {
             Disable("CHSFR");
             if( CHSFR_P > 0 ) { CHSFR_P = 0; statusValues.set(bar, 0); CHSFR_F(bar); }
@@ -292,6 +416,9 @@ console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] CHSFR_P=[" + CHSFR_P +"] CHSFZ_P
             Disable("CHSKK");
             if( CHSKK_P > 0 ) { CHSKK_P = 0; statusValues.set(bar, 0); CHSKK_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  TPブーストが3以上かつ剣マスタリーが7以上の場合、チェイス系活性                      |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( TPBST_P >= 3 && SDMST_P >= 7 ) {
             Visible("CHSFR");
             Visible("CHSFZ");
@@ -304,18 +431,31 @@ console.log("TPBST_F() TPBST_P=[" + TPBST_P +"] CHSFR_P=[" + CHSFR_P +"] CHSFZ_P
     /*[]----------------------------------------------[]*/
     function ATBST_F(bar) {
 console.log("ATBST_F() ATBST_P=[" + ATBST_P +"] WRCRY_P=[" + WRCRY_P +"] HLCRY_P=[" + HLCRY_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("ATBST",ATBST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ATKブーストが3未満の場合、ウォークライを不活性                                      |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( ATBST_P < 3 ) {
             Disable("WRCRY");
             if( WRCRY_P > 0 ) { WRCRY_P = 0; statusValues.set(bar, 0); WRCRY_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ATKブーストが3以上の場合、ウォークライを活性                                        |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( ATBST_P >= 3 ) {
             Visible("WRCRY");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ATKブーストが10未満の場合、ヘルズクライを不活性                                     |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( ATBST_P < 10 ) {
             Disable("HLCRY");
             if( HLCRY_P > 0 ) { HLCRY_P = 0; statusValues.set(bar, 0); HLCRY_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ATKブーストが10以上の場合、ヘルズクライを活性                                       |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( ATBST_P >= 10 ) {
             Visible("HLCRY");
         }
@@ -326,7 +466,12 @@ console.log("ATBST_F() ATBST_P=[" + ATBST_P +"] WRCRY_P=[" + WRCRY_P +"] HLCRY_P
     /*[]----------------------------------------------[]*/
     function WRCRY_F(bar) {
 console.log("WRCRY_F() ATBST_P=[" + ATBST_P +"] WRCRY_P=[" + WRCRY_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("WRCRY",WRCRY_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ATKブーストが3未満の場合かつウォークライが0より上の場合                             |*/
+        /*|  ATKブーストを3にしてウォークライを活性                                              |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( ATBST_P < 3 && WRCRY_P > 0 ) {
             ATBST_P = 3;
             Visible("WRCRY");
@@ -339,7 +484,12 @@ console.log("WRCRY_F() ATBST_P=[" + ATBST_P +"] WRCRY_P=[" + WRCRY_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function HLCRY_F(bar) {
 console.log("HLCRY_F() ATBST_P=[" + ATBST_P +"] HLCRY_P=[" + HLCRY_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("HLCRY",HLCRY_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  ATKブーストが10未満の場合かつヘルズクライが0より上の場合                            |*/
+        /*|  ATKブーストを10にしてヘルズクライを活性                                             |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( ATBST_P < 10 && HLCRY_P > 0 ) {
             ATBST_P = 10;
             Visible("HLCRY");
@@ -352,18 +502,31 @@ console.log("HLCRY_F() ATBST_P=[" + ATBST_P +"] HLCRY_P=[" + HLCRY_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function DFBST_F(bar) {
 console.log("DFBST_F() DFBST_P=[" + DFBST_P +"] ARMRC_P=[" + ARMRC_P +"] FLSPD_P=[" + FLSPD_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("DFBST",DFBST_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが1未満の場合、アームリカバリーを不活性                                  |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 1 ) {
             Disable("ARMRC");
             if( ARMRC_P > 0 ) { ARMRC_P = 0; statusValues.set(bar, 0); ARMRC_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが1以上の場合、アームリカバリーを活性                                    |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P >= 1 ) {
             Visible("ARMRC");
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが5未満の場合、猛進逃走を不活性                                          |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 5 ) {
             Disable("FLSPD");
             if( FLSPD_P > 0 ) { FLSPD_P = 0; statusValues.set(bar, 0); FLSPD_F(bar); }
         }
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが5以上の場合、猛進逃走を活性                                            |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P >= 5 ) {
             Visible("FLSPD");
         }
@@ -374,9 +537,14 @@ console.log("DFBST_F() DFBST_P=[" + DFBST_P +"] ARMRC_P=[" + ARMRC_P +"] FLSPD_P
     /*[]----------------------------------------------[]*/
     function ARMRC_F(bar) {
 console.log("ARMRC_F() DFBST_P=[" + DFBST_P +"] ARMRC_P=[" + ARMRC_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("ARMRC",ARMRC_P);
-        if( DFBST_P < 3 && ARMRC_P > 0 ) {
-            DFBST_P = 3;
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが1未満の場合かつアームリカバリーが0より上の場合                         |*/
+        /*|  DEFブーストを1にしてアームリカバリーを活性                                          |*/
+        /*[]------------------------------------------------------------------------------------[]*/
+        if( DFBST_P < 1 && ARMRC_P > 0 ) {
+            DFBST_P = 1;
             Visible("ARMRC");
             DFBST_F(bar);
         }
@@ -387,7 +555,12 @@ console.log("ARMRC_F() DFBST_P=[" + DFBST_P +"] ARMRC_P=[" + ARMRC_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function FLSPD_F(bar) {
 console.log("FLSPD_F() DFBST_P=[" + DFBST_P +"] FLSPD_P=[" + FLSPD_P + "] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("FLSPD",FLSPD_P);
+        /*[]------------------------------------------------------------------------------------[]*/
+        /*|  DEFブーストが5未満の場合かつ猛進逃走が0より上の場合                                 |*/
+        /*|  DEFブーストを5にして猛進逃走を活性                                                  |*/
+        /*[]------------------------------------------------------------------------------------[]*/
         if( DFBST_P < 5 && FLSPD_P > 0 ) {
             DFBST_P = 5;
             Visible("FLSPD");
@@ -400,6 +573,7 @@ console.log("FLSPD_F() DFBST_P=[" + DFBST_P +"] FLSPD_P=[" + FLSPD_P + "] bar.id
     /*[]----------------------------------------------[]*/
     function MNING_F(bar) {
 console.log("MNING_F() MNING_P=[" + MNING_P +"] bar.id=[" + bar.id + "]");
+        // スキル値設定
         DispPoint("MNING",MNING_P);
     }
 
@@ -1132,57 +1306,75 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
 <!-- 罫線 -->
 <!-- 斧マスタリー → パワークラッシュ -->
 <div class="line_hor" style="position:absolute; top: 70px; left:150px; width : 50px"></div>
+<p class="stroke-text" style="position:absolute; top: 50px; left:180px">Lv1</p>
 <!-- 斧マスタリー → スタンスマッシュ -->
 <div class="line_hor" style="position:absolute; top:105px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top: 85px; left:180px">Lv3</p>
 <!-- 斧マスタリー → ヘッドバッシュ -->
 <div class="line_hor" style="position:absolute; top:140px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:120px; left:180px">Lv7</p>
 <!-- 斧マスタリー → ダブルアタック -->
 <div class="line_ver" style="position:absolute; top: 70px; left:175px; height: 95px"></div>
 <div class="line_hor" style="position:absolute; top:165px; left:175px; width :180px"></div>
 <div class="line_ver" style="position:absolute; top:165px; left:355px; height:102px"></div>
 <div class="line_hor" style="position:absolute; top:265px; left:330px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:245px; left:340px">Lv5</p>
 
 <!-- 剣マスタリー → レイジングエッジ -->
 <div class="line_hor" style="position:absolute; top:195px; left:150px; width : 50px"></div>
+<p class="stroke-text" style="position:absolute; top:175px; left:180px">Lv1</p>
 <!-- 剣マスタリー → トルネード -->
 <div class="line_hor" style="position:absolute; top:230px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:210px; left:180px">Lv5</p>
 <!-- 剣マスタリー → ダブルアタック -->
 <div class="line_hor" style="position:absolute; top:265px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:245px; left:180px">Lv5</p>
 
 <!-- ダブルアタック → ハヤブサ駆け -->
 <div class="line_ver" style="position:absolute; top:280px; left:260px; height: 14px"></div>
 <div class="line_hor" style="position:absolute; top:292px; left:260px; width :120px"></div>
+<p class="stroke-text" style="position:absolute; top:272px; left:360px">Lv3</p>
 
 <!-- 剣マスタリー → チェイスファイア -->
 <div class="line_hor" style="position:absolute; top:320px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:300px; left:180px">Lv7</p>
 <!-- 剣マスタリー → チェイスフリーズ -->
 <div class="line_hor" style="position:absolute; top:355px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:335px; left:180px">Lv7</p>
 <!-- 剣マスタリー → チェイスショック -->
 <div class="line_hor" style="position:absolute; top:390px; left:175px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top:195px; left:175px; height:195px"></div>
+<p class="stroke-text" style="position:absolute; top:370px; left:180px">Lv7</p>
 
 <!-- TPブースト → チェイスファイア -->
 <div class="line_hor" style="position:absolute; top:320px; left:330px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:300px; left:340px">Lv3</p>
 <!-- TPブースト → チェイスフリーズ -->
 <div class="line_hor" style="position:absolute; top:355px; left:330px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:335px; left:340px">Lv3</p>
 <!-- TPブースト → チェイスショック -->
 <div class="line_hor" style="position:absolute; top:390px; left:330px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top:320px; left:355px; height: 97px"></div>
 <div class="line_hor" style="position:absolute; top:415px; left:150px; width :205px"></div>
+<p class="stroke-text" style="position:absolute; top:370px; left:340px">Lv3</p>
 
 <!-- ATKブースト → ウォークライ -->
 <div class="line_hor" style="position:absolute; top:460px; left:150px; width : 25px"></div>
 <div class="line_hor" style="position:absolute; top:445px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:425px; left:180px">Lv3</p>
 <!-- ATKブースト → ヘルズクライ -->
 <div class="line_hor" style="position:absolute; top:480px; left:175px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top:445px; left:175px; height: 35px"></div>
+<p class="stroke-text" style="position:absolute; top:460px; left:180px">Lv10</p>
 
 <!-- DEFブースト → アームリカバリー -->
 <div class="line_hor" style="position:absolute; top:530px; left:150px; width : 25px"></div>
 <div class="line_hor" style="position:absolute; top:515px; left:175px; width : 25px"></div>
+<p class="stroke-text" style="position:absolute; top:495px; left:180px">Lv1</p>
 <!-- DEFブースト → 猛進逃走 -->
 <div class="line_hor" style="position:absolute; top:550px; left:175px; width : 25px"></div>
 <div class="line_ver" style="position:absolute; top:515px; left:175px; height: 35px"></div>
+<p class="stroke-text" style="position:absolute; top:530px; left:180px">Lv5</p>
 
 </body>
 </html>
