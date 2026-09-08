@@ -245,7 +245,7 @@ body {
   pointer-events             : none;
 }
 /* 押した時の沈み込み */
-.glass-btn                   : active {
+.glass-btn:active {
   transform                  : translateY(3px);
 }
 
