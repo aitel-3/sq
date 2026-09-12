@@ -26,7 +26,7 @@
   <SCRIPT language="JavaScript" src="../data/js/map.js"></script>
   <SCRIPT type="text/javascript">
     <!--
-    var maxMemo = 5;
+    var maxMemo = 6;
     /*[]-- ＭＡＰメモ表示用----------------------------------------------[]*/
     var memomemo = new Array();
     memomemo[0]  = "　";
@@ -35,6 +35,7 @@
     memomemo[3]  = "東側から通ることで抜け道となる";
     memomemo[4]  = "スキルポイント解説";
     memomemo[5]  = "兵士：地図の解説＆ミッションの地図作成完了まで先に進めない";
+    memomemo[6]  = "毛皮のブーツ<br>　ブーツに手を伸ばす→白石＆ひっかきモグラ×３と戦闘<br>　あたりを見回す→立ち去るか否か決める→選択に戻る<br>　放っておいて立ち去る→１歩後ろに後ずさる";
     //-->
   </script>
 </head>
@@ -59,6 +60,7 @@
         <area id="area004" shape="rect" coords="1,1,1,1" alt="抜け道"         href="JavaScript:Mover(3)">
         <area id="area005" shape="rect" coords="1,1,1,1" alt="小イベント"     href="JavaScript:Mover(4)">
         <area id="area006" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(5)">
+        <area id="area007" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(6)">
       </map>
     </td>
   </tr>
@@ -73,6 +75,7 @@
 <div id="iL3" class="Memo"> </div>
 <div id="iL4" class="Memo"> </div>
 <div id="iL5" class="Memo"> </div>
+<div id="iL6" class="Memo"> </div>
 
 <SCRIPT>
   const area001 = document.getElementById("area001"); area001.coords = MapArea('A','0',1,1);
@@ -81,6 +84,7 @@
   const area004 = document.getElementById("area004"); area004.coords = MapArea('D','2',3,4);
   const area005 = document.getElementById("area005"); area005.coords = MapArea('D','2',2,2);
   const area006 = document.getElementById("area006"); area006.coords = MapArea('B','2',3,2);
+  const area007 = document.getElementById("area007"); area007.coords = MapArea('C','1',4,2);
 </SCRIPT>
 
 </body>
