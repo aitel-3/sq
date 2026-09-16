@@ -13,8 +13,9 @@ const skillValuess = new Map();
 /*|   引数                                         |*/
 /*|     box   : thisオブジェクト                   |*/
 /*|     index : スキル値                           |*/
+/*|     maxLv : スキルポイントの最大値             |*/
 /*[]----------------------------------------------[]*/
-function handleClick(box, index) {
+function handleClick(box, index, maxLv = 10) {
     const bar = box.closest(".status-bar");
     id = box.id.substring(0,5);
 console.log("handleClick() id=[" + id + "]");
@@ -26,7 +27,7 @@ console.log("handleClick() index=[" + index + "]");
     statusValues.set(bar, index);
     skillValuess.set(id, bar);
     // 再表示
-    updateBar(bar);
+    updateBar(bar, maxLv);
 }
 let wheelLock = false;
 /*[]----------------------------------------------[]*/
@@ -35,8 +36,9 @@ let wheelLock = false;
 /*|     event : eventオブジェクト                  |*/
 /*|     bar   : thisオブジェクト                   |*/
 /*|     parts : this.idの値                        |*/
+/*|     maxLv : スキルポイントの最大値             |*/
 /*[]----------------------------------------------[]*/
-function handleWheel(event, bar, parts) {
+function handleWheel(event, bar, parts, maxLv = 10) {
     event.preventDefault();
     id = bar.id.substring(0,5); 
 
@@ -64,16 +66,17 @@ console.log("handleWheel() id=[" + id + "] level=[" + level + "] bar=[" + bar + 
     statusValues.set(bar, level);
     skillValuess.set(id, bar);
     // 再表示
-    updateBar(bar);
+    updateBar(bar, maxLv);
 }
 
 /*[]----------------------------------------------[]*/
 /*| 再表示処理                                     |*/
 /*|   引数                                         |*/
 /*|     bar   : thisオブジェクト                   |*/
+/*|     maxLv : スキルポイントの最大値             |*/
 /*[]----------------------------------------------[]*/
-function updateBar(bar) {
-console.log("updateBar() bar=[" + bar + "]");
+function updateBar(bar, maxLv = 10) {
+console.log("updateBar() bar=[" + bar + "] maxLv = [" + maxLv + "]");
     const level = statusValues.get(bar);
     const boxes = bar.querySelectorAll(".box");
     const display = bar.querySelector(".level-left");
@@ -86,7 +89,7 @@ console.log("updateBar() level=[" + level + "]");
     });
 
     // スキルレベル値を更新
-    if( level < 10 ) {
+    if( level < maxLv ) {
         display.textContent = level;
     } else {
         display.textContent = "★";
@@ -118,16 +121,17 @@ console.log("addEventListener() id=[" + id + "]");
 /*|   引数                                         |*/
 /*|     id    : スキル名                           |*/
 /*|     point : スキル値                           |*/
+/*|     maxLv : スキルポイントの最大値             |*/
 /*[]----------------------------------------------[]*/
-function DispPoint(id, point) {
-console.log("DispPoint() id=["+ id + "] point=[" + point + "]");
+function DispPoint(id, point, maxLv) {
+console.log("DispPoint() id=["+ id + "] point=[" + point + "] maxLv = [" + maxLv + "]");
     const bar_id = skillValuess.get(id);
     
     statusValues.set(bar_id, point);
     
 console.log("DispPoint() level=[" + statusValues.get(bar_id) + "]");
     // 再表示
-    updateBar(bar_id);
+    updateBar(bar_id, maxLv);
 }
 
 /*[]----------------------------------------------[]*/
