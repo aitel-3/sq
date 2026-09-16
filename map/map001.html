@@ -26,7 +26,7 @@
   <SCRIPT language="JavaScript" src="../data/js/map.js"></script>
   <SCRIPT type="text/javascript">
     <!--
-    var maxMemo = 6;
+    var maxMemo = 10;
     /*[]-- ＭＡＰメモ表示用----------------------------------------------[]*/
     var memomemo = new Array();
     memomemo[0]  = "　";
@@ -34,8 +34,12 @@
     memomemo[2]  = "Ｂ２Ｆへ";
     memomemo[3]  = "東側から通ることで抜け道となる";
     memomemo[4]  = "スキルポイント解説";
-    memomemo[5]  = "兵士：地図の解説＆ミッションの地図作成完了まで先に進めない";
-    memomemo[6]  = "毛皮のブーツ<br>　ブーツに手を伸ばす→白石＆ひっかきモグラ×３と戦闘<br>　あたりを見回す→立ち去るか否か決める→選択に戻る<br>　放っておいて立ち去る→１歩後ろに後ずさる";
+    memomemo[5]  = "【ミッション】兵士：地図の解説＆ミッションの地図作成完了まで先に進めない";
+    memomemo[6]  = "毛皮のブーツを発見<br>　ブーツに手を伸ばす→白石＆ひっかきモグラ×３と戦闘<br>　あたりを見回す→立ち去るか否か決める→選択に戻る<br>　放っておいて立ち去る→１歩後ろに後ずさる";
+    memomemo[7]  = "宝箱発見！（初回一度のみ）";
+    memomemo[8]  = "宝箱：スクラマサクス";
+    memomemo[9]  = "宝箱：メディカⅡ";
+    memomemo[10] = "宝箱：２００エン";
     //-->
   </script>
 </head>
@@ -61,6 +65,10 @@
         <area id="area005" shape="rect" coords="1,1,1,1" alt="小イベント"     href="JavaScript:Mover(4)">
         <area id="area006" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(5)">
         <area id="area007" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(6)">
+        <area id="area008" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(7)">
+        <area id="area009" shape="rect" coords="1,1,1,1" alt="宝箱"           href="JavaScript:Mover(8)">
+        <area id="area010" shape="rect" coords="1,1,1,1" alt="宝箱"           href="JavaScript:Mover(9)">
+        <area id="area011" shape="rect" coords="1,1,1,1" alt="宝箱"           href="JavaScript:Mover(10)">
       </map>
     </td>
   </tr>
@@ -76,6 +84,10 @@
 <div id="iL4" class="Memo"> </div>
 <div id="iL5" class="Memo"> </div>
 <div id="iL6" class="Memo"> </div>
+<div id="iL7" class="Memo"> </div>
+<div id="iL8" class="Memo"> </div>
+<div id="iL9" class="Memo"> </div>
+<div id="iL10" class="Memo"> </div>
 
 <SCRIPT>
   const area001 = document.getElementById("area001"); area001.coords = MapArea('A','0',1,1);
@@ -85,6 +97,10 @@
   const area005 = document.getElementById("area005"); area005.coords = MapArea('D','2',2,2);
   const area006 = document.getElementById("area006"); area006.coords = MapArea('B','2',3,2);
   const area007 = document.getElementById("area007"); area007.coords = MapArea('C','1',4,2);
+  const area008 = document.getElementById("area008"); area008.coords = MapArea('A','3',4,5);
+  const area009 = document.getElementById("area009"); area009.coords = MapArea('A','3',3,3);
+  const area010 = document.getElementById("area010"); area010.coords = MapArea('A','3',4,3);
+  const area011 = document.getElementById("area011"); area011.coords = MapArea('A','3',5,3);
 </SCRIPT>
 
 </body>
