@@ -697,7 +697,7 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
         if( parts == "RFRSH" ) { if( point >= 0 && point <= 10 ) RFRSH_P = point; RFRSH_F(bar); }    // リフレッシュ
         if( parts == "CURE3" ) { if( point >= 0 && point <= 10 ) CURE3_P = point; CURE3_F(bar); }    // キュアⅢ
         if( parts == "RSRCT" ) { if( point >= 0 && point <= 10 ) RSRCT_P = point; RSRCT_F(bar); }    // リザレクション
-        if( parts == "CMPTR" ) { if( point >= 0 && point <= 10 ) CMPTR_P = point; CMPTR_F(bar); }    // キャンプ処置
+        if( parts == "CMPTR" ) { if( point >= 0 && point <=  5 ) CMPTR_P = point; CMPTR_F(bar); }    // キャンプ処置
         if( parts == "MEDG1" ) { if( point >= 0 && point <= 10 ) MEDG1_P = point; MEDG1_F(bar); }    // 医療防御
         if( parts == "MEDG2" ) { if( point >= 0 && point <= 10 ) MEDG2_P = point; MEDG2_F(bar); }    // 医療防御Ⅱ
         if( parts == "HPBST" ) { if( point >= 0 && point <= 10 ) HPBST_P = point; HPBST_F(bar); }    // HPブースト
@@ -1181,22 +1181,17 @@ console.log("setPoint() parts=[" + parts +"] point=[" + point +"]");
 <!-- キャンプ処置 -->
 <div id="CMPTR_SKILL" class="skill" style="position:absolute; top:475px; left:200px;">
   <div class="skill-title">キャンプ処置</div>
-  <div id="CMPTR" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id)">
+  <div id="CMPTR" class="status-bar" onmousewheel="JavaScript:handleWheel(event, this, this.id, 5)">
     <div class="boxes">
       <!-- 10個の箱 -->
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 0)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 1)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 2)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 3)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 4)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 5)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 6)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 7)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 8)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 9)"></div>
-      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this,10)"></div>
+      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 0, 5)"></div>
+      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 1, 5)"></div>
+      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 2, 5)"></div>
+      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 3, 5)"></div>
+      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 4, 5)"></div>
+      <div id="CMPTR" class="box" onclick="JavaScript:handleClick(this, 5, 5)"></div>
     </div>
-    <div class="diag-box"><div class="level-left">1</div><div class="level-right">10</div></div>
+    <div class="diag-box"><div class="level-left">1</div><div class="level-right">5</div></div>
   </div>
 </div>
 
