@@ -26,20 +26,24 @@
   <SCRIPT language="JavaScript" src="../data/js/map.js"></script>
   <SCRIPT type="text/javascript">
     <!--
-    var maxMemo = 10;
+    var maxMemo = 30;
     /*[]-- ＭＡＰメモ表示用----------------------------------------------[]*/
     var memomemo = new Array();
     memomemo[0]  = "　";
     memomemo[1]  = "街へ戻る";
     memomemo[2]  = "Ｂ２Ｆへ";
-    memomemo[3]  = "東側から通ることで抜け道となる";
+    memomemo[3]  = "抜け道：東側から通ることで抜け道となる";
     memomemo[4]  = "スキルポイント解説（初回一度のみ）";
     memomemo[5]  = "【ミッション】兵士：地図の解説＆ミッションの地図作成完了まで先に進めない";
-    memomemo[6]  = "毛皮のブーツを発見<br>　ブーツに手を伸ばす→白石＆ひっかきモグラ×３と戦闘<br>　あたりを見回す→立ち去るか否か決める→選択に戻る<br>　放っておいて立ち去る→１歩後ろに後ずさる";
+    memomemo[6]  = "毛皮のブーツを発見<br>　ブーツに手を伸ばす　→白石×１＆ひっかきモグラ×３と戦闘<br>　あたりを見回す　　　→立ち去るか否か決める必要あり→選択に戻る<br>　放っておいて立ち去る→１歩後ろに後ずさる";
     memomemo[7]  = "宝箱発見！（初回一度のみ）";
     memomemo[8]  = "宝箱：スクラマサクス";
     memomemo[9]  = "宝箱：メディカⅡ";
     memomemo[10] = "宝箱：２００エン";
+    memomemo[11] = "抜け道：東側から通ることで抜け道となる";
+    memomemo[12] = "石清水<br>　清水に手を浸してみる　→飲むか立ち去るかを決める必要あり→選択に戻る<br>　清水をすくい飲んでみる→気分が良くなりここから立ち去る<br>　ここから立ち去る　　　→１歩後ろに後ずさる";
+    memomemo[13] = "ツタが不思議な鉱石に絡み合って進行不能";
+    memomemo[14] = "伐採：苦ヨモギ、";
     //-->
   </script>
 </head>
@@ -65,10 +69,14 @@
         <area id="area005" shape="rect" coords="1,1,1,1" alt="小イベント"     href="JavaScript:Mover(4)">
         <area id="area006" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(5)">
         <area id="area007" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(6)">
-        <area id="area008" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(7)">
+        <area id="area008" shape="rect" coords="1,1,1,1" alt="小イベント"     href="JavaScript:Mover(7)">
         <area id="area009" shape="rect" coords="1,1,1,1" alt="宝箱"           href="JavaScript:Mover(8)">
         <area id="area010" shape="rect" coords="1,1,1,1" alt="宝箱"           href="JavaScript:Mover(9)">
         <area id="area011" shape="rect" coords="1,1,1,1" alt="宝箱"           href="JavaScript:Mover(10)">
+        <area id="area012" shape="rect" coords="1,1,1,1" alt="抜け道"         href="JavaScript:Mover(11)">
+        <area id="area013" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(12)">
+        <area id="area014" shape="rect" coords="1,1,1,1" alt="扉"             href="JavaScript:Mover(13)">
+        <area id="area015" shape="rect" coords="1,1,1,1" alt="採集ポイント"   href="JavaScript:Mover(14)">
       </map>
     </td>
   </tr>
@@ -77,17 +85,21 @@
 </td></tr></table></td></tr>
 </table>
 
-<div id="iL0" class="Memo"> </div>
-<div id="iL1" class="Memo"> </div>
-<div id="iL2" class="Memo"> </div>
-<div id="iL3" class="Memo"> </div>
-<div id="iL4" class="Memo"> </div>
-<div id="iL5" class="Memo"> </div>
-<div id="iL6" class="Memo"> </div>
-<div id="iL7" class="Memo"> </div>
-<div id="iL8" class="Memo"> </div>
-<div id="iL9" class="Memo"> </div>
+<div id="iL0"  class="Memo"> </div>
+<div id="iL1"  class="Memo"> </div>
+<div id="iL2"  class="Memo"> </div>
+<div id="iL3"  class="Memo"> </div>
+<div id="iL4"  class="Memo"> </div>
+<div id="iL5"  class="Memo"> </div>
+<div id="iL6"  class="Memo"> </div>
+<div id="iL7"  class="Memo"> </div>
+<div id="iL8"  class="Memo"> </div>
+<div id="iL9"  class="Memo"> </div>
 <div id="iL10" class="Memo"> </div>
+<div id="iL11" class="Memo"> </div>
+<div id="iL12" class="Memo"> </div>
+<div id="iL13" class="Memo"> </div>
+<div id="iL14" class="Memo"> </div>
 
 <SCRIPT>
   const area001 = document.getElementById("area001"); area001.coords = MapArea('A','0',1,1);
@@ -101,6 +113,10 @@
   const area009 = document.getElementById("area009"); area009.coords = MapArea('A','3',3,3);
   const area010 = document.getElementById("area010"); area010.coords = MapArea('A','3',4,3);
   const area011 = document.getElementById("area011"); area011.coords = MapArea('A','3',5,3);
+  const area012 = document.getElementById("area012"); area012.coords = MapArea('D','5',4,1);
+  const area013 = document.getElementById("area013"); area013.coords = MapArea('E','4',2,5);
+  const area014 = document.getElementById("area014"); area014.coords = MapArea('C','4',5,1);
+  const area015 = document.getElementById("area015"); area015.coords = MapArea('D','3',2,1);
 </SCRIPT>
 
 </body>
