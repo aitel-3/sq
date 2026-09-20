@@ -40,10 +40,15 @@
     memomemo[8]  = "宝箱：スクラマサクス";
     memomemo[9]  = "宝箱：メディカⅡ";
     memomemo[10] = "宝箱：２００エン";
-    memomemo[11] = "抜け道：東側から通ることで抜け道となる";
+    memomemo[11] = "抜け道：";
     memomemo[12] = "石清水<br>　清水に手を浸してみる　→飲むか立ち去るかを決める必要あり→選択に戻る<br>　清水をすくい飲んでみる→気分が良くなりここから立ち去る<br>　ここから立ち去る　　　→１歩後ろに後ずさる";
     memomemo[13] = "ツタが不思議な鉱石に絡み合って進行不能";
     memomemo[14] = "伐採：苦ヨモギ、";
+    memomemo[15] = "赤くなる一つの果実→食べる→1人がHP10回復";
+    memomemo[16] = "古いバックパック→拾う→１００エン";
+    memomemo[17] = "甘い香りがただよう広間<br>　休む　　→毒吹きアゲハ×３と戦闘<br>　休まない→立ち去る(毒吹きアゲハとの戦闘回避)";
+    memomemo[18] = "伐採：苦ヨモギ、朱色の木の実";
+    memomemo[19] = "ツタが不思議な鉱石に絡み合って進行不能";
     //-->
   </script>
 </head>
@@ -77,6 +82,11 @@
         <area id="area013" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(12)">
         <area id="area014" shape="rect" coords="1,1,1,1" alt="扉"             href="JavaScript:Mover(13)">
         <area id="area015" shape="rect" coords="1,1,1,1" alt="採集ポイント"   href="JavaScript:Mover(14)">
+        <area id="area016" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(15)">
+        <area id="area017" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(16)">
+        <area id="area018" shape="rect" coords="1,1,1,1" alt="イベント"       href="JavaScript:Mover(17)">
+        <area id="area019" shape="rect" coords="1,1,1,1" alt="採集ポイント"   href="JavaScript:Mover(18)">
+        <area id="area020" shape="rect" coords="1,1,1,1" alt="扉"             href="JavaScript:Mover(19)">
       </map>
     </td>
   </tr>
@@ -100,6 +110,12 @@
 <div id="iL12" class="Memo"> </div>
 <div id="iL13" class="Memo"> </div>
 <div id="iL14" class="Memo"> </div>
+<div id="iL15" class="Memo"> </div>
+<div id="iL16" class="Memo"> </div>
+<div id="iL17" class="Memo"> </div>
+<div id="iL18" class="Memo"> </div>
+<div id="iL19" class="Memo"> </div>
+<div id="iL20" class="Memo"> </div>
 
 <SCRIPT>
   const area001 = document.getElementById("area001"); area001.coords = MapArea('A','0',1,1);
@@ -117,6 +133,11 @@
   const area013 = document.getElementById("area013"); area013.coords = MapArea('E','4',2,5);
   const area014 = document.getElementById("area014"); area014.coords = MapArea('C','4',5,1);
   const area015 = document.getElementById("area015"); area015.coords = MapArea('D','3',2,1);
+  const area016 = document.getElementById("area016"); area016.coords = MapArea('D','2',5,5);
+  const area017 = document.getElementById("area017"); area017.coords = MapArea('E','1',2,2);
+  const area018 = document.getElementById("area018"); area018.coords = MapArea('D','1',3,3);
+  const area019 = document.getElementById("area019"); area019.coords = MapArea('D','1',2,3);
+  const area020 = document.getElementById("area020"); area020.coords = MapArea('B','1',1,5);
 </SCRIPT>
 
 </body>
