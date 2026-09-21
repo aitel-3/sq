@@ -5,7 +5,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <META http-equiv="Content-Script-Type" content="text/javascript">
   <META http-equiv="Content-Style-Type" content="text/css">
-  <title>攻略 / ＭＡＰ　5F</title>
+  <title>攻略 / ＭＡＰ　4F</title>
   <link rel="stylesheet" href="../data/css/data.css" type="text/css">
   <style type="text/css">
   <!--
@@ -24,13 +24,13 @@
   }
   -->
   </style>
-  <SCRIPT language="JavaScript" src="../data/map/map.js"></script>
+  <SCRIPT language="JavaScript" src="../data/js/map.js"></script>
   <SCRIPT type="text/javascript">
   <!--
-  var maxMemo = 30;
-  /*[]-- ＭＡＰメモ表示用----------------------------------------------[]*/
-  var memomemo = new Array();
-  memomemo[0]  = "　";
+    var maxMemo = 30;
+    /*[]-- ＭＡＰメモ表示用----------------------------------------------[]*/
+    var memomemo = new Array();
+    memomemo[0]  = "　";
 
 
   //-->
@@ -49,9 +49,9 @@
   </tr>
   <tr>
     <td class="n">
-      <img src="../data/map/map029.png" border="0" width="650" height="560" usemap="#Map002">
+      <img src="../data/map/map004.png" border="0" width="650" height="560" usemap="#Map002">
       <map name="Map002">
-        <area shape="rect" coords="  1,   1,  16,  16" alt="クリア"         href="JavaScript:Mover(0)">
+        <area id="area001" shape="rect" coords="1,1,1,1" alt="クリア"         href="JavaScript:Mover(0)">
       </map>
     </td>
   </tr>
@@ -64,6 +64,7 @@
 
 
 <SCRIPT>
+  const area001 = document.getElementById("area001"); area001.coords = MapArea('A','0',1,1);
 </SCRIPT>
 
 </body>
