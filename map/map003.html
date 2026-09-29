@@ -31,6 +31,9 @@
     /*[]-- ＭＡＰメモ表示用----------------------------------------------[]*/
     var memomemo = new Array();
     memomemo[0]  = "　";
+    memomemo[1]  = "Ｂ２Ｆへ";
+    memomemo[2]  = "肌身を刺すような恐ろしい殺気";
+    memomemo[3]  = "ＦＯＥ：";
 
 
   //-->
@@ -45,13 +48,16 @@
 <table cellspacing="1" cellpadding="2" border="0">
 
   <tr>
-    <td class="titlebar">第１階層：翠緑ノ樹海　　Ｂ３Ｆ　</td>
+    <td class="titlebar">第１階層：翠緑ノ樹海　　Ｂ３Ｆ　幾多の戦士が倒れた絶望の地</td>
   </tr>
   <tr>
     <td class="n">
       <img src="../data/map/map003.png" border="0" width="650" height="560" usemap="#Map002">
       <map name="Map002">
         <area id="area001" shape="rect" coords="1,1,1,1" alt="クリア"         href="JavaScript:Mover(0)">
+        <area id="area002" shape="rect" coords="1,1,1,1" alt="階段"           href="JavaScript:Mover(1)">
+        <area id="area003" shape="rect" coords="1,1,1,1" alt="小イベント"     href="JavaScript:Mover(2)">
+        <area id="area004" shape="rect" coords="1,1,1,1" alt="FOE"            href="JavaScript:Mover(3)">
       </map>
     </td>
   </tr>
@@ -61,10 +67,16 @@
 </table>
 
 <div id="iL0" class="Memo"> </div>
+<div id="iL1" class="Memo"> </div>
+<div id="iL2" class="Memo"> </div>
+<div id="iL3" class="Memo"> </div>
 
 
 <SCRIPT>
   const area001 = document.getElementById("area001"); area001.coords = MapArea('A','0',1,1);
+  const area002 = document.getElementById("area002"); area002.coords = MapArea('A','7',2,4);
+  const area003 = document.getElementById("area003"); area003.coords = MapArea('A','7',3,4);
+  const area004 = document.getElementById("area004"); area004.coords = MapArea('B','6',2,5);
 </SCRIPT>
 
 </body>
